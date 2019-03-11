@@ -283,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://programlife.net/2019/01/01/Hello-2019/">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2019/03/11/why-my-windbg-data-breakpoint-did-not-work-as-expected/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ke Liu">
@@ -302,7 +302,164 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/01/Hello-2019/" itemprop="url">Hello 2019</a></h1>
+                <a class="post-title-link" href="/2019/03/11/why-my-windbg-data-breakpoint-did-not-work-as-expected/" itemprop="url">为什么我的 WinDbg 内存断点失效了？</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-11T21:31:00+00:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerability/" itemprop="url" rel="index">
+                    <span itemprop="name">Vulnerability</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerability/Analysis/" itemprop="url" rel="index">
+                    <span itemprop="name">Analysis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="0x01-问题描述"><a href="#0x01-问题描述" class="headerlink" title="0x01. 问题描述"></a>0x01. 问题描述</h2><p>周末在测试一个程序时，发现其莫名其妙的 Crash 在了一个系统自带 DLL 的某个函数里面，而且很难直观地看出来 Crash 的原因，分析之后发现是不当使用 C 语言 <code>setjmp</code> 和 <code>longjmp</code> 两个函数导致的。那么这和文章标题有什么联系呢？笔者在分析的过程中使用了 WinDbg 的内存断点（ Processor Breakpoint / Data Breakpoint ）来跟踪一个栈变量的读写操作，理论上这个断点会多次命中，但实际上只命中了一次，而这个现象正是由于不当使用 <code>setjmp</code> 和 <code>longjmp</code> 导致 <code>esp</code> 和 <code>ebp</code> 寄存器的值的非预期改变所导致的。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/11/why-my-windbg-data-breakpoint-did-not-work-as-expected/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2019/01/01/hello-2019/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ke Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/01/hello-2019/" itemprop="url">Hello 2019</a></h1>
         
 
         <div class="post-meta">
@@ -456,7 +613,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -467,7 +624,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -478,7 +635,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

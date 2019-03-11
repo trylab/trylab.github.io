@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="WinDbg,内存断点,setjmp,longjmp,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="0x01. 问题描述周末在测试一个程序时，发现其莫名其妙的 Crash 在了一个系统自带 DLL 的某个函数里面，而且很难直观地看出来 Crash 的原因，分析之后发现是不当使用 C 语言 setjmp 和 longjmp 两个函数导致的。那么这和文章标题有什么联系呢？笔者在分析的过程中使用了 WinDbg 的内存断点（ Processor Breakpoint / Data Breakpoint">
+<meta name="keywords" content="WinDbg,内存断点,setjmp,longjmp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么我的 WinDbg 内存断点失效了？">
+<meta property="og:url" content="http://programlife.net/2019/03/11/why-my-windbg-data-breakpoint-did-not-work-as-expected/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="0x01. 问题描述周末在测试一个程序时，发现其莫名其妙的 Crash 在了一个系统自带 DLL 的某个函数里面，而且很难直观地看出来 Crash 的原因，分析之后发现是不当使用 C 语言 setjmp 和 longjmp 两个函数导致的。那么这和文章标题有什么联系呢？笔者在分析的过程中使用了 WinDbg 的内存断点（ Processor Breakpoint / Data Breakpoint">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-11T17:14:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为什么我的 WinDbg 内存断点失效了？">
+<meta name="twitter:description" content="0x01. 问题描述周末在测试一个程序时，发现其莫名其妙的 Crash 在了一个系统自带 DLL 的某个函数里面，而且很难直观地看出来 Crash 的原因，分析之后发现是不当使用 C 语言 setjmp 和 longjmp 两个函数导致的。那么这和文章标题有什么联系呢？笔者在分析的过程中使用了 WinDbg 的内存断点（ Processor Breakpoint / Data Breakpoint">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://programlife.net/2019/03/11/why-my-windbg-data-breakpoint-did-not-work-as-expected/">
+
+
+
+
+
+  <title>为什么我的 WinDbg 内存断点失效了？ | 程序人生</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序人生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Fuzzing / Vulnerability / Exploit</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2019/03/11/why-my-windbg-data-breakpoint-did-not-work-as-expected/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ke Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">为什么我的 WinDbg 内存断点失效了？</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-11T21:31:00+00:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerability/" itemprop="url" rel="index">
+                    <span itemprop="name">Vulnerability</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerability/Analysis/" itemprop="url" rel="index">
+                    <span itemprop="name">Analysis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x01-问题描述"><a href="#0x01-问题描述" class="headerlink" title="0x01. 问题描述"></a>0x01. 问题描述</h2><p>周末在测试一个程序时，发现其莫名其妙的 Crash 在了一个系统自带 DLL 的某个函数里面，而且很难直观地看出来 Crash 的原因，分析之后发现是不当使用 C 语言 <code>setjmp</code> 和 <code>longjmp</code> 两个函数导致的。那么这和文章标题有什么联系呢？笔者在分析的过程中使用了 WinDbg 的内存断点（ Processor Breakpoint / Data Breakpoint ）来跟踪一个栈变量的读写操作，理论上这个断点会多次命中，但实际上只命中了一次，而这个现象正是由于不当使用 <code>setjmp</code> 和 <code>longjmp</code> 导致 <code>esp</code> 和 <code>ebp</code> 寄存器的值的非预期改变所导致的。</p>
+<a id="more"></a>
+<h2 id="0x02-setjmp-longjmp"><a href="#0x02-setjmp-longjmp" class="headerlink" title="0x02. setjmp / longjmp"></a>0x02. setjmp / longjmp</h2><p>在分析具体的问题之前，先简单了解一下 C 语言中这两个不太常见的函数 <code>setjmp</code> 和 <code>longjmp</code> 。</p>
+<p>在 C 语言中，可以使用 <code>goto</code> 语句来实现函数内部的任意跳转，而 <code>setjmp</code> 和 <code>longjmp</code> 则可以实现函数间的任意跳转，和 <code>goto</code> 语句一样，配合使用 <code>setjmp</code> 和 <code>longjmp</code> 可以实现简单的异常处理。这两个函数的声明位于头文件 <code>setjmp.h</code> 中，声明如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">setjmp</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    _Out_ jmp_buf _Buf</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br><span class="line"></span><br><span class="line">__declspec(noreturn) <span class="keyword">void</span> __<span class="function">cdecl <span class="title">longjmp</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ jmp_buf _Buf,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ <span class="keyword">int</span>     _Value</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>函数 <code>setjmp</code> 接收类型为 <code>jmp_buf</code> 的参数 <code>_Buf</code> （通常命名为 <code>env</code> ），这里 <code>jmp_buf</code> 是通过 <code>typedef</code> 定义的一个别名，表示元素个数为 <code>16</code> 的 <code>int</code> 数组（和定义函数指针时一样，这里 <code>typedef</code> 的写法很不直观）。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _JBLEN  16</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _JBTYPE int</span></span><br><span class="line"><span class="keyword">typedef</span> _JBTYPE jmp_buf[_JBLEN];</span><br></pre></td></tr></table></figure>
+<p>调用 <code>setjmp</code> 函数可以保存 <code>setjmp</code> 返回时的一些上下文信息（前面提到参数通常命名为 <code>env</code> 会显得更加直观），类似 <code>GetThreadContext</code> 保存线程的上下文信息一样，只不过 <code>setjmp</code> 保存的信息更少。直接调用 <code>setjmp</code> 时其返回值总是为 <code>0</code> 。</p>
+<p>函数 <code>longjmp</code> 则跳转回调用 <code>setjmp</code> 的地方，并将 <code>setjmp</code> 的返回值设置为 <code>longjmp</code> 第二个参数所指定的值，这样调用完 <code>setjmp</code> 之后可以通过返回值判断跳转来自哪里。</p>
+<p>下面通过一个简单的例子来说明 <code>setjmp</code> 和 <code>longjmp</code> 的用法：编译以下代码，不难理解程序的输出为 <code>1337</code> 。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;setjmp.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NOINLINE __declspec(noinline)</span></span><br><span class="line"></span><br><span class="line"><span class="function">NOINLINE <span class="keyword">void</span> <span class="title">bar</span><span class="params">(jmp_buf* env)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    longjmp(*env, <span class="number">1337</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"this line will never be printed\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">NOINLINE <span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    jmp_buf env;</span><br><span class="line">    <span class="keyword">int</span> result = setjmp(env);</span><br><span class="line">    <span class="comment">// __asm int 3;</span></span><br><span class="line">    <span class="keyword">if</span> (result)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"result = %d\n"</span>, result);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    bar(&amp;env);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    foo();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里暂时不深究 <code>setjmp</code> 的底层实现细节，只需要知道 <code>jmp_buf</code> 中有一个元素保存了 <code>setjmp</code> 返回之后的 <code>eip</code> 即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">(2a54.3334): Break instruction exception - code 80000003 (!!! second chance !!!)</span><br><span class="line">eax=00000000 ebx=00fb8000 ecx=00000000 edx=010ffb6c esi=002a9df0 edi=0131d650</span><br><span class="line">eip=0029106e esp=010ffb6c ebp=010ffbb0 iopl=0         nv up ei pl nz na pe nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000206</span><br><span class="line">Test!foo+0x1e:</span><br><span class="line">0029106e cc              int     3</span><br><span class="line"></span><br><span class="line">0:000&gt; ub eip</span><br><span class="line">Test!foo+0x6 [c:\users\test\source\repos\test\test\test.cpp @ 13]:</span><br><span class="line">00291056 a104902a00      mov     eax,dword ptr [Test!__security_cookie (002a9004)]</span><br><span class="line">0029105b 33c5            xor     eax,ebp</span><br><span class="line">0029105d 8945fc          mov     dword ptr [ebp-4],eax</span><br><span class="line">00291060 8d45bc          lea     eax,[ebp-44h]</span><br><span class="line">00291063 6a00            push    0</span><br><span class="line">00291065 50              push    eax</span><br><span class="line">00291066 e875090100      call    Test!__setjmp3 (002a19e0)</span><br><span class="line">0029106b 83c408          add     esp,8          ; eip after setjmp&apos;s return</span><br><span class="line"></span><br><span class="line">0:000&gt; dd ebp-44 L10</span><br><span class="line">010ffb6c  010ffbb0 00fb8000 0131d650 002a9df0</span><br><span class="line">010ffb7c  010ffb60 0029106b 010ffbec 00000000   ; env[5] = eip</span><br><span class="line">010ffb8c  56433230 00000000 010ffbb8 010ffbb8</span><br><span class="line">010ffb9c  0029117c 00000000 00294fc0 00291300</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-Crash-分析"><a href="#0x03-Crash-分析" class="headerlink" title="0x03. Crash 分析"></a>0x03. Crash 分析</h2><p>介绍完 <code>setjmp</code> 和 <code>longjmp</code> 之后，让我们回到正题。问题模型简化后的代码如下所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;setjmp.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NOINLINE __declspec(noinline)</span></span><br><span class="line"></span><br><span class="line"><span class="function">NOINLINE <span class="keyword">void</span> <span class="title">bar</span><span class="params">(jmp_buf* env, <span class="keyword">int</span> value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!value)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> env_eip = ((<span class="keyword">int</span> *)env)[<span class="number">5</span>];</span><br><span class="line">        __asm</span><br><span class="line">        &#123;</span><br><span class="line">            xor eax, eax</span><br><span class="line">            mov ebx, env_eip</span><br><span class="line">            jmp ebx</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    longjmp(*env, <span class="number">1337</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"this line will never be printed\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">NOINLINE <span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> value = <span class="number">0</span>;</span><br><span class="line">    jmp_buf env;</span><br><span class="line">    <span class="keyword">int</span> result = setjmp(env);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (result)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"result = %d\n"</span>, result);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    bar(&amp;env, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    foo();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行这段代码会造成 Crash ，具体的位置为 <code>ntdll!RtlUnwind+0x3c52f</code> ，此时如果尝试继续运行程序，则会相继 Crash 在多个不同的位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">(12dc.3570): Unknown exception - code c0000029 (!!! second chance !!!)</span><br><span class="line">eax=00c1f9c0 ebx=00c1fe70 ecx=00c20000 edx=00c1d000 esi=00b0107d edi=00c1fd5c</span><br><span class="line">eip=774d341f esp=00c1f9a0 ebp=00c1fd3c iopl=0         nv up ei pl zr na pe nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246</span><br><span class="line">ntdll!RtlUnwind+0x3c52f:</span><br><span class="line">774d341f 8b4c240c        mov     ecx,dword ptr [esp+0Ch] ss:002b:00c1f9ac=00c20000</span><br><span class="line"></span><br><span class="line">0:000&gt; g</span><br><span class="line">WARNING: Continuing a non-continuable exception</span><br><span class="line">(12dc.3570): Unknown exception - code c0000029 (first chance)</span><br><span class="line">(12dc.3570): Unknown exception - code c0000029 (!!! second chance !!!)</span><br><span class="line">eax=00c1f9c0 ebx=00c1fedc ecx=00c20000 edx=00c1d000 esi=00b0107d edi=00c1fd5c</span><br><span class="line">eip=774d341f esp=00c1f9a0 ebp=00c1fd3c iopl=0         nv up ei pl zr na pe nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246</span><br><span class="line">ntdll!RtlUnwind+0x3c52f:</span><br><span class="line">774d341f 8b4c240c        mov     ecx,dword ptr [esp+0Ch] ss:002b:00c1f9ac=00c20000</span><br><span class="line"></span><br><span class="line">0:000&gt; g</span><br><span class="line">WARNING: Continuing a non-continuable exception</span><br><span class="line">(12dc.3570): Unknown exception - code c0000029 (first chance)</span><br><span class="line">(12dc.3570): Unknown exception - code c0000029 (!!! second chance !!!)</span><br><span class="line">eax=00c1f9c0 ebx=00c1fef4 ecx=00c20000 edx=00c1d000 esi=00b0107d edi=00c1fd5c</span><br><span class="line">eip=774d341f esp=00c1f9a0 ebp=00c1fd3c iopl=0         nv up ei pl zr na pe nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246</span><br><span class="line">ntdll!RtlUnwind+0x3c52f:</span><br><span class="line">774d341f 8b4c240c        mov     ecx,dword ptr [esp+0Ch] ss:002b:00c1f9ac=00c20000</span><br><span class="line"></span><br><span class="line">0:000&gt; g</span><br><span class="line">WARNING: Continuing a non-continuable exception</span><br><span class="line">(12dc.3570): Unknown exception - code 80000026 (!!! second chance !!!)</span><br><span class="line">eax=00000000 ebx=00000000 ecx=00000000 edx=00000000 esi=00000000 edi=00000000</span><br><span class="line">eip=00b01ffe esp=00c1fd54 ebp=00c1fdec iopl=0         nv up ei pl nz na pe nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000206</span><br><span class="line">Test!___longjmp_internal+0x4e:</span><br><span class="line">00b01ffe 5e              pop     esi</span><br><span class="line"></span><br><span class="line">0:000&gt; g</span><br><span class="line">(12dc.3570): Access violation - code c0000005 (first chance)</span><br><span class="line">First chance exceptions are reported before any exception handling.</span><br><span class="line">This exception may be expected and handled.</span><br><span class="line">eax=00b0107d ebx=c483ffff ecx=1b2b3725 edx=00000000 esi=e8a2110c edi=00000000</span><br><span class="line">eip=00b0263e esp=00c1fd2c ebp=00c1fdec iopl=0         nv up ei pl nz ac pe nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010216</span><br><span class="line">Test!__local_unwind2+0x48:</span><br><span class="line">00b0263e 8b0cb3          mov     ecx,dword ptr [ebx+esi*4] ds:002b:670c442f=????????</span><br></pre></td></tr></table></figure>
+<p>如果给 <code>foo</code> 函数下断点，只会命中一次，而如果给 <code>bar</code> 函数下断点，则会命中多次，这很好理解。如果在 <code>foo</code> 函数中给局部变量 <code>value</code> 下内存读写断点，该断点只会命中一次（在变量被初始化为 <code>0</code> 的时候）。理论上来说，进入函数 <code>bar</code> 时，传入的参数 <code>value</code> 的值应该总是 <code>0</code> ，但是实际上并非如此，而且我们在 <code>foo</code> 函数中下的内存断点也无法监控到 <code>value</code> 的值的<strong><em>改变</em></strong>，在 WinDbg 中可以进行验证：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">$$ 分别给两个函数下断点</span><br><span class="line">0:000&gt; bu Test!foo</span><br><span class="line">0:000&gt; bu Test!bar</span><br><span class="line"></span><br><span class="line">$$ 继续运行被调试程序，等待第一个断点命中，进入 foo 函数</span><br><span class="line">0:000&gt; g</span><br><span class="line">Breakpoint 0 hit</span><br><span class="line">eax=012062d0 ebx=00c6c000 ecx=00000000 edx=c7664979 esi=00b19df0 edi=01203948</span><br><span class="line">eip=00b010a0 esp=00eff838 ebp=00eff880 iopl=0         nv up ei pl nz na po nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000202</span><br><span class="line">Test!foo:</span><br><span class="line">00b010a0 55              push    ebp</span><br><span class="line"></span><br><span class="line">$$ 等待栈帧建立完毕</span><br><span class="line">0:000&gt; p</span><br><span class="line">eax=012062d0 ebx=00c6c000 ecx=00000000 edx=c7664979 esi=00b19df0 edi=01203948</span><br><span class="line">eip=00b010a1 esp=00eff834 ebp=00eff880 iopl=0         nv up ei pl nz na po nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000202</span><br><span class="line">Test!foo+0x1:</span><br><span class="line">00b010a1 8bec            mov     ebp,esp</span><br><span class="line"></span><br><span class="line">0:000&gt; p</span><br><span class="line">eax=012062d0 ebx=00c6c000 ecx=00000000 edx=c7664979 esi=00b19df0 edi=01203948</span><br><span class="line">eip=00b010a3 esp=00eff834 ebp=00eff834 iopl=0         nv up ei pl nz na po nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000202</span><br><span class="line">Test!foo+0x3:</span><br><span class="line">00b010a3 83ec48          sub     esp,48h</span><br><span class="line"></span><br><span class="line">$$ 局部变量 value 存放于 ebp-48 处，下内存读写断点监控</span><br><span class="line">0:000&gt; ba w4 ebp-48</span><br><span class="line"></span><br><span class="line">0:000&gt; bl</span><br><span class="line">     0 e Disable Clear  00b010a0     0001 (0001)  0:**** Test!foo</span><br><span class="line">     1 e Disable Clear  00b01040     0001 (0001)  0:**** Test!bar</span><br><span class="line">     2 e Disable Clear  00eff7ec w 4 0001 (0001)  0:**** </span><br><span class="line"></span><br><span class="line">$$ 继续执行，value 初始化时第一次命中内存断点</span><br><span class="line">0:000&gt; g</span><br><span class="line">Breakpoint 2 hit</span><br><span class="line">eax=00eff7f0 ebx=00c6c000 ecx=00000000 edx=c7664979 esi=00b19df0 edi=01203948</span><br><span class="line">eip=00b010ba esp=00eff7ec ebp=00eff834 iopl=0         nv up ei pl nz na pe nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000206</span><br><span class="line">Test!foo+0x1a:</span><br><span class="line">00b010ba 6a00            push    0</span><br><span class="line"></span><br><span class="line">0:000&gt; ub eip L1</span><br><span class="line">Test!foo+0x13 [c:\users\test\source\repos\test\test\test.cpp @ 27]:</span><br><span class="line">00b010b3 c745b800000000  mov     dword ptr [ebp-48h],0</span><br><span class="line"></span><br><span class="line">$$ 继续执行，第一次命中 bar 函数</span><br><span class="line">0:000&gt; g</span><br><span class="line">Breakpoint 1 hit</span><br><span class="line">eax=00eff7f0 ebx=00c6c000 ecx=00000000 edx=00eff7f0 esi=00b19df0 edi=01203948</span><br><span class="line">eip=00b01040 esp=00eff7e0 ebp=00eff834 iopl=0         nv up ei pl zr na pe nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246</span><br><span class="line">Test!bar:</span><br><span class="line">00b01040 55              push    ebp</span><br><span class="line"></span><br><span class="line">$$ 传入的 value 参数的值为 0</span><br><span class="line">0:000&gt; dd esp L3</span><br><span class="line">00eff7e0  00b010f1 00eff7f0 00000000</span><br><span class="line"></span><br><span class="line">$$ 继续执行，第二次命中 bar 函数</span><br><span class="line">0:000&gt; g</span><br><span class="line">Breakpoint 1 hit</span><br><span class="line">eax=00eff798 ebx=00b010c2 ecx=00000014 edx=00eff7f0 esi=00b19df0 edi=01203948</span><br><span class="line">eip=00b01040 esp=00eff7cc ebp=00eff7dc iopl=0         nv up ei pl zr na pe nc</span><br><span class="line">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246</span><br><span class="line">Test!bar:</span><br><span class="line">00b01040 55              push    ebp</span><br><span class="line"></span><br><span class="line">$$ 传入的 value 参数的值为 0x20!!!</span><br><span class="line">0:000&gt; dd esp L3</span><br><span class="line">00eff7cc  00b010f1 00eff798 00000020</span><br></pre></td></tr></table></figure>
+<p>的确，这里 <code>ba</code> 内存断点只命中了一次，但是第二次命中 <code>bar</code> 函数时，参数 <code>value</code> 的值却改变了，难道这是 WinDbg 的 Bug 吗？事实上并不是，而是 <code>bar</code> 函数中直接跳转到 <code>jmp_buf</code> 中的 <code>eip</code> 的写法是有问题的！</p>
+<p>当从 <code>foo</code> 进入 <code>bar</code> 时，<code>bar</code> 函数也会建立栈帧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0:000&gt; u Test!bar</span><br><span class="line">Test!bar [c:\users\test\source\repos\test\test\test.cpp @ 7]:</span><br><span class="line">00b01040 55              push    ebp</span><br><span class="line">00b01041 8bec            mov     ebp,esp</span><br></pre></td></tr></table></figure>
+<p>而之后在 <code>bar</code> 函数中又直接跳转到 <code>jmp_buf</code> 中的 <code>eip</code> ，此时 <code>esp</code> 和 <code>ebp</code> 寄存器的值没有被恢复，就直接回到了 <code>foo</code> 函数中。因为局部变量 <code>value</code> 是基于 <code>ebp</code> 进行定位的，而此时 <code>ebp</code> 的值已经变了，以至于 <code>foo</code> 再次调用 <code>bar</code> 时，<code>value</code> 不再是原来的 <code>value</code> ，而内存断点监控的仍然是原来存放 <code>value</code> 变量的地址（原有地址上的值也并未改变），因此自然不会再次命中，也无法监控到 <code>value</code> 的值的<strong><em>改变</em></strong> （改变只是由于 <code>ebp</code> 发生了变化从而读取到了栈上存储的其他值）。</p>
+<p>同样，<code>bar</code> 函数的第一个参数 <code>env</code> 所存储的值也会因为 <code>foo</code> 函数中 <code>ebp</code> 的变化而变化，当传递一个非法的 <code>env</code> 给 <code>longjmp</code> 时，进程直接 Crash 掉了。</p>
+<p>本小节给出的示例程序，完全是 <code>setjmp</code> 和 <code>longjmp</code> 的一种错误用法，这两个函数应该配套使用，而不应该在中间某个地方直接通过 <code>jmp</code> 或者 <code>call</code> 来跳转到 <code>setjmp</code> 之后的位置。这里给出的示例程序是实际调试过程中遇到的问题的一个简化模型，仅供调试学习之用，读者切勿模仿这里的错误写法。</p>
+<h2 id="0x04-小结"><a href="#0x04-小结" class="headerlink" title="0x04. 小结"></a>0x04. 小结</h2><p>本文通过分析一个 Crash 学习了 <code>setjmp</code> 和 <code>longjmp</code> 的基本用法，并分析清楚了造成 Crash 的根本原因。</p>
+<p>除了异常处理之外， <code>setjmp</code> 和 <code>longjmp</code> 还有一些其他场合的应用，比如实现 <a href="https://zh.wikipedia.org/wiki/%E5%8D%8F%E7%A8%8B#%E7%94%A8C%E7%9A%84%E5%AE%9E%E7%8E%B0" target="_blank" rel="noopener">协程</a> 等，具体可以参考 <a href="https://stackoverflow.com/questions/14685406/practical-usage-of-setjmp-and-longjmp-in-c" target="_blank" rel="noopener">StackOverflow</a> 上的提问。</p>
+<p>最后，基于 <code>setjmp</code> 和 <code>longjmp</code> 还可以实现一定程度的代码混淆（反分析、反调试），这个问题留给读者自行思考和实践。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/WinDbg/" rel="tag"># WinDbg</a>
+          
+            <a href="/tags/内存断点/" rel="tag"># 内存断点</a>
+          
+            <a href="/tags/setjmp/" rel="tag"># setjmp</a>
+          
+            <a href="/tags/longjmp/" rel="tag"># longjmp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/01/hello-2019/" rel="next" title="Hello 2019">
+                <i class="fa fa-chevron-left"></i> Hello 2019
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Ke Liu">
+          <p class="site-author-name" itemprop="name">Ke Liu</p>
+           
+              <p class="site-description motion-element" itemprop="description">Security Researcher Working at Tencent Security Xuanwu Lab</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/klotxl404" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-问题描述"><span class="nav-number">1.</span> <span class="nav-text">0x01. 问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-setjmp-longjmp"><span class="nav-number">2.</span> <span class="nav-text">0x02. setjmp / longjmp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-Crash-分析"><span class="nav-number">3.</span> <span class="nav-text">0x03. Crash 分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-小结"><span class="nav-number">4.</span> <span class="nav-text">0x04. 小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ke Liu</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
