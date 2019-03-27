@@ -5,6 +5,7 @@ Allow: /archives/
 Allow: /tags/
 Allow: /about/
 
+Disallow: /atom.xml
 Disallow: /css/
 Disallow: /images/
 Disallow: /js/
