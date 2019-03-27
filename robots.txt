@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /categories/
+Allow: /archives/
+Allow: /tags/
+Allow: /about/
+
+Disallow: /css/
+Disallow: /images/
+Disallow: /js/
+Disallow: /lib/
+
+Sitemap: https://programlife.net/sitemap.xml
+Sitemap: https://programlife.net/baidusitemap.xml
