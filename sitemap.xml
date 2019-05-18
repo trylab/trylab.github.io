@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://programlife.net/about/index.html</loc>
+    
+    <lastmod>2019-05-18T13:26:34.797Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://programlife.net/2019/05/18/spidermonkey-build/</loc>
     
     <lastmod>2019-05-18T13:17:06.000Z</lastmod>
@@ -47,13 +54,6 @@
     <loc>http://programlife.net/categories/index.html</loc>
     
     <lastmod>2019-01-01T15:32:16.094Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://programlife.net/about/index.html</loc>
-    
-    <lastmod>2019-01-01T15:01:58.991Z</lastmod>
     
   </url>
   
