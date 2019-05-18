@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://programlife.net/2019/05/18/spidermonkey-build/</loc>
+    
+    <lastmod>2019-05-18T13:17:06.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://programlife.net/2019/03/25/cve-2019-5786-chrome-filereader-use-after-free-vulnerability-analysis/</loc>
     
     <lastmod>2019-03-26T13:54:09.000Z</lastmod>
