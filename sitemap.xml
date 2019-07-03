@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://programlife.net/about/index.html</loc>
+    <loc>http://programlife.net/2019/05/18/spidermonkey-build/</loc>
     
-    <lastmod>2019-05-18T13:26:34.797Z</lastmod>
+    <lastmod>2019-07-03T14:52:28.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://programlife.net/2019/05/18/spidermonkey-build/</loc>
+    <loc>http://programlife.net/2019/07/03/reference-counting-vulnerability/</loc>
     
-    <lastmod>2019-05-18T13:17:06.000Z</lastmod>
+    <lastmod>2019-07-03T14:37:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://programlife.net/about/index.html</loc>
+    
+    <lastmod>2019-05-18T13:26:34.797Z</lastmod>
     
   </url>
   
