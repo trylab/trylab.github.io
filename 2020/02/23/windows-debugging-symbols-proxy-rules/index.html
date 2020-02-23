@@ -96,20 +96,20 @@
 
 
 
-<meta name="description" content="最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了，一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。">
+<meta name="description" content="最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 E_PDB_NOT_FOUND），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。">
 <meta name="keywords" content="WinDbg">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows 调试符号下载代理配置">
 <meta property="og:url" content="http://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了，一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。">
+<meta property="og:description" content="最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 E_PDB_NOT_FOUND），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://programlife.net/uploads/202002/ida-pro-pdb-not-found.png">
 <meta property="og:image" content="http://programlife.net/uploads/202002/across-the-great-wall.png">
-<meta property="og:updated_time" content="2020-02-23T02:01:28.000Z">
+<meta property="og:updated_time" content="2020-02-23T02:16:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows 调试符号下载代理配置">
-<meta name="twitter:description" content="最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了，一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。">
+<meta name="twitter:description" content="最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 E_PDB_NOT_FOUND），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。">
 <meta name="twitter:image" content="http://programlife.net/uploads/202002/ida-pro-pdb-not-found.png">
 
 
@@ -387,7 +387,7 @@
       
 
       
-        <p>最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了，一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。</p>
+        <p>最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 <code>E_PDB_NOT_FOUND</code>），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。</p>
 <p><img src="/uploads/202002/ida-pro-pdb-not-found.png" alt="IDA Pro 无法下载 Notepad 的调试符号"></p>
 <a id="more"></a>
 <p>后来发现，这次是无法从微软的服务器下载任何调试符号，比如使用 WinDbg 自带的 <code>symchk.exe</code> 无法给 System32 目录下的任一文件下载调试符号，而且在不同的机器上（拥有不同的代理上网环境）均不能下载调试符号，这就非常奇怪了。</p>
