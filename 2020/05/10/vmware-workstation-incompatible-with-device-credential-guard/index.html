@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="VMware Workstation,Hyper-V,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="程序人生" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="在 Windows 中启用 Hyper-V 之后，VMware Workstation 就不能用了，会提示“VMware Workstation 与 Device/Credential Guard 不兼容。在禁用 Device/Credential Guard 后，可以运行 VMware Workstation”，然而禁用 Device/Credential Guard 并不能解决问题。">
+<meta name="keywords" content="VMware Workstation,Hyper-V">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VMware Workstation Incompatible with Device&#x2F;Credential Guard">
+<meta property="og:url" content="http://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="在 Windows 中启用 Hyper-V 之后，VMware Workstation 就不能用了，会提示“VMware Workstation 与 Device/Credential Guard 不兼容。在禁用 Device/Credential Guard 后，可以运行 VMware Workstation”，然而禁用 Device/Credential Guard 并不能解决问题。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://programlife.net/uploads/202005/vmware-workstation-incompatible-with-device-credential-guard.png">
+<meta property="og:image" content="http://programlife.net/uploads/202005/bcdedit-hypervisor-launchtype.png">
+<meta property="og:updated_time" content="2020-05-10T09:04:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VMware Workstation Incompatible with Device&#x2F;Credential Guard">
+<meta name="twitter:description" content="在 Windows 中启用 Hyper-V 之后，VMware Workstation 就不能用了，会提示“VMware Workstation 与 Device/Credential Guard 不兼容。在禁用 Device/Credential Guard 后，可以运行 VMware Workstation”，然而禁用 Device/Credential Guard 并不能解决问题。">
+<meta name="twitter:image" content="http://programlife.net/uploads/202005/vmware-workstation-incompatible-with-device-credential-guard.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/">
+
+
+
+
+
+  <title>VMware Workstation Incompatible with Device/Credential Guard | 程序人生</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序人生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Fuzzing / Vulnerability / Exploit</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ke Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">VMware Workstation Incompatible with Device/Credential Guard</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-10T00:13:37+00:00">
+                2020-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Virtualization/" itemprop="url" rel="index">
+                    <span itemprop="name">Virtualization</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Virtualization/HyperV/" itemprop="url" rel="index">
+                    <span itemprop="name">HyperV</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在 Windows 中启用 Hyper-V 之后，VMware Workstation 就不能用了，会提示“VMware Workstation 与 Device/Credential Guard 不兼容。在禁用 Device/Credential Guard 后，可以运行 VMware Workstation”，然而禁用 Device/Credential Guard 并不能解决问题。</p>
+<a id="more"></a>
+<p><img src="/uploads/202005/vmware-workstation-incompatible-with-device-credential-guard.png" alt="VMware Workstation and Device/Credential Guard are not compatible"></p>
+<p>启用 Hyper-V 之后，原来的宿主机操作系统实际上也变成了一台虚拟机，即宿主机操作系统是运行在 Hypervisor 之上的，此时再运行 VMware Workstation <strong><em>可能会产生嵌套虚拟化</em></strong>（此为猜测），而 Hyper-V 的虚拟机默认是没有开启嵌套虚拟化支持的。</p>
+<p>一个可行的解决方法是通过 <code>bcdedit</code> 设置两套启动方案，一套启用 Hyper-V，另一套则禁用 Hyper-V（设置 <code>HypervisorLaunchType</code> 为 <code>OFF</code>）以便运行 VMware Workstation。</p>
+<p><img src="/uploads/202005/bcdedit-hypervisor-launchtype.png" alt="通过 bcdedit 参数 HypervisorLaunchType 禁用 Hyper-V"></p>
+<p>相关命令文本：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /<span class="built_in">set</span> &#123;current&#125; description <span class="string">"Windows 10 Hyper-V"</span></span><br><span class="line">bcdedit /copy &#123;current&#125; /d <span class="string">"Winows 10"</span></span><br><span class="line"><span class="comment">// 已将该项成功复制到 &#123;new_guid&#125;</span></span><br><span class="line">bcdedit /<span class="built_in">set</span> &#123;new_guid&#125; HypervisorLaunchType OFF</span><br><span class="line">bcdedit /displayorder &#123;current&#125; &#123;new_guid&#125;</span><br><span class="line">bcdedit /timeout <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p>这里默认进入启用了 Hyper-V 的启动项，等待时间设置为 10 秒钟。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>学到新姿势了吗？打赏请随意！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.jpg" alt="Ke Liu WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/VMware-Workstation/" rel="tag"># VMware Workstation</a>
+          
+            <a href="/tags/Hyper-V/" rel="tag"># Hyper-V</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/" rel="next" title="Pwning Adobe Reader Multiple Times with Malformed Strings">
+                <i class="fa fa-chevron-left"></i> Pwning Adobe Reader Multiple Times with Malformed Strings
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Ke Liu">
+          <p class="site-author-name" itemprop="name">Ke Liu</p>
+           
+              <p class="site-description motion-element" itemprop="description">Security Researcher Working at Tencent Security Xuanwu Lab</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/klotxl404" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ke Liu</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
