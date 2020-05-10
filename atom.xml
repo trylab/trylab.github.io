@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://programlife.net/"/>
-  <updated>2020-05-10T09:04:41.000Z</updated>
+  <updated>2020-05-10T09:15:32.000Z</updated>
   <id>http://programlife.net/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/"/>
     <id>http://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/</id>
     <published>2020-05-10T00:13:37.000Z</published>
-    <updated>2020-05-10T09:04:41.000Z</updated>
+    <updated>2020-05-10T09:15:32.000Z</updated>
     
     <content type="html"><![CDATA[<p>在 Windows 中启用 Hyper-V 之后，VMware Workstation 就不能用了，会提示“VMware Workstation 与 Device/Credential Guard 不兼容。在禁用 Device/Credential Guard 后，可以运行 VMware Workstation”，然而禁用 Device/Credential Guard 并不能解决问题。</p><a id="more"></a><p><img src="/uploads/202005/vmware-workstation-incompatible-with-device-credential-guard.png" alt="VMware Workstation and Device/Credential Guard are not compatible"></p><p>启用 Hyper-V 之后，原来的宿主机操作系统实际上也变成了一台虚拟机，即宿主机操作系统是运行在 Hypervisor 之上的，此时再运行 VMware Workstation <strong><em>可能会产生嵌套虚拟化</em></strong>（此为猜测），而 Hyper-V 的虚拟机默认是没有开启嵌套虚拟化支持的。</p><p>一个可行的解决方法是通过 <code>bcdedit</code> 设置两套启动方案，一套启用 Hyper-V，另一套则禁用 Hyper-V（设置 <code>HypervisorLaunchType</code> 为 <code>OFF</code>）以便运行 VMware Workstation。</p><p><img src="/uploads/202005/bcdedit-hypervisor-launchtype.png" alt="通过 bcdedit 参数 HypervisorLaunchType 禁用 Hyper-V"></p><p>相关命令文本：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /<span class="built_in">set</span> &#123;current&#125; description <span class="string">"Windows 10 Hyper-V"</span></span><br><span class="line">bcdedit /copy &#123;current&#125; /d <span class="string">"Winows 10"</span></span><br><span class="line"><span class="comment">// 已将该项成功复制到 &#123;new_guid&#125;</span></span><br><span class="line">bcdedit /<span class="built_in">set</span> &#123;new_guid&#125; HypervisorLaunchType OFF</span><br><span class="line">bcdedit /displayorder &#123;current&#125; &#123;new_guid&#125;</span><br><span class="line">bcdedit /timeout <span class="number">10</span></span><br></pre></td></tr></table></figure><p>这里默认进入启用了 Hyper-V 的启动项，等待时间设置为 10 秒钟。</p>]]></content>
     
@@ -33,7 +33,7 @@
     
       <category term="Virtualization" scheme="http://programlife.net/categories/Virtualization/"/>
     
-      <category term="HyperV" scheme="http://programlife.net/categories/Virtualization/HyperV/"/>
+      <category term="Hyper-V" scheme="http://programlife.net/categories/Virtualization/Hyper-V/"/>
     
     
       <category term="VMware Workstation" scheme="http://programlife.net/tags/VMware-Workstation/"/>
