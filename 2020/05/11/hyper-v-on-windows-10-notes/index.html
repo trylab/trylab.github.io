@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="New Year,">
+  <meta name="keywords" content="Hyper-V,">
 
 
 
@@ -96,18 +96,22 @@
 
 
 
-<meta name="description" content="May you always have beginner’s mind.">
-<meta name="keywords" content="New Year">
+<meta name="description" content="周末花了点时间看了微软对 Hyper-V 的介绍文档《Hyper-V on Windows 10》，顺便记点笔记。">
+<meta name="keywords" content="Hyper-V">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello 2019">
-<meta property="og:url" content="http://programlife.net/2019/01/01/hello-2019/index.html">
+<meta property="og:title" content="Hyper-V on Windows 10 Notes">
+<meta property="og:url" content="http://programlife.net/2020/05/11/hyper-v-on-windows-10-notes/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="May you always have beginner’s mind.">
+<meta property="og:description" content="周末花了点时间看了微软对 Hyper-V 的介绍文档《Hyper-V on Windows 10》，顺便记点笔记。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-01T15:34:39.040Z">
+<meta property="og:image" content="http://programlife.net/uploads/202005/hyperv-architecture.png">
+<meta property="og:image" content="http://programlife.net/uploads/202005/hyperv-no-nesting.png">
+<meta property="og:image" content="http://programlife.net/uploads/202005/hyperv-nesting.png">
+<meta property="og:updated_time" content="2020-05-10T12:33:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello 2019">
-<meta name="twitter:description" content="May you always have beginner’s mind.">
+<meta name="twitter:title" content="Hyper-V on Windows 10 Notes">
+<meta name="twitter:description" content="周末花了点时间看了微软对 Hyper-V 的介绍文档《Hyper-V on Windows 10》，顺便记点笔记。">
+<meta name="twitter:image" content="http://programlife.net/uploads/202005/hyperv-architecture.png">
 
 
 
@@ -136,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://programlife.net/2019/01/01/hello-2019/">
+  <link rel="canonical" href="http://programlife.net/2020/05/11/hyper-v-on-windows-10-notes/">
 
 
 
 
 
-  <title>Hello 2019 | 程序人生</title>
+  <title>Hyper-V on Windows 10 Notes | 程序人生</title>
   
 
 
@@ -295,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://programlife.net/2019/01/01/hello-2019/">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2020/05/11/hyper-v-on-windows-10-notes/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ke Liu">
@@ -312,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello 2019</h1>
+          <h1 class="post-title" itemprop="name headline">Hyper-V on Windows 10 Notes</h1>
         
 
         <div class="post-meta">
@@ -324,8 +328,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-01T15:12:44+00:00">
-                2019-01-01
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-11T00:13:37+00:00">
+                2020-05-11
               </time>
             
 
@@ -347,8 +351,19 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default/" itemprop="url" rel="index">
-                    <span itemprop="name">Default</span>
+                  <a href="/categories/Virtualization/" itemprop="url" rel="index">
+                    <span itemprop="name">Virtualization</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Virtualization/Hyper-V/" itemprop="url" rel="index">
+                    <span itemprop="name">Hyper-V</span>
                   </a>
                 </span>
 
@@ -384,7 +399,77 @@
       
 
       
-        <p>May you always have beginner’s mind.</p>
+        <p>周末花了点时间看了微软对 Hyper-V 的介绍文档《<a href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/" target="_blank" rel="noopener">Hyper-V on Windows 10</a>》，顺便记点笔记。</p>
+<a id="more"></a>
+<ul>
+<li><p><strong>About Hyper-V on Windows</strong></p>
+<ul>
+<li><em>Introduction to Hyper-V</em><ul>
+<li>在 Windows 宿主机中启用 Hyper-V 之后，宿主机也会运行在 Hyper-V 之上（就像 Hyper-V 中创建的虚拟机一样），因此宿主机中某些对实时性要求较高的应用程序的运行可能会受到一定的影响；但与虚拟机不同的是，宿主机可以直接访问所有硬件资源。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/uploads/202005/hyperv-architecture.png" alt="Hyper-V 架构图"></p>
+<ul>
+<li><p><strong>Get started with Hyper-V</strong></p>
+<ul>
+<li><p><em>Install Hyper-V</em></p>
+<ul>
+<li>安装 Hyper-V 有多种方式，在 <strong>启用或关闭 Windows 功能</strong> 中安装是一种非常简单的方式。</li>
+</ul>
+</li>
+<li><p><em>Create a Virtual Machine</em></p>
+<ul>
+<li><p>在创建虚拟机时会涉及到 Generation 的概念，微软建议创建二代虚拟机；一代虚拟机支持绝大多数的操作系统，二代虚拟机支持 Secure Boot（仅支持安装 64 位操作系统）；虚拟机一旦创建，Generation 便不可更改。</p>
+</li>
+<li><p>Secure Boot 会检查 Bootloader 的签名主体在 UEFI 数据库中是否存在，非法的 Bootloader 不会被运行。</p>
+</li>
+<li><p>如果要调试虚拟机操作系统的内核，那么需要先禁用 Secure Boot，然后通过 PowerShell 命令为虚拟机添加一个串口：</p>
+<ul>
+<li><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-VMComPort -VMName TestVM <span class="number">1</span> \\.\pipe\TestPipe</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>虚拟机默认会开启 <strong>使用自动检查点</strong>，即自动创建快照功能，建议关闭该选项。</p>
+</li>
+</ul>
+</li>
+<li><p><em>Hyper-V and PowerShell</em></p>
+<ul>
+<li>使用 PowerShell 可以很方便的和虚拟机进行各种交互，在 Fuzz 的时候应该会有用。</li>
+</ul>
+</li>
+<li><p><em>Share devices with VMs</em></p>
+<ul>
+<li>虚拟机默认使用 <strong>增强会话</strong> 模式，这样我们可以通过 RDP 来访问虚拟机，体验和使用远程桌面是一样的；在该模式下，虚拟机和宿主机之间默认共享剪贴板并支持文件拖放，通过设置还可以共享音频设备、驱动器、打印机等；实际测试表明该模式下的画面清晰度更高，UI 不会有模糊的感觉。</li>
+</ul>
+</li>
+<li><p><em>Connect with PowerShell Direct</em></p>
+<ul>
+<li>支持在宿主机中针对虚拟机执行 PowerShell 命令。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Nested Virtualization</strong></p>
+<ul>
+<li><p>Hyper-V 支持嵌套虚拟化（目前仅支持 Intel CPU），可使用 PowerShell 命令为虚拟机启用该特性：</p>
+<ul>
+<li><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-VMProcessor -VMName &lt;VMName&gt; -ExposeVirtualizationExtensions <span class="literal">$true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Hyper-V 可能在未来的版本中增加对 AMD CPU 嵌套虚拟化的支持（参考 <a href="https://github.com/MicrosoftDocs/Virtualization-Documentation/issues/1276" target="_blank" rel="noopener">AMD nested virtualization?</a>）。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>未启用嵌套虚拟化时的 Hyper-V 架构图如下：</p>
+<p><img src="/uploads/202005/hyperv-no-nesting.png" alt="未启用嵌套虚拟化的 Hyper-V 架构图"></p>
+<p>启用了嵌套虚拟化之后的 Hyper-V 架构图如下：</p>
+<p><img src="/uploads/202005/hyperv-nesting.png" alt="启用了嵌套虚拟化的 Hyper-V 架构图"></p>
 
       
     </div>
@@ -426,7 +511,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/New-Year/" rel="tag"># New Year</a>
+            <a href="/tags/Hyper-V/" rel="tag"># Hyper-V</a>
           
         </div>
       
@@ -439,15 +524,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/" rel="next" title="VMware Workstation Incompatible with Device/Credential Guard">
+                <i class="fa fa-chevron-left"></i> VMware Workstation Incompatible with Device/Credential Guard
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/11/why-my-windbg-data-breakpoint-did-not-work-as-expected/" rel="prev" title="为什么我的 WinDbg 内存断点失效了？">
-                为什么我的 WinDbg 内存断点失效了？ <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
