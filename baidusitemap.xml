@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://programlife.net/2020/05/11/hyper-v-on-windows-10-notes/</loc>
-    <lastmod>2020-05-10</lastmod>
+    <loc>http://programlife.net/2020/05/16/hyper-v-debugging/</loc>
+    <lastmod>2020-05-16</lastmod>
+  </url>  <url>
+    <loc>http://programlife.net/2020/05/13/hyper-v-on-windows-10-notes/</loc>
+    <lastmod>2020-05-16</lastmod>
   </url>  <url>
     <loc>http://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/</loc>
     <lastmod>2020-05-10</lastmod>

@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://programlife.net/2020/05/11/hyper-v-on-windows-10-notes/</loc>
+    <loc>http://programlife.net/2020/05/16/hyper-v-debugging/</loc>
     
-    <lastmod>2020-05-10T12:33:31.000Z</lastmod>
+    <lastmod>2020-05-16T12:17:23.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://programlife.net/2020/05/13/hyper-v-on-windows-10-notes/</loc>
+    
+    <lastmod>2020-05-16T11:22:07.000Z</lastmod>
     
   </url>
   
