@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="WinDbg,">
+  <meta name="keywords" content="Fuzzing,Vulnerability,Exploit,漏洞挖掘,漏洞分析,漏洞利用">
 
 
 
@@ -96,21 +96,16 @@
 
 
 
-<meta name="description" content="最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 E_PDB_NOT_FOUND），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。">
-<meta name="keywords" content="WinDbg">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Windows 调试符号下载代理配置">
-<meta property="og:url" content="http://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/index.html">
+<meta name="description" content="Security Researcher Working at Tencent Security Xuanwu Lab">
+<meta property="og:type" content="website">
+<meta property="og:title" content="程序人生">
+<meta property="og:url" content="http://programlife.net/tags/Hypercall/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 E_PDB_NOT_FOUND），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。">
+<meta property="og:description" content="Security Researcher Working at Tencent Security Xuanwu Lab">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://programlife.net/uploads/202002/ida-pro-pdb-not-found.png">
-<meta property="og:image" content="http://programlife.net/uploads/202002/across-the-great-wall.png">
-<meta property="og:updated_time" content="2020-02-23T02:16:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Windows 调试符号下载代理配置">
-<meta name="twitter:description" content="最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 E_PDB_NOT_FOUND），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。">
-<meta name="twitter:image" content="http://programlife.net/uploads/202002/ida-pro-pdb-not-found.png">
+<meta name="twitter:title" content="程序人生">
+<meta name="twitter:description" content="Security Researcher Working at Tencent Security Xuanwu Lab">
 
 
 
@@ -139,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/">
+  <link rel="canonical" href="http://programlife.net/tags/Hypercall/">
 
 
 
 
 
-  <title>Windows 调试符号下载代理配置 | 程序人生</title>
+  <title>Tag: Hypercall | 程序人生</title>
   
 
 
@@ -170,7 +165,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -284,209 +279,52 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block tag">
 
-  
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>Hypercall<small>Tag</small>
+        </h1>
+      </div>
 
-  
-  
-  
+      
+        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ke Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="程序人生">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+            <a class="post-title-link" href="/2020/05/20/introduction-to-hypercall/" itemprop="url">
+              
+                <span itemprop="name">Introduction to Hypercall</span>
+              
+            </a>
         
-          <h1 class="post-title" itemprop="name headline">Windows 调试符号下载代理配置</h1>
-        
+      </h2>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-23T00:13:37+00:00">
-                2020-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vulnerability/" itemprop="url" rel="index">
-                    <span itemprop="name">Vulnerability</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 <code>E_PDB_NOT_FOUND</code>），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。</p>
-<p><img src="/uploads/202002/ida-pro-pdb-not-found.png" alt="IDA Pro 无法下载 Notepad 的调试符号"></p>
-<a id="more"></a>
-<p>后来发现，这次是无法从微软的服务器下载任何调试符号，比如使用 WinDbg 自带的 <code>symchk.exe</code> 无法给 System32 目录下的任一文件下载调试符号，而且在不同的机器上（拥有不同的代理上网环境）均不能下载调试符号，这就非常奇怪了。</p>
-<p>笔者在某不存在的社交网站上反应了这个问题，有网友表示需要使用 VPN，也有网友表示需要绕过长城，还有网友表示 VPN 也不解决问题，而国外友人则表示完全不存在这个问题！很显然，这跟国内复杂的网络环境不无关系！</p>
-<p>笔者打开了 Wireshark，想看看从微软的服务器下载调试符号时到底发生了什么。比如，在给 Notepad 下载调试符号时，后台访问的 URL 如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://msdl.microsoft.com/download/symbols/notepad.pdb/BC0D363AF49A0E2C05B06DA4535DA0C71/notepad.pdb</span><br></pre></td></tr></table></figure>
-<p>接着会重定向到以下地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://vsblobprodscussu5shard60.blob.core.windows.net/b-4712e0edc5a240eabf23330d7df68e77/F6311B221044787072987B74992D6DE770FCBBFED09C2853B4F10350CB964FF900.blob?sv=2017-04-17&amp;sr=b&amp;si=1&amp;sig=ulHtMVJpGWuEvNczzOR6J3g2rXS1s9qwwmEqJ1x63wg%3D&amp;spr=https&amp;se=2020-02-24T01%3A57%3A40Z&amp;rscl=x-e2eid-66439cf8-65874550-b9c5b293-e8bf7391-session-627c05ca-398743d1-b7a6ab61-b0fbc28f</span><br></pre></td></tr></table></figure>
-<p>Chrome 提示 <code>ERR_CONNECTION_RESET</code> ，显然 <code>vsblobprodscussu5shard60.blob.core.windows.net</code> 被 Block 了。那为什么此时代理不管用了呢？而代理服务器本身是可以正常访问这个地址的，或者说，基于代理服务器上的 VPN 也可以正常访问这个地址。</p>
-<p>后来发现，笔者使用的是 PAC 代理上网模式（<strong>Proxy Auto-Config</strong>，<a href="https://zh.wikipedia.org/zh-hans/%E4%BB%A3%E7%90%86%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE" target="_blank" rel="noopener">代理自动配置</a>），上网流量要不要经过代理服务器是根据 PAC 规则文件来定的（相对全局代理模式更加智能），而 <code>windows.net</code> 并没有出现在一些流行的 PAC 规则文件中，因此这里无法正常下载调试符号文件。</p>
-<p>解决方案非常简单，给 PAC 规则文件增加一条记录 <code>.windows.net</code> ，表示支持 <code>windows.net</code> 下所有地址的访问。</p>
-<p><img src="/uploads/202002/across-the-great-wall.png" alt="越过长城，走向世界"></p>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>学到新姿势了吗？打赏请随意！</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>Donate</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/uploads/wechatpay.jpg" alt="Ke Liu WeChat Pay">
-        <p>WeChat Pay</p>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2020-05-20T00:13:37+00:00" content="2020-05-20">
+          05-20
+        </time>
       </div>
-    
 
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/WinDbg/" rel="tag"># WinDbg</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/09/12/deep-analysis-of-cve-2019-8014-en/" rel="next" title="Deep Analysis of CVE-2019-8014 The Vulnerability Ignored 6 Years Ago">
-                <i class="fa fa-chevron-left"></i> Deep Analysis of CVE-2019-8014 The Vulnerability Ignored 6 Years Ago
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/" rel="prev" title="Pwning Adobe Reader Multiple Times with Malformed Strings">
-                Pwning Adobe Reader Multiple Times with Malformed Strings <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
-
-    <div class="post-spread">
       
     </div>
+
   </div>
+  
+  
+  
+
+  
 
 
           </div>
@@ -494,10 +332,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -719,10 +553,10 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-
+  
 
   
 

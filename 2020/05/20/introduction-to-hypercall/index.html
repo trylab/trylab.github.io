@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hyper-V,Hypercall,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="程序人生" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="Hyper-V Hypercall 相关基础知识介绍。">
+<meta name="keywords" content="Hyper-V,Hypercall">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introduction to Hypercall">
+<meta property="og:url" content="http://programlife.net/2020/05/20/introduction-to-hypercall/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="Hyper-V Hypercall 相关基础知识介绍。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://programlife.net/uploads/202005/hypercall-input-rcx.png">
+<meta property="og:image" content="http://programlife.net/uploads/202005/hypercall-output-rax.png">
+<meta property="og:updated_time" content="2020-05-20T14:33:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Introduction to Hypercall">
+<meta name="twitter:description" content="Hyper-V Hypercall 相关基础知识介绍。">
+<meta name="twitter:image" content="http://programlife.net/uploads/202005/hypercall-input-rcx.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://programlife.net/2020/05/20/introduction-to-hypercall/">
+
+
+
+
+
+  <title>Introduction to Hypercall | 程序人生</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序人生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Fuzzing / Vulnerability / Exploit</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2020/05/20/introduction-to-hypercall/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ke Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Introduction to Hypercall</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-20T00:13:37+00:00">
+                2020-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Virtualization/" itemprop="url" rel="index">
+                    <span itemprop="name">Virtualization</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Virtualization/Hyper-V/" itemprop="url" rel="index">
+                    <span itemprop="name">Hyper-V</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Hyper-V Hypercall 相关基础知识介绍。</p>
+<a id="more"></a>
+<h2 id="0x01-Hypercall-介绍"><a href="#0x01-Hypercall-介绍" class="headerlink" title="0x01. Hypercall 介绍"></a>0x01. Hypercall 介绍</h2><p>Hypercall 用于从虚拟机到 Hypervisor 的状态切换，就像 System Call 用于从用户态到内核态的状态切换一样。</p>
+<h3 id="1-1-Hypercall-Classes"><a href="#1-1-Hypercall-Classes" class="headerlink" title="1.1 Hypercall Classes"></a>1.1 Hypercall Classes</h3><p>Hypercall 可以分为两种不同的类型：简单类型（<strong>Simple</strong>）和重复类型（<strong>Repeat / Rep</strong>）。</p>
+<ul>
+<li>Simple Hypercall 拥有固定大小的输入和输出参数，执行一个单一的操作</li>
+<li>Repeat Hypercall 可以看成是由一系列 Simple Hypercall 组成的</li>
+</ul>
+<p>在发起 Repeat Hypercall 时，调用方需要指明输入输出参数的组数（<em>rep count</em>），以及将要被处理的输入输出参数的索引数（<em>rep start index</em>）；Hypervisor 将按照顺序处理对应的数据。</p>
+<h3 id="1-2-Hypercall-Continuation"><a href="#1-2-Hypercall-Continuation" class="headerlink" title="1.2 Hypercall Continuation"></a>1.2 Hypercall Continuation</h3><p>Hypervisor 会限制 Hypercall 的执行时间在 <code>50μs</code> 以内，超过该时间限制的 Hypercall 依赖于一种叫做 Hypercall Continuation 的机制来完成，该机制对调用方而言基本是透明的。</p>
+<p>对于无法在 <code>50μs</code> 的时间限制内完成的 Hypercall，当控制权从 Hypervisor 返回到虚拟机之后，对应的 RIP 寄存器的值并不会改变；当对应的线程再次获得执行机会时，原有的 Hypercall 会被继续执行。显然，在 Hypercall 完成执行的过程中需要维护一个状态，类似 Repeat Hypercall 的执行一样。</p>
+<h3 id="1-3-Hypercall-Atomicity-and-Ordering"><a href="#1-3-Hypercall-Atomicity-and-Ordering" class="headerlink" title="1.3 Hypercall Atomicity and Ordering"></a>1.3 Hypercall Atomicity and Ordering</h3><p>一般来说，Hypercall 的执行是原子的：Simple Hypercall 就是单个的原子操作，Repeat Hypercall 则是一系列的原子操作；对于无法一次执行完毕的 Hypercall（即超过 <code>50μs</code> 时间限制的 Hypercall），则由多个原子操作所组成。</p>
+<h3 id="1-4-Hypercall-Inputs"><a href="#1-4-Hypercall-Inputs" class="headerlink" title="1.4 Hypercall Inputs"></a>1.4 Hypercall Inputs</h3><p>对于任意的 Hypercall，必然至少有一个输入参数，因为肯定需要指定一个编号。在 x64 环境下，该参数通过 <code>RCX</code> 寄存器传递，对应的数据格式如下：</p>
+<p><img src="/uploads/202005/hypercall-input-rcx.png" alt="Hyper-v Hypercall RCX 参数格式"></p>
+<p>对应的说明如下：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>宽度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Call code</td>
+<td>16 bits</td>
+<td>Hypercall 的编号</td>
+</tr>
+<tr>
+<td>Fast</td>
+<td>1 bit</td>
+<td>0 表示基于内存的调用约定，1 表示基于寄存器的调用约定</td>
+</tr>
+<tr>
+<td>Variable header size</td>
+<td>9 bits</td>
+<td>Variable Headr 的大小</td>
+</tr>
+<tr>
+<td>RsvdZ</td>
+<td>5 bits</td>
+<td>必须是 0</td>
+</tr>
+<tr>
+<td>Is Nested</td>
+<td>1 bit</td>
+<td>0 表示由 Guest Hypervisor 处理，1 表示由 L0 Hypervisor 处理</td>
+</tr>
+<tr>
+<td>Rep Count</td>
+<td>12 bits</td>
+<td>Repeat Hypercall 的重复次数（Simple Hypercall 必须是 0）</td>
+</tr>
+<tr>
+<td>RsvdZ</td>
+<td>4 bits</td>
+<td>必须是 0</td>
+</tr>
+<tr>
+<td>Rep Start Index</td>
+<td>12 bits</td>
+<td>Repeat Hypercall 的索引值（Simple Hypercall 必须是 0）</td>
+</tr>
+<tr>
+<td>RsvdZ</td>
+<td>4 bits</td>
+<td>必须是 0</td>
+</tr>
+</tbody>
+</table>
+<p>如果 Fast 的值为 0，那么 <code>RDX</code> 寄存器可以用于传递输入参数的 GPA（Guest Physical Address），<code>R8</code> 寄存器可以用于传递输出参数的 GPA。</p>
+<p>如果 Fast 的值为 1，那么 <code>RDX</code> 和 <code>R8</code> 寄存器可以用于传递输入参数。</p>
+<p>如果 Hypervisor 支持 Extended Fast Hypercalls，那么还可以使用 XMM 寄存器来传递输入参数，最多支持 <code>112</code> 字节的数据：XMM0 ~ XMM5 共 <code>16 * 6 = 96</code> 字节，以及 <code>RDX</code> 和 <code>R8</code> 共 <code>16</code> 字节。</p>
+<h3 id="1-5-Hypercall-Outputs"><a href="#1-5-Hypercall-Outputs" class="headerlink" title="1.5 Hypercall Outputs"></a>1.5 Hypercall Outputs</h3><p>Hypercall 的返回值通过 <code>RAX</code> 寄存器传递，对应的数据格式如下：</p>
+<p><img src="/uploads/202005/hypercall-output-rax.png" alt="Hyper-v Hypercall RAX 参数格式"></p>
+<p>对应的说明如下：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>宽度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Result</td>
+<td>16 bits</td>
+<td>HV_STATUS code</td>
+</tr>
+<tr>
+<td>Rsvd</td>
+<td>16 bits</td>
+<td>保留字段</td>
+</tr>
+<tr>
+<td>Reps completed</td>
+<td>12 bits</td>
+<td>已经成功执行的 Repeat 数</td>
+</tr>
+<tr>
+<td>Rsvd</td>
+<td>20 bits</td>
+<td>保留字段</td>
+</tr>
+</tbody>
+</table>
+<p>注意这里的 <code>Reps completed</code> 是针对整个 Repeat Hypercall 而言的，即整个 Repeat Hypercall 已经成功执行的 Repeat 数。</p>
+<p>同样，输出参数也支持使用 XMM 寄存器传递。</p>
+<h2 id="0x02-Hypercall-调用"><a href="#0x02-Hypercall-调用" class="headerlink" title="0x02. Hypercall 调用"></a>0x02. Hypercall 调用</h2><p>Windows 内核模块导出了一个函数 <code>HvlInvokeHypercall</code> 可以用于发起 Hypercall，该函数是对 <code>vmcall</code> / <code>vmmcall</code> 指令的一个包装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1: kd&gt; u poi(nt!HvcallCodeVa)</span><br><span class="line">fffff804`3f330000 0f01d9          vmmcall</span><br><span class="line">fffff804`3f330003 c3              ret</span><br><span class="line"></span><br><span class="line">1: kd&gt; u nt!HvcallInitiateHypercall</span><br><span class="line">nt!HvcallInitiateHypercall:</span><br><span class="line">fffff804`40945080 4883ec28        sub     rsp,28h</span><br><span class="line">fffff804`40945084 488b059de22200  mov     rax,qword ptr [nt!HvcallCodeVa]</span><br><span class="line">fffff804`4094508b e850f20000      call    nt!_guard_retpoline_indirect_rax</span><br><span class="line">fffff804`40945090 4883c428        add     rsp,28h</span><br><span class="line">fffff804`40945094 c3              ret</span><br></pre></td></tr></table></figure>
+<p>注意这里函数的调式符号为 <code>HvcallInitiateHypercall</code> ，只不过是以 <code>HvlInvokeHypercall</code> 的名义导出的。</p>
+<h2 id="0x03-Hypercall-监控"><a href="#0x03-Hypercall-监控" class="headerlink" title="0x03. Hypercall 监控"></a>0x03. Hypercall 监控</h2><p>在 WinDbg 中，可以通过对 <code>poi(nt!HvcallCodeVa)</code> 下硬件执行断点来监控 Hypercall 的调用，拆分后的代码如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ba e1 poi(nt!HvcallCodeVa)</span><br><span class="line"></span><br><span class="line">.printf &quot;           Hypercall: 0x%X\n&quot;, rcx &amp; 0xFFFF</span><br><span class="line">.printf &quot;                Fast: 0x%X\n&quot;, (rcx &gt;&gt; 16) &amp; 1</span><br><span class="line">.printf &quot;Variable header size: 0x%X\n&quot;, (rcx &gt;&gt; 17) &amp; 0x1FF</span><br><span class="line">.printf &quot;           Is Nested: 0x%X\n&quot;, (rcx &gt;&gt; 26) &amp; 1</span><br><span class="line">.printf &quot;           Rep Count: 0x%X\n&quot;, (rcx &gt;&gt; 32) &amp; 0xFFF</span><br><span class="line">.printf &quot;     Rep Start Index: 0x%X\n&quot;, (rcx &gt;&gt; 48) &amp; 0xFFF</span><br><span class="line">k</span><br><span class="line">g</span><br></pre></td></tr></table></figure>
+<p>WinDbg 仅支持单行命令，所以实际测试时需要把断点之后的命令写成一行、使用双引号括起来并且原有命令中的特殊字符需要进行转义处理。</p>
+<p>使用上面的方法进行监控，WinDbg 会输出大量的日志，这其中不乏一些奇怪的日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">           Hypercall: 0xB</span><br><span class="line">                Fast: 0x0</span><br><span class="line">Variable header size: 0x0</span><br><span class="line">           Is Nested: 0x0</span><br><span class="line">           Rep Count: 0x0</span><br><span class="line">     Rep Start Index: 0x100</span><br><span class="line"> # Child-SP          RetAddr           Call Site</span><br><span class="line">00 fffffd89`ba061828 fffff800`37c89f7c 0xfffff800`35e10000</span><br><span class="line">01 fffffd89`ba061830 fffff800`384b9752 nt!HvlSendSyntheticClusterIpi+0x7c</span><br><span class="line">02 fffffd89`ba061860 fffff800`37abaecb hal!HalRequestIpi+0x532</span><br><span class="line">03 fffffd89`ba061b00 fffff800`37bc5e84 nt!PoIdle+0x45b</span><br><span class="line">04 fffffd89`ba061c60 00000000`00000000 nt!KiIdleLoop+0x44</span><br></pre></td></tr></table></figure>
+<p>比如，按照微软官方文档的理解，这里 <code>Rep Count</code> 为 <code>0</code> ，所以编号为 <code>0xB</code> 的 Hypercall 应该是一个 Simple Hypercall，而 Simple Hypercall 的 <code>Rep Start Index</code> 也应该是 <code>0</code> ，但这里却为 <code>0x100</code> 。</p>
+<p>当然，这种方法最主要的问题是没有对 Hypercall 进行过滤，这就会导致 WinDbg 需要频繁地处理断点，既耗费资源，操作也不是很方便。那么在 WinDbg 的条件断点中再加一个过滤条件可不可以呢？当然是可以的！但是在 WinDbg 进行过滤的时候，其实断点已经命中并且由 WinDbg 接管了，所以反应速度还是很慢。</p>
+<p>Jaanus Kääp 通过在 WinDbg 中对内核模块进行 Patch，即对地址 <code>poi(nt!HvcallCodeVa)</code> 进行 HOOK，直接过滤掉不感兴趣的 Hypercall，这样 WinDbg 的反应速度就会快很多。具体的操作方法如下：</p>
+<ol>
+<li>写一段汇编指令过滤掉 Fast 类型的 Hypercall</li>
+<li>将汇编指令编译成机器码</li>
+<li>在内核模块的 <code>.text</code> 末尾找到一块可执行的空白区间用于存放机器码</li>
+<li>修复 HOOK 的跳转<ul>
+<li>把 <code>nt!HvcallCodeVa</code> 处的值修改为上述机器码的起始地址</li>
+<li>过滤代码执行完毕后跳转回 <code>poi(nt!HvcallCodeVa)</code> 执行代码</li>
+</ul>
+</li>
+</ol>
+<p>过滤代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">        test    rcx, 0x10000</span><br><span class="line">        jnz     skip</span><br><span class="line">        int     3</span><br><span class="line">skip:</span><br><span class="line">        mov     rax, 0xfffff8014dfc0000</span><br><span class="line">        jmp     rax</span><br></pre></td></tr></table></figure>
+<p>这里如果遇到非 Fast Hypercall 则通过 <code>int 3</code> 中断，会自动激活 WinDbg；也可以在这里下条件断点进行自动监控。</p>
+<h2 id="0x04-参考文档"><a href="#0x04-参考文档" class="headerlink" title="0x04. 参考文档"></a>0x04. 参考文档</h2><ol>
+<li>Jaanus Kääp 博客 <a href="https://foxhex0ne.blogspot.com/2020/05/hyper-v-0x1-hypercalls-part-1.html" target="_blank" rel="noopener">Hyper-V #0x1 - Hypercalls part 1</a></li>
+<li>微软官方文档 <a href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/reference/tlfs" target="_blank" rel="noopener">Hypervisor Top-Level Functional Specification</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>学到新姿势了吗？打赏请随意！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.jpg" alt="Ke Liu WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hyper-V/" rel="tag"># Hyper-V</a>
+          
+            <a href="/tags/Hypercall/" rel="tag"># Hypercall</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/16/hyper-v-debugging/" rel="next" title="Hyper-V 调试环境搭建">
+                <i class="fa fa-chevron-left"></i> Hyper-V 调试环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Ke Liu">
+          <p class="site-author-name" itemprop="name">Ke Liu</p>
+           
+              <p class="site-description motion-element" itemprop="description">Security Researcher Working at Tencent Security Xuanwu Lab</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/klotxl404" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-Hypercall-介绍"><span class="nav-text">0x01. Hypercall 介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Hypercall-Classes"><span class="nav-text">1.1 Hypercall Classes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Hypercall-Continuation"><span class="nav-text">1.2 Hypercall Continuation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Hypercall-Atomicity-and-Ordering"><span class="nav-text">1.3 Hypercall Atomicity and Ordering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-Hypercall-Inputs"><span class="nav-text">1.4 Hypercall Inputs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-Hypercall-Outputs"><span class="nav-text">1.5 Hypercall Outputs</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-Hypercall-调用"><span class="nav-text">0x02. Hypercall 调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-Hypercall-监控"><span class="nav-text">0x03. Hypercall 监控</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-参考文档"><span class="nav-text">0x04. 参考文档</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ke Liu</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

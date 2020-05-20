@@ -295,6 +295,164 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2019/03/25/cve-2019-5786-chrome-filereader-use-after-free-vulnerability-analysis/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ke Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/25/cve-2019-5786-chrome-filereader-use-after-free-vulnerability-analysis/" itemprop="url">CVE-2019-5786 Chrome FileReader UAF 漏洞分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-25T10:00:00+00:00">
+                2019-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerability/" itemprop="url" rel="index">
+                    <span itemprop="name">Vulnerability</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerability/Chrome/" itemprop="url" rel="index">
+                    <span itemprop="name">Chrome</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="0x01-漏洞简介"><a href="#0x01-漏洞简介" class="headerlink" title="0x01. 漏洞简介"></a>0x01. 漏洞简介</h2><p>准备用业余时间学习一点浏览器漏洞利用相关的知识，刚好最近 Chrome 爆出来一个野外利用漏洞 CVE-2019-5786 ，而且网上也有两篇比较详细的分析报告（来自 <a href="https://blog.exodusintel.com/2019/03/20/cve-2019-5786-analysis-and-exploitation/" target="_blank" rel="noopener">Exodus Intelligence</a> 和 <a href="https://securingtomorrow.mcafee.com/other-blogs/mcafee-labs/analysis-of-a-chrome-zero-day-cve-2019-5786/" target="_blank" rel="noopener">McAfee Labs</a>），刚好可以借鉴学习一下漏洞的原理以及利用技巧。</p>
+<p>Chrome 72.0.3626.121 的 <a href="https://chromereleases.googleblog.com/2019/03/stable-channel-update-for-desktop.html" target="_blank" rel="noopener">安全公告</a> 显示，漏洞 CVE-2019-5786 由 Google Threat Analysis Group 的 Clement Lecigne 发现其被利用于野外攻击（配合 Windows 内核空指针漏洞 CVE-2019-0808 可实现 Windows 7 下的提权操作）。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/25/cve-2019-5786-chrome-filereader-use-after-free-vulnerability-analysis/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://programlife.net/2019/03/11/why-my-windbg-data-breakpoint-did-not-work-as-expected/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -629,7 +787,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -651,7 +809,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

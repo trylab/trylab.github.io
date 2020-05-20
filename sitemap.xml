@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-en/</loc>
+    
+    <lastmod>2020-05-20T14:36:22.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-cn/</loc>
+    
+    <lastmod>2020-05-20T14:36:09.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://programlife.net/2020/05/20/introduction-to-hypercall/</loc>
+    
+    <lastmod>2020-05-20T14:33:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://programlife.net/2020/05/16/hyper-v-debugging/</loc>
     
     <lastmod>2020-05-16T12:17:23.000Z</lastmod>
@@ -33,20 +54,6 @@
     <loc>http://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/</loc>
     
     <lastmod>2020-02-23T02:16:09.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-en/</loc>
-    
-    <lastmod>2019-09-12T13:03:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-cn/</loc>
-    
-    <lastmod>2019-09-12T12:59:37.000Z</lastmod>
     
   </url>
   
