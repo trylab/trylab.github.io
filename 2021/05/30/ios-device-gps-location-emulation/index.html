@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,GPS,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="程序人生" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="未越狱 iOS 设备通过 Xcode 修改 GPS 定位信息。">
+<meta name="keywords" content="iOS,GPS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 设备 GPS 位置模拟">
+<meta property="og:url" content="http://programlife.net/2021/05/30/ios-device-gps-location-emulation/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="未越狱 iOS 设备通过 Xcode 修改 GPS 定位信息。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://programlife.net/uploads/202105/google-maps.jpg">
+<meta property="og:image" content="http://programlife.net/uploads/202105/ios-deployment-target.jpg">
+<meta property="og:image" content="http://programlife.net/uploads/202105/ide-debug-session-error-domain-security.jpg">
+<meta property="og:image" content="http://programlife.net/uploads/202105/ios-location-simulation.jpg">
+<meta property="og:image" content="http://programlife.net/uploads/202105/shenzhen-tencent-building.jpg">
+<meta property="og:updated_time" content="2021-05-30T09:01:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 设备 GPS 位置模拟">
+<meta name="twitter:description" content="未越狱 iOS 设备通过 Xcode 修改 GPS 定位信息。">
+<meta name="twitter:image" content="http://programlife.net/uploads/202105/google-maps.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://programlife.net/2021/05/30/ios-device-gps-location-emulation/">
+
+
+
+
+
+  <title>iOS 设备 GPS 位置模拟 | 程序人生</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序人生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Fuzzing / Vulnerability / Exploit</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2021/05/30/ios-device-gps-location-emulation/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ke Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS 设备 GPS 位置模拟</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-05-30T13:33:37+00:00">
+                2021-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Apple/" itemprop="url" rel="index">
+                    <span itemprop="name">Apple</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Apple/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>未越狱 iOS 设备通过 Xcode 修改 GPS 定位信息。</p>
+<a id="more"></a>
+<h2 id="0x01-GPS-坐标简介"><a href="#0x01-GPS-坐标简介" class="headerlink" title="0x01. GPS 坐标简介"></a>0x01. GPS 坐标简介</h2><p>GPS 坐标使用经纬度来表示，有几种不同的规范：</p>
+<ol>
+<li>WGS-84，World Geodetic System，定义于 1984 年，最后修改定于 2004 年，是被 GPS 所使用的国际规范</li>
+<li>GCJ-02，国测局坐标系、火星坐标系，基于 WGS-84 但是会在经纬度中加入看似随机的偏移</li>
+<li>BD-09，百度坐标系，在 GCJ-02 的基础上增加了一次变换</li>
+</ol>
+<p>《中华人民共和国测绘法》要求地图提供商使用 GCJ-02 坐标系统：</p>
+<blockquote>
+<p>使用 GCJ-02 记录下的地点在 GCJ-02 的地图中会显示在正确位置，然而换成 WGS-84 的地图或地点记录就可能造成 100 - 700 米不等的偏移。据测量，Google.com 的地图与真实坐标相差约 50 - 500 米，而中国区的 Google.cn 地图则与卫星图无偏差</p>
+</blockquote>
+<p>实际测试发现 Google.cn 迁移到 Google.com.hk 之后，使用的是 WGS-84 坐标系，其卫星图与地图存在一定的偏移：</p>
+<p><img src="/uploads/202105/google-maps.jpg" alt="火星坐标系偏移"></p>
+<h2 id="0x02-Xcode-真机调试"><a href="#0x02-Xcode-真机调试" class="headerlink" title="0x02. Xcode 真机调试"></a>0x02. Xcode 真机调试</h2><p>在 Xcode 中新建一个 iOS App，并在 iOS Deployment Target 设置好对应的系统版本。</p>
+<p><img src="/uploads/202105/ios-deployment-target.jpg" alt="iOS Deployment Target 设置"></p>
+<p>首次在 iPhone 上调试，会提示如下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Could not launch “PhoneDemo”</span><br><span class="line">Domain: IDEDebugSessionErrorDomain</span><br><span class="line">Code: 3</span><br><span class="line">Failure Reason: Security</span><br><span class="line">User Info: &#123;</span><br><span class="line">    DVTRadarComponentKey = 855031;</span><br><span class="line">    RawUnderlyingErrorMessage = Security;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/uploads/202105/ide-debug-session-error-domain-security.jpg" alt="DVTRadarComponentKey=855031 RawUnderlyingErrorMessage=Security"></p>
+<p>在 iPhone 的设置里面信任对应的开发者即可。</p>
+<h2 id="0x03-GPS-位置模拟"><a href="#0x03-GPS-位置模拟" class="headerlink" title="0x03. GPS 位置模拟"></a>0x03. GPS 位置模拟</h2><ol>
+<li>通过 <a href="https://lbs.amap.com/tools/picker" target="_blank" rel="noopener">高德地图 API</a> 获取目标位置的 GCJ-02 坐标，比如“深圳市腾讯大厦”的坐标为 <code>113.934497,22.540517</code></li>
+<li>通过 <a href="http://www.dituwa.com/tool/gpxaxes" target="_blank" rel="noopener">转换工具</a> 将坐标转换为 WGS-84 坐标，这里转换后为 <code>113.92962958,22.54354674</code></li>
+<li>在 iOS App 工程中新建一个 location.gpx 文件并设置好 WGS-84 经纬度坐标</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;gpx version=&quot;1.1&quot;</span><br><span class="line">    creator=&quot;GMapToGPX 6.4j - http://www.elsewhere.org/GMapToGPX/&quot;</span><br><span class="line">    xmlns=&quot;http://www.topografix.com/GPX/1/1&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd&quot;&gt;</span><br><span class="line">    &lt;wpt lat=&quot;22.54354674&quot; lon=&quot;113.92962958&quot;&gt;</span><br><span class="line">    &lt;/wpt&gt;</span><br><span class="line">&lt;/gpx&gt;</span><br></pre></td></tr></table></figure>
+<p>此时，需要修改 iOS App 工程设置，选择 <code>Edit Scheme...</code>，在 Run - Options - Core Location 中选中 Allow Location Simulation，其中 Default Location 选中前面添加的 gpx 文件。</p>
+<p><img src="/uploads/202105/ios-location-simulation.jpg" alt=""></p>
+<p>在连接的 iPhone 上运行该 iOS App，即可临时修改 GPS 位置信息。</p>
+<p><img src="/uploads/202105/shenzhen-tencent-building.jpg" alt="深圳市腾讯大厦"></p>
+<p>当然，这种模拟 GPS 位置的方法弊端也很明显，之前看到有人在 HITB 上讲过 <a href="https://cyberweek.ae/materials/2020/COMMSEC%20D2%20-%20Spoofing%20Your%20Location%20on%20iOS%20without%20Jailbreaking.pdf" target="_blank" rel="noopener">PhantomGPS</a>，相对来说方便和灵活了很多，二代售价 400 块。</p>
+<h2 id="0x04-参考文档"><a href="#0x04-参考文档" class="headerlink" title="0x04. 参考文档"></a>0x04. 参考文档</h2><ol>
+<li><a href="https://zh.wikipedia.org/wiki/%E4%B8%96%E7%95%8C%E5%A4%A7%E5%9C%B0%E6%B5%8B%E9%87%8F%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">World Geodetic System - Wikipedia</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E5%9C%B0%E7%90%86%E6%95%B0%E6%8D%AE%E9%99%90%E5%88%B6#GCJ-02" target="_blank" rel="noopener">GCJ-02 - Wikipedia</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E5%9C%B0%E7%90%86%E6%95%B0%E6%8D%AE%E9%99%90%E5%88%B6#BD-09" target="_blank" rel="noopener">BD-09 - Wikipedia</a></li>
+<li><a href="https://steppark.net/15294912961206.html" target="_blank" rel="noopener">妙用 Xcode 修改 iPhone 的当前定位位置</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>学到新姿势了吗？打赏请随意！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.jpg" alt="Ke Liu WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/GPS/" rel="tag"># GPS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/12/ubuntu-snap-docker-registry-mirrors/" rel="next" title="Ubuntu Snap Docker 国内加速镜像设置">
+                <i class="fa fa-chevron-left"></i> Ubuntu Snap Docker 国内加速镜像设置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Ke Liu">
+          <p class="site-author-name" itemprop="name">Ke Liu</p>
+           
+              <p class="site-description motion-element" itemprop="description">Security Researcher Worked at Tencent Security Xuanwu Lab</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/klotxl404" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-GPS-坐标简介"><span class="nav-text">0x01. GPS 坐标简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-Xcode-真机调试"><span class="nav-text">0x02. Xcode 真机调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-GPS-位置模拟"><span class="nav-text">0x03. GPS 位置模拟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-参考文档"><span class="nav-text">0x04. 参考文档</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ke Liu</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
