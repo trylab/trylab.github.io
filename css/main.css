@@ -434,11 +434,11 @@ body {
 .header-inner {
   margin: 0 auto;
   padding: 100px 0 70px;
-  width: 740px;
+  width: 940px;
 }
 @media (min-width: 1600px) {
   .container .header-inner {
-    width: 1000px;
+    width: 1200px;
   }
 }
 .main {
@@ -446,11 +446,11 @@ body {
 }
 .main-inner {
   margin: 0 auto;
-  width: 740px;
+  width: 940px;
 }
 @media (min-width: 1600px) {
   .container .main-inner {
-    width: 1000px;
+    width: 1200px;
   }
 }
 .footer {
@@ -463,11 +463,11 @@ body {
 .footer-inner {
   box-sizing: border-box;
   margin: 20px auto;
-  width: 740px;
+  width: 940px;
 }
 @media (min-width: 1600px) {
   .container .footer-inner {
-    width: 1000px;
+    width: 1200px;
   }
 }
 pre,
@@ -1929,7 +1929,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #9d05ff;
+  background: #ffffc7;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2706,7 +2706,7 @@ pre .javascript .function {
 .header {
   position: relative;
   margin: 0 auto;
-  width: 1000px;
+  width: 1200px;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .header {
@@ -2766,7 +2766,7 @@ pre .javascript .function {
   }
 }
 .container .main-inner {
-  width: 1000px;
+  width: 1200px;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .container .main-inner {
@@ -2782,7 +2782,7 @@ pre .javascript .function {
   float: right;
   box-sizing: border-box;
   padding: 40px;
-  width: 740px;
+  width: 940px;
   background: #fff;
   min-height: 700px;
   box-shadow: initial;
@@ -2825,7 +2825,7 @@ pre .javascript .function {
   display: none;
 }
 .footer-inner {
-  width: 1000px;
+  width: 1200px;
   padding-left: 260px;
 }
 @media (min-width: 768px) and (max-width: 991px) {
