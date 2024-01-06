@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Fuzzing,Vulnerability,Exploit,漏洞挖掘,漏洞分析,漏洞利用">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="程序人生" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="Old code dies hard: Finding new vulnerabilities in old third-party software components and the importance of having SBoM for IoT/OT devices">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BlackHat Europe 2023 议题学习（一）">
+<meta property="og:url" content="http://programlife.net/2024/01/06/BHEU-2023-Learning-Part1/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="Old code dies hard: Finding new vulnerabilities in old third-party software components and the importance of having SBoM for IoT/OT devices">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2024-01-06T14:04:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BlackHat Europe 2023 议题学习（一）">
+<meta name="twitter:description" content="Old code dies hard: Finding new vulnerabilities in old third-party software components and the importance of having SBoM for IoT/OT devices">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://programlife.net/2024/01/06/BHEU-2023-Learning-Part1/">
+
+
+
+
+
+  <title>BlackHat Europe 2023 议题学习（一） | 程序人生</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序人生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Fuzzing / Vulnerability / Exploit</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2024/01/06/BHEU-2023-Learning-Part1/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ke Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.webp">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">BlackHat Europe 2023 议题学习（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-01-06T13:33:37+00:00">
+                2024-01-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Conferences/" itemprop="url" rel="index">
+                    <span itemprop="name">Conferences</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Conferences/BlackHat/" itemprop="url" rel="index">
+                    <span itemprop="name">BlackHat</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.blackhat.com/eu-23/briefings/schedule/index.html#old-code-dies-hard-finding-new-vulnerabilities-in-old-third-party-software-components-and-the-importance-of-having-sbom-for-iotot-devices-35349" target="_blank" rel="noopener"><strong>Old code dies hard:</strong> Finding new vulnerabilities in old third-party software components and the importance of having SBoM for IoT/OT devices</a></p>
+<a id="more"></a>
+<h2 id="0x01-研究思路"><a href="#0x01-研究思路" class="headerlink" title="0x01. 研究思路"></a>0x01. 研究思路</h2><p>研究目标：Sierra Wireless AirLink Gateways</p>
+<p>目标搜集：Shodan 搜索 ACEmanager 的指纹</p>
+<ul>
+<li>ACEmanager 是 Sierra Wireless AirLink Gateways 的 Web 管理系统</li>
+<li>ACEmanager 不应该暴露在公网</li>
+</ul>
+<p>前人研究：</p>
+<ul>
+<li>Cisco Talos、IOActive 等都开展过相关研究，但更多关注目标本身的代码，比如 ACEmanager 等</li>
+<li>没有提及第三方组件的漏洞问题</li>
+</ul>
+<p>作者的研究思路：</p>
+<ul>
+<li>获取设备、固件、软件包</li>
+<li>固件解压、解密<ul>
+<li>老版本的固件没有加密，还带有调试符号</li>
+<li>新版本的固件可以用 IOActive 的公开方法解密</li>
+<li>使用 Qemu 来模拟运行环境</li>
+</ul>
+</li>
+<li>黑盒功能分析</li>
+<li>软件成分分析（SCA）</li>
+<li>对高优目标（二进制、开源组件等）进行静态、动态分析<ul>
+<li>根据 SCA 分析的结果，挑选高优目标开展研究<ul>
+<li>可暴露在公网的 ACEmanager</li>
+<li>可通过 Telnet 配置的 AT 命令接口</li>
+<li>开源组件，尤其是没怎么爆过漏洞的组件</li>
+</ul>
+</li>
+<li>提到了 SBoM / Software Bill of Materials，即软件物料清单，可以简单理解为 SCA 的分析结果（但是是标准化的数据）<ul>
+<li>关于 SBoM 的应用，可以阅读 <a href="https://www.openeuler.org/zh/blog/robell/openEuler_SBOM_Practice.html" target="_blank" rel="noopener">基于 SBOM 的开源社区软件供应链安全解决方案</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x02-漏洞案例"><a href="#0x02-漏洞案例" class="headerlink" title="0x02. 漏洞案例"></a>0x02. 漏洞案例</h2><h3 id="2-1-TinyXML"><a href="#2-1-TinyXML" class="headerlink" title="2.1 TinyXML"></a>2.1 TinyXML</h3><p>TinyXML 已经被 TinyXML-2 取代，前者不再维护，所以作者选择直接对 TinyXML 进行 Fuzz。</p>
+<h4 id="2-1-1-CVE-2021-42260-CVE-2023-40458"><a href="#2-1-1-CVE-2021-42260-CVE-2023-40458" class="headerlink" title="2.1.1 CVE-2021-42260 / CVE-2023-40458"></a>2.1.1 CVE-2021-42260 / CVE-2023-40458</h4><p>指针 <code>p</code> 指向攻击者可控的 XML 代码，如果 <code>if ( *(p+1) &amp;&amp; *(p+2) )</code> 检查不过，那么 <code>p</code> 会保持不变，可以触发死循环，实现 DoS 攻击。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ( p &lt; now )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Treat p as unsigned, so we have a happy compiler.</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>* pU = (<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>*)p;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Code contributed by Fletcher Dunn: (modified by lee)</span></span><br><span class="line">    <span class="keyword">switch</span> (*pU) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">case</span> TIXML_UTF_LEAD_0:</span><br><span class="line">        <span class="keyword">if</span> ( encoding == TIXML_ENCODING_UTF8 )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> ( *(p+<span class="number">1</span>) &amp;&amp; *(p+<span class="number">2</span>) )</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// In these cases, don't advance the column. These are</span></span><br><span class="line">                <span class="comment">// 0-width spaces.</span></span><br><span class="line">                <span class="keyword">if</span> ( *(pU+<span class="number">1</span>)==TIXML_UTF_LEAD_1 &amp;&amp; *(pU+<span class="number">2</span>)==TIXML_UTF_LEAD_2 )</span><br><span class="line">                    p += <span class="number">3</span>; </span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> ( *(pU+<span class="number">1</span>)==<span class="number">0xbf</span>U &amp;&amp; *(pU+<span class="number">2</span>)==<span class="number">0xbe</span>U )</span><br><span class="line">                    p += <span class="number">3</span>; </span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> ( *(pU+<span class="number">1</span>)==<span class="number">0xbf</span>U &amp;&amp; *(pU+<span class="number">2</span>)==<span class="number">0xbf</span>U )</span><br><span class="line">                    p += <span class="number">3</span>; </span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    &#123; p +=<span class="number">3</span>; ++col; &#125;   <span class="comment">// A normal character.</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            ++p;</span><br><span class="line">            ++col;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-2-CVE-2023-34194-CVE-2023-40462"><a href="#2-1-2-CVE-2023-34194-CVE-2023-40462" class="headerlink" title="2.1.2 CVE-2023-34194 / CVE-2023-40462"></a>2.1.2 CVE-2023-34194 / CVE-2023-40462</h4><p>触发 <code>assert</code> 实现 DoS 攻击。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> TiXmlBase::StringEqual( <span class="keyword">const</span> <span class="keyword">char</span>* p,</span><br><span class="line">                             <span class="keyword">const</span> <span class="keyword">char</span>* tag,</span><br><span class="line">                             <span class="keyword">bool</span> ignoreCase,</span><br><span class="line">                             TiXmlEncoding encoding )</span><br><span class="line">&#123;</span><br><span class="line">    assert( p );</span><br><span class="line">    assert( tag );</span><br><span class="line">    <span class="keyword">if</span> ( !p || !*p )</span><br><span class="line">    &#123;</span><br><span class="line">        assert( <span class="number">0</span> );    <span class="comment">// assert</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-ALEOS"><a href="#2-2-ALEOS" class="headerlink" title="2.2 ALEOS"></a>2.2 ALEOS</h3><p>ALEOS 即 AirLink Enterprise Operating System，可以理解为 IoT 设备的定制系统，ACEmanager 等都运行在该系统上。这里的漏洞实际上是自研代码的漏洞。</p>
+<h4 id="2-2-1-CVE-2023-40460"><a href="#2-2-1-CVE-2023-40460" class="headerlink" title="2.2.1 CVE-2023-40460"></a>2.2.1 CVE-2023-40460</h4><p>XML 上传 XSS 漏洞：</p>
+<ul>
+<li>内容几乎没有校验</li>
+<li>扩展名可以任意指定</li>
+<li>配合奇怪的路径处理逻辑，最终可以上传 HTML 并且可以通过 URL 访问</li>
+</ul>
+<p>前提条件：需要先登录 ACEmanager 再发起上传操作。</p>
+<h4 id="2-2-2-CVE-2018-4063"><a href="#2-2-2-CVE-2018-4063" class="headerlink" title="2.2.2 CVE-2018-4063"></a>2.2.2 CVE-2018-4063</h4><p>这是作者提到的 Cisco Talos 发现的一个漏洞，这里笔者简单补充一下，细节可参考 <a href="https://talosintelligence.com/vulnerability_reports/TALOS-2018-0748" target="_blank" rel="noopener">TALOS-2018-0748</a>。</p>
+<blockquote>
+<p>When uploading template files, you can specify the name of the file that you are uploading. There are no restrictions in place that protect the files that are currently on the device, used for normal operation. If a file is uploaded with the same name of the file that already exists in the directory, then we inherit the permissions of that file. In this case, the files that exist in the directory that the template file is saved to are:</p>
+<ul>
+<li><code>fw_expected_rm.cgi</code></li>
+<li><code>fw_status.cgi</code></li>
+<li><code>fw_upload_init.cgi</code></li>
+<li><code>fw_upload_init.sh</code></li>
+<li><code>rm_switching_action.cgi</code></li>
+</ul>
+<p>These files all have executable permissions on the device. By uploading a small wrapper, we can upload arbitrary code to the device and run by simply navigating to the web page through the browser. Since ACEManager is running as <code>root</code> any executables run will be running also as <code>root</code>.</p>
+</blockquote>
+<p>即上传同名文件覆盖原有文件，可以继承原有文件的可执行权限；而通过浏览特定的 Web 页面，可以触发这些 cgi 代码的执行；最终实现 <code>root</code> 权限代码执行。另外，这个也需要先登录 ACEmanager 才能发起攻击。</p>
+<h3 id="2-3-硬编码问题"><a href="#2-3-硬编码问题" class="headerlink" title="2.3 硬编码问题"></a>2.3 硬编码问题</h3><ol>
+<li>内置 TLS 证书和私钥（默认使用）</li>
+<li>调试 Shell root 用户硬编码密码 SHA512 哈希值（功能默认禁用）</li>
+</ol>
+<h3 id="2-4-openNDS"><a href="#2-4-openNDS" class="headerlink" title="2.4 openNDS"></a>2.4 openNDS</h3><p>openNDS（非 OpenDNS）是一个开源的 Captive Portal 组件（基于另一个开源组件 Nodogsplash 进行的分叉开发），<a href="https://opennds.readthedocs.io/en/stable/" target="_blank" rel="noopener">官方介绍</a>如下：</p>
+<blockquote>
+<p>openNDS (open Network Demarcation Service) is a high performance, small footprint, Captive Portal. It provides a border control gateway between a public local area network and the Internet.</p>
+</blockquote>
+<p>Captive Portal 在日常生活中非常常见，比如连接机场 WiFi 时出现的认证系统，就是类似 openNDS 这样的组件在工作。</p>
+<p>作者在确认所依赖的 openNDS 版本之后，去分析了此版本号之后提交的 commit（因为没有公开的 CVE，所以直接跟着 Patch 来分析），尝试根据 commit 来寻找漏洞（或者没有补完的同类漏洞变种）。</p>
+<h4 id="2-4-1-CVE-2023-38320"><a href="#2-4-1-CVE-2023-38320" class="headerlink" title="2.4.1 CVE-2023-38320"></a>2.4.1 CVE-2023-38320</h4><p>如果收到的 HTTP 请求不带 User-Agent 字段，可以触发空指针引用实现 DoS（在 Patch <a href="https://github.com/openNDS/openNDS/commit/b97bf3566071a8176c6e1add9af9abbfa6d89173" target="_blank" rel="noopener">b97bf35</a> 中可以看到 <code>do_binauth</code> 对应的 CVE 为 CVE-2023-38322，此外作者还发现了一些其他空指针引用问题，可以参考 <a href="https://github.com/openNDS/openNDS/releases/tag/v10.1.2" target="_blank" rel="noopener">OpenNDS v10.1.2 release</a>）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">show_preauthpage</span><span class="params">(struct MHD_Connection *connection, <span class="keyword">const</span> <span class="keyword">char</span> *query)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    s_config *config = config_get_config();</span><br><span class="line">    <span class="keyword">char</span> *msg;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *user_agent;</span><br><span class="line">    <span class="keyword">char</span> *enc_user_agent;</span><br><span class="line">    <span class="keyword">char</span> *preauthpath;</span><br><span class="line">    <span class="keyword">char</span> *cmd;</span><br><span class="line">    <span class="keyword">char</span> *enc_query;</span><br><span class="line">    <span class="keyword">int</span> rc;</span><br><span class="line">    <span class="keyword">int</span> ret;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">MHD_Response</span> *<span class="title">response</span>;</span></span><br><span class="line">    preauthpath = safe_calloc(SMALL_BUF);</span><br><span class="line">    safe_asprintf(&amp;preauthpath, <span class="string">"/%s/"</span>, config-&gt;preauthdir);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strcmp</span>(preauthpath, config-&gt;fas_path) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">free</span> (preauthpath);</span><br><span class="line">        user_agent = safe_calloc(USER_AGENT);</span><br><span class="line">        enc_user_agent = safe_calloc(ENC_USER_AGENT);</span><br><span class="line"></span><br><span class="line">        MHD_get_connection_values(connection, MHD_HEADER_KIND, get_user_agent_callback, &amp;user_agent);</span><br><span class="line"></span><br><span class="line">        uh_urlencode(enc_user_agent, ENC_USER_AGENT, user_agent, <span class="built_in">strlen</span>(user_agent));  <span class="comment">// strlen(NULL)</span></span><br><span class="line">        <span class="comment">// ......</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-2-CVE-2023-38316"><a href="#2-4-2-CVE-2023-38316" class="headerlink" title="2.4.2 CVE-2023-38316"></a>2.4.2 CVE-2023-38316</h4><p>URL <code>unescape</code> 存在命令注入漏洞。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span> unescape(<span class="keyword">void</span> * cls, struct MHD_Connection *c, <span class="keyword">char</span> *src)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">char</span> *unescapecmd;</span><br><span class="line">    <span class="keyword">char</span> *msg;</span><br><span class="line"></span><br><span class="line">    debug(LOG_DEBUG, <span class="string">"Escaped string=%s\n"</span>, src);</span><br><span class="line"></span><br><span class="line">    unescapecmd = safe_calloc(QUERYMAXLEN);</span><br><span class="line">    msg = safe_calloc(QUERYMAXLEN);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 命令注入</span></span><br><span class="line">    <span class="built_in">snprintf</span>(unescapecmd, QUERYMAXLEN, <span class="string">"/usr/lib/opennds/unescape.sh -url \"%s\""</span>, src);</span><br><span class="line">    debug(LOG_DEBUG, <span class="string">"unescapecmd=%s\n"</span>, unescapecmd);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (execute_ret_url_encoded(msg, <span class="keyword">sizeof</span>(msg) - <span class="number">1</span>, unescapecmd) == <span class="number">0</span>) &#123;</span><br><span class="line">        debug(LOG_DEBUG, <span class="string">"Unescaped string=%s\n"</span>, msg);</span><br><span class="line">        <span class="built_in">strcpy</span>(src, msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(unescapecmd);</span><br><span class="line">    <span class="built_in">free</span>(msg);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strlen</span>(src);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-3-CVE-2023-41101-CVE-2023-40465"><a href="#2-4-3-CVE-2023-41101-CVE-2023-40465" class="headerlink" title="2.4.3 CVE-2023-41101 / CVE-2023-40465"></a>2.4.3 CVE-2023-41101 / CVE-2023-40465</h4><p><code>preauthenticated</code> 存在 Query String 解析堆溢出漏洞（老版本是栈溢出漏洞）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">preauthenticated</span><span class="params">(struct MHD_Connection *connection, <span class="keyword">const</span> <span class="keyword">char</span> *url, t_client *client)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    s_config *config = config_get_config();</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *host = config-&gt;gw_address;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *accept = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *redirect_url;</span><br><span class="line">    <span class="keyword">char</span> *query;</span><br><span class="line">    <span class="keyword">char</span> *querystr;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check for preauthdir</span></span><br><span class="line">    <span class="keyword">if</span> (check_authdir_match(url, config-&gt;preauthdir)) &#123;</span><br><span class="line"></span><br><span class="line">        debug(LOG_DEBUG, <span class="string">"preauthdir url detected: %s"</span>, url);</span><br><span class="line">        query = safe_calloc(QUERYMAXLEN);    <span class="comment">// #define QUERYMAXLEN 8192</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!query) &#123;</span><br><span class="line">            ret = send_error(connection, <span class="number">503</span>);</span><br><span class="line">            <span class="built_in">free</span>(query);</span><br><span class="line">            <span class="keyword">return</span> ret;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        get_query(connection, &amp;query, QUERYSEPARATOR);  <span class="comment">// Heap Buffer Overflow</span></span><br><span class="line">        debug(LOG_DEBUG, <span class="string">"preauthenticated: show_preauthpage [%s]"</span>, query);</span><br><span class="line">        ret = show_preauthpage(connection, query);</span><br><span class="line">        <span class="built_in">free</span>(query);</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// save the query or empty string into **query.</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">get_query</span><span class="params">(struct MHD_Connection *connection, <span class="keyword">char</span> **query, <span class="keyword">const</span> <span class="keyword">char</span> *separator)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> element_counter;</span><br><span class="line">    <span class="keyword">char</span> **elements;</span><br><span class="line">    <span class="keyword">char</span> *query_str;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">collect_query</span> <span class="title">collect_query</span>;</span></span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">    <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">    <span class="comment">// length 的长度依赖于 URL Query String 内容</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; element_counter; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!elements[i])</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        length += <span class="built_in">strlen</span>(elements[i]);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span>) <span class="comment">// q=foo&amp;o=bar the '&amp;' need also some space</span></span><br><span class="line">            length++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>, j = <span class="number">0</span>; i &lt; element_counter; i++) &#123;</span><br><span class="line">        <span class="comment">// ......</span></span><br><span class="line">        <span class="built_in">strncpy</span>(*query + j, elements[i], length - j);  <span class="comment">// Heap Buffer Overflow</span></span><br><span class="line">        <span class="comment">// ......</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-4-Root"><a href="#2-4-4-Root" class="headerlink" title="2.4.4 Root"></a>2.4.4 Root</h4><p>作者利用前面的栈溢出漏洞，配合一些其他漏洞实现了设备 Root。</p>
+<h2 id="0x03-HoneyPot"><a href="#0x03-HoneyPot" class="headerlink" title="0x03. HoneyPot"></a>0x03. HoneyPot</h2><p>最后，作者搭建蜜罐收集了一波攻击数据：在各种各样的攻击数据中发现了针对 Sierra Wireless AirLink Gateways 的攻击，但是是直接使用的 Cisco Talos 公布的 PoC，并没有使用 0day 或其他未知漏洞。</p>
+<h2 id="0x04-小结"><a href="#0x04-小结" class="headerlink" title="0x04. 小结"></a>0x04. 小结</h2><p>首先是学习作者的研究思路，其次是了解一些常见的漏洞模式。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请作者喝杯咖啡☕</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.jpg" alt="Ke Liu WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/05/30/ios-device-gps-location-emulation/" rel="next" title="iOS 设备 GPS 位置模拟">
+                <i class="fa fa-chevron-left"></i> iOS 设备 GPS 位置模拟
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.webp" alt="Ke Liu">
+          <p class="site-author-name" itemprop="name">Ke Liu</p>
+           
+              <p class="site-description motion-element" itemprop="description">Independent Security Researcher</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/klotxl404" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-研究思路"><span class="nav-text">0x01. 研究思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-漏洞案例"><span class="nav-text">0x02. 漏洞案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-TinyXML"><span class="nav-text">2.1 TinyXML</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-CVE-2021-42260-CVE-2023-40458"><span class="nav-text">2.1.1 CVE-2021-42260 / CVE-2023-40458</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-CVE-2023-34194-CVE-2023-40462"><span class="nav-text">2.1.2 CVE-2023-34194 / CVE-2023-40462</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-ALEOS"><span class="nav-text">2.2 ALEOS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-CVE-2023-40460"><span class="nav-text">2.2.1 CVE-2023-40460</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-CVE-2018-4063"><span class="nav-text">2.2.2 CVE-2018-4063</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-硬编码问题"><span class="nav-text">2.3 硬编码问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-openNDS"><span class="nav-text">2.4 openNDS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-CVE-2023-38320"><span class="nav-text">2.4.1 CVE-2023-38320</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-CVE-2023-38316"><span class="nav-text">2.4.2 CVE-2023-38316</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-3-CVE-2023-41101-CVE-2023-40465"><span class="nav-text">2.4.3 CVE-2023-41101 / CVE-2023-40465</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-4-Root"><span class="nav-text">2.4.4 Root</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-HoneyPot"><span class="nav-text">0x03. HoneyPot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-小结"><span class="nav-text">0x04. 小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ke Liu</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
