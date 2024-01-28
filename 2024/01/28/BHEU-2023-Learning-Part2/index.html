@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Adobe Reader,CVE-2019-7032,CVE-2019-8199,CVE-2020-3804,CVE-2020-3805,PDF,">
+  <meta name="keywords" content="Fuzzing,Vulnerability,Exploit,漏洞挖掘,漏洞分析,漏洞利用">
 
 
 
@@ -96,20 +96,22 @@
 
 
 
-<meta name="description" content="这次我在 HITB Lockdown Livestream 上发表了题为《Pwning Adobe Reader Multiple Times with Malformed Strings》的演讲，该演讲本来是为 HITB 2020 Amsterdam 准备的，但由于受疫情影响，主办方被迫取消了原来的会议安排，转而在 YouTube 上举办了一次免费的在线会议。">
-<meta name="keywords" content="Adobe Reader,CVE-2019-7032,CVE-2019-8199,CVE-2020-3804,CVE-2020-3805,PDF">
+<meta name="description" content="BlackHat Europe 2023 - LogoFAIL: Security Implications of Image Parsing During System Boot BlackHat USA 2009 - Attacking Intel® BIOS - PDF">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pwning Adobe Reader Multiple Times with Malformed Strings">
-<meta property="og:url" content="http://programlife.net/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/index.html">
+<meta property="og:title" content="BlackHat Europe 2023 议题学习（二）">
+<meta property="og:url" content="http://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/index.html">
 <meta property="og:site_name" content="程序人生">
-<meta property="og:description" content="这次我在 HITB Lockdown Livestream 上发表了题为《Pwning Adobe Reader Multiple Times with Malformed Strings》的演讲，该演讲本来是为 HITB 2020 Amsterdam 准备的，但由于受疫情影响，主办方被迫取消了原来的会议安排，转而在 YouTube 上举办了一次免费的在线会议。">
+<meta property="og:description" content="BlackHat Europe 2023 - LogoFAIL: Security Implications of Image Parsing During System Boot BlackHat USA 2009 - Attacking Intel® BIOS - PDF">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://programlife.net/uploads/202004/hitb-livestream.png">
-<meta property="og:updated_time" content="2020-04-29T02:25:31.000Z">
+<meta property="og:image" content="http://programlife.net/uploads/202401/BMP-Parsing-Integer-Overflow-Exploit.webp">
+<meta property="og:image" content="http://programlife.net/uploads/202401/BMP-Parsing-Buffer-Underflow.webp">
+<meta property="og:image" content="http://programlife.net/uploads/202401/JPEG-Parsing-HT-Memory-Corruption.webp">
+<meta property="og:image" content="http://programlife.net/uploads/202401/PNG-Parsing-Integer-Overflow.webp">
+<meta property="og:updated_time" content="2024-01-28T13:38:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pwning Adobe Reader Multiple Times with Malformed Strings">
-<meta name="twitter:description" content="这次我在 HITB Lockdown Livestream 上发表了题为《Pwning Adobe Reader Multiple Times with Malformed Strings》的演讲，该演讲本来是为 HITB 2020 Amsterdam 准备的，但由于受疫情影响，主办方被迫取消了原来的会议安排，转而在 YouTube 上举办了一次免费的在线会议。">
-<meta name="twitter:image" content="http://programlife.net/uploads/202004/hitb-livestream.png">
+<meta name="twitter:title" content="BlackHat Europe 2023 议题学习（二）">
+<meta name="twitter:description" content="BlackHat Europe 2023 - LogoFAIL: Security Implications of Image Parsing During System Boot BlackHat USA 2009 - Attacking Intel® BIOS - PDF">
+<meta name="twitter:image" content="http://programlife.net/uploads/202401/BMP-Parsing-Integer-Overflow-Exploit.webp">
 
 
 
@@ -138,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://programlife.net/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/">
+  <link rel="canonical" href="http://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/">
 
 
 
 
 
-  <title>Pwning Adobe Reader Multiple Times with Malformed Strings | 程序人生</title>
+  <title>BlackHat Europe 2023 议题学习（二） | 程序人生</title>
   
 
 
@@ -297,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://programlife.net/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ke Liu">
@@ -314,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Pwning Adobe Reader Multiple Times with Malformed Strings</h1>
+          <h1 class="post-title" itemprop="name headline">BlackHat Europe 2023 议题学习（二）</h1>
         
 
         <div class="post-meta">
@@ -326,8 +328,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-29T00:13:37+00:00">
-                2020-04-29
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-01-28T13:33:37+00:00">
+                2024-01-28
               </time>
             
 
@@ -349,8 +351,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vulnerability/" itemprop="url" rel="index">
-                    <span itemprop="name">Vulnerability</span>
+                  <a href="/categories/Conferences/" itemprop="url" rel="index">
+                    <span itemprop="name">Conferences</span>
                   </a>
                 </span>
 
@@ -360,8 +362,8 @@
                 
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vulnerability/Analysis/" itemprop="url" rel="index">
-                    <span itemprop="name">Analysis</span>
+                  <a href="/categories/Conferences/BlackHat/" itemprop="url" rel="index">
+                    <span itemprop="name">BlackHat</span>
                   </a>
                 </span>
 
@@ -397,16 +399,27 @@
       
 
       
-        <p>这次我在 HITB Lockdown Livestream 上发表了题为《<strong>Pwning Adobe Reader Multiple Times with Malformed Strings</strong>》的演讲，该演讲本来是为 HITB 2020 Amsterdam 准备的，但由于受疫情影响，主办方被迫取消了原来的会议安排，转而在 YouTube 上举办了一次免费的在线会议。</p>
+        <p>BlackHat Europe 2023 - <a href="https://www.blackhat.com/eu-23/briefings/schedule/index.html#logofail-security-implications-of-image-parsing-during-system-boot-35042" target="_blank" rel="noopener">LogoFAIL: Security Implications of Image Parsing During System Boot</a></p>
+<p>BlackHat USA 2009 - <a href="https://www.blackhat.com/presentations/bh-usa-09/WOJTCZUK/BHUSA09-Wojtczuk-AtkIntelBios-SLIDES.pdf" target="_blank" rel="noopener">Attacking Intel® BIOS</a> - PDF</p>
 <a id="more"></a>
-<p>这次的议题是我在 ZeroNights 2019 上的演讲《<strong>Two Bytes to Rule Adobe Reader Twice: The Black Magic Behind the Byte Order Mark</strong>》的进一步研究，因此会有接近 40% 的内容是重复的。这次演讲精简了上一次演讲的内容，增加了对 Adobe JavaScript 引擎相关数据结构的分析，同时增加了 2 个新的可利用漏洞；最重要的是，这次我花了不少时间写了一篇非常详细的 Paper，方便感兴趣的同学自行开展漏洞分析工作。</p>
-<p>值得一提的是，这次新增加的 2 个漏洞其实已经存了很久了，而距离上一次演讲已经过去了将近半年的时间，所以如果有人认真研究了我上一次演讲的内容的话，发现这 2 个漏洞也不是什么难事 :-)</p>
-<p>议题文档：</p>
-<ul>
-<li><a href="/uploads/202004/pwning_adobe_reader_multiple_times_with_malformed_strings_slides.pdf">Pwning Adobe Reader Multiple Times with Malformed Strings - Slides</a></li>
-<li><a href="/uploads/202004/pwning_adobe_reader_multiple_times_with_malformed_strings_whitepaper.pdf">Pwning Adobe Reader Multiple Times with Malformed Strings - Paper</a></li>
-</ul>
-<p><img src="/uploads/202004/hitb-livestream.png" alt="HITB Lockdown Livestream 演讲"></p>
+<h2 id="0x01-议题简介"><a href="#0x01-议题简介" class="headerlink" title="0x01. 议题简介"></a>0x01. 议题简介</h2><p>《LogoFAIL: Security Implications of Image Parsing During System Boot》这个议题主要介绍 BIOS 启动时 Logo 图片解析相关的漏洞，顺便提及了 2009 年的一个类似的议题《Attacking Intel® BIOS》，也是 BIOS 启动时 BMP 解析导致的整数溢出漏洞。所以，作者也感叹 History Repeats Itself。</p>
+<p>在漏洞挖掘过程中，攻击面的挖掘是一个很重要的点，如果能找到大家（厂商、安全研究员、攻击者）都没怎么关注过的攻击面，极有可能收获一波 Low Hanging Fruits。</p>
+<h2 id="0x02-Attacking-Intel-BIOS"><a href="#0x02-Attacking-Intel-BIOS" class="headerlink" title="0x02. Attacking Intel BIOS"></a>0x02. Attacking Intel BIOS</h2><h3 id="2-1-研究思路"><a href="#2-1-研究思路" class="headerlink" title="2.1 研究思路"></a>2.1 研究思路</h3><p>更新 BIOS 固件时，固件包必须有合法的数字签名，作者的思路是看看有没有不需要签名的数据，在这部分数据上做研究。而 BIOS 的 Logo 图片便满足这一条件，在启动的早期阶段，图片会被解析和展示，这就来到了经典的文件格式解析问题。</p>
+<h3 id="2-2-漏洞案例"><a href="#2-2-漏洞案例" class="headerlink" title="2.2 漏洞案例"></a>2.2 漏洞案例</h3><p>解析 BMP 图片格式时，存在经典的整数溢出漏洞。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">EFI_STATUS <span class="title">ConvertBmpToGopBlt</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">    <span class="keyword">if</span> (BmpHeader-&gt;CharB != <span class="string">'B'</span> || BmpHeader-&gt;CharM != <span class="string">'M'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> EFI_UNSUPPORTED;</span><br><span class="line">    &#125;</span><br><span class="line">    BltBufferSize = BmpHeader-&gt;PixelWidth * BmpHeader-&gt;PixelHeight</span><br><span class="line">        * <span class="keyword">sizeof</span> (EFI_GRAPHICS_OUTPUT_BLT_PIXEL);</span><br><span class="line">    IsAllocated = FALSE;</span><br><span class="line">    <span class="keyword">if</span> (*GopBlt == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        *GopBltSize = BltBufferSize;</span><br><span class="line">        *GopBlt = EfiLibAllocatePool(*GopBltSize);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为触发了整数溢出，会导致向目标缓冲区写入大量数据，直到访问到未映射的内存页，触发 Page Fault 异常。作者的利用思路是，在溢出的过程中改写 Page Fault Exception Handler，让其跳转到 BMP 图片中的执行 Shellcode。利用思路如下：</p>
+<p><img src="/uploads/202401/BMP-Parsing-Integer-Overflow-Exploit.webp" alt="BMP 解析整数溢出漏洞利用"></p>
+<h2 id="0x03-LogoFAIL"><a href="#0x03-LogoFAIL" class="headerlink" title="0x03. LogoFAIL"></a>0x03. LogoFAIL</h2><p>研究思路和前面是完全一致的，发现 UEFI 固件会解析如下图片格式：BMP、GIF、PNG、JPEG、PCX 以及 TGA。作者在仿真的环境下做了一些基于 LibAFL 的 Fuzzing。</p>
+<h3 id="3-1-漏洞案例"><a href="#3-1-漏洞案例" class="headerlink" title="3.1 漏洞案例"></a>3.1 漏洞案例</h3><p>BMP 解析缓冲区下溢漏洞。</p>
+<p><img src="/uploads/202401/BMP-Parsing-Buffer-Underflow.webp" alt="BMP 解析缓冲区下溢漏洞"></p>
+<p>JPEG 解析内存破坏漏洞（未校验 Huffman Table 个数）。</p>
+<p><img src="/uploads/202401/JPEG-Parsing-HT-Memory-Corruption.webp" alt="JPEG 解析内存破坏漏洞"></p>
+<p>PNG 解析整数溢出漏洞。</p>
+<p><img src="/uploads/202401/PNG-Parsing-Integer-Overflow.webp" alt="PNG 解析整数溢出漏洞"></p>
+<h3 id="3-2-种子文件"><a href="#3-2-种子文件" class="headerlink" title="3.2 种子文件"></a>3.2 种子文件</h3><p>PCX 是一种上古时期的文件格式，现在基本没人用了，作者在 Internet Archive 上找到了一个压缩包下载连接。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://archive.org/details/Universe_Of_PCX_1700_PCX_Files</span><br></pre></td></tr></table></figure>
+<p>笔者在过去的工作中也做过 PCX Fuzzing，不过都是 Google 上找的少量零星的样本🤣。</p>
+<h2 id="0x04-小结"><a href="#0x04-小结" class="headerlink" title="0x04. 小结"></a>0x04. 小结</h2><p>攻击面挖掘是重点，老议题也值得回顾（可以开阔思路）。当然，LogoFAIL 中的研究也是有较高门槛的，在当前的国内环境下，一般的公司很可能是不会给这个时间去研究的。</p>
 
       
     </div>
@@ -446,22 +459,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Adobe-Reader/" rel="tag"># Adobe Reader</a>
-          
-            <a href="/tags/CVE-2019-7032/" rel="tag"># CVE-2019-7032</a>
-          
-            <a href="/tags/CVE-2019-8199/" rel="tag"># CVE-2019-8199</a>
-          
-            <a href="/tags/CVE-2020-3804/" rel="tag"># CVE-2020-3804</a>
-          
-            <a href="/tags/CVE-2020-3805/" rel="tag"># CVE-2020-3805</a>
-          
-            <a href="/tags/PDF/" rel="tag"># PDF</a>
-          
-        </div>
-      
 
       
       
@@ -471,8 +468,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/23/windows-debugging-symbols-proxy-rules/" rel="next" title="Windows 调试符号下载代理配置">
-                <i class="fa fa-chevron-left"></i> Windows 调试符号下载代理配置
+              <a href="/2024/01/06/BHEU-2023-Learning-Part1/" rel="next" title="BlackHat Europe 2023 议题学习（一）">
+                <i class="fa fa-chevron-left"></i> BlackHat Europe 2023 议题学习（一）
               </a>
             
           </div>
@@ -480,10 +477,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/" rel="prev" title="VMware Workstation Incompatible with Device/Credential Guard">
-                VMware Workstation Incompatible with Device/Credential Guard <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -535,8 +528,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/uploads/avatar.webp" alt="Ke Liu">
           <p class="site-author-name" itemprop="name">Ke Liu</p>
@@ -616,6 +618,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-议题简介"><span class="nav-text">0x01. 议题简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-Attacking-Intel-BIOS"><span class="nav-text">0x02. Attacking Intel BIOS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-研究思路"><span class="nav-text">2.1 研究思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-漏洞案例"><span class="nav-text">2.2 漏洞案例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-LogoFAIL"><span class="nav-text">0x03. LogoFAIL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-漏洞案例"><span class="nav-text">3.1 漏洞案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-种子文件"><span class="nav-text">3.2 种子文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-小结"><span class="nav-text">0x04. 小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
