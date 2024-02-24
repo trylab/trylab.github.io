@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="漏洞案例研究,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="程序人生" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="最近 ConnectWise ScreenConnect 爆了 2 个漏洞（CVE-2024-1709 和 CVE-2024-1708），其中 CVE-2024-1709 是一个 Authentication Bypass 漏洞，CVSS 评分 10 分。Sophos 安全团队表示，勤劳的攻击者已经在第一时间利用这些漏洞来投递勒索软件。本文简单整理相关信息，作为漏洞案例研究系列的第一篇文章。">
+<meta name="keywords" content="漏洞案例研究">
+<meta property="og:type" content="article">
+<meta property="og:title" content="漏洞案例研究 ConnectWise ScreenConnect Authentication Bypass">
+<meta property="og:url" content="http://programlife.net/2024/02/25/ConnectWise-ScreenConnect-Authentication-Bypass/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="最近 ConnectWise ScreenConnect 爆了 2 个漏洞（CVE-2024-1709 和 CVE-2024-1708），其中 CVE-2024-1709 是一个 Authentication Bypass 漏洞，CVSS 评分 10 分。Sophos 安全团队表示，勤劳的攻击者已经在第一时间利用这些漏洞来投递勒索软件。本文简单整理相关信息，作为漏洞案例研究系列的第一篇文章。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2024-02-24T16:25:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="漏洞案例研究 ConnectWise ScreenConnect Authentication Bypass">
+<meta name="twitter:description" content="最近 ConnectWise ScreenConnect 爆了 2 个漏洞（CVE-2024-1709 和 CVE-2024-1708），其中 CVE-2024-1709 是一个 Authentication Bypass 漏洞，CVSS 评分 10 分。Sophos 安全团队表示，勤劳的攻击者已经在第一时间利用这些漏洞来投递勒索软件。本文简单整理相关信息，作为漏洞案例研究系列的第一篇文章。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://programlife.net/2024/02/25/ConnectWise-ScreenConnect-Authentication-Bypass/">
+
+
+
+
+
+  <title>漏洞案例研究 ConnectWise ScreenConnect Authentication Bypass | 程序人生</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序人生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Fuzzing / Vulnerability / Exploit</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://programlife.net/2024/02/25/ConnectWise-ScreenConnect-Authentication-Bypass/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ke Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.webp">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">漏洞案例研究 ConnectWise ScreenConnect Authentication Bypass</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-02-25T13:33:37+00:00">
+                2024-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerability/" itemprop="url" rel="index">
+                    <span itemprop="name">Vulnerability</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerability/Analysis/" itemprop="url" rel="index">
+                    <span itemprop="name">Analysis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近 ConnectWise ScreenConnect 爆了 2 个漏洞（CVE-2024-1709 和 CVE-2024-1708），其中 <strong>CVE-2024-1709</strong> 是一个 Authentication Bypass 漏洞，CVSS 评分 10 分。Sophos 安全团队表示，勤劳的攻击者已经在第一时间利用这些漏洞来投递勒索软件。本文简单整理相关信息，作为漏洞案例研究系列的第一篇文章。</p>
+<a id="more"></a>
+<h2 id="0x01-为什么在这水文章"><a href="#0x01-为什么在这水文章" class="headerlink" title="0x01. 为什么在这水文章"></a>0x01. 为什么在这水文章</h2><p>笔者最近的工作方向开始转向产品安全蓝军，当前主要工作包括：代码审计、安全攻防、垂类恶意软件检测。</p>
+<p>一方面，代码审计和之前做二进制漏洞挖掘在思路上比较类似，最重要的熟知各种<strong>漏洞模式</strong>（或者说攻击面）。就好比 Integer Overflow，挖掘思路就是找到各个内存分配点，然后看参数是否是经过某些算术运算而来，最后是这些参数是否是攻击者可以控制的，其实也就是污点分析的思路。也不难理解<strong>漏洞模式</strong>其实类似<strong>设计模式</strong>，是一套总结出来的方法论。</p>
+<p>另一方面，真正的 RCE 漏洞往往是攻击者最喜欢的漏洞，比如本文提到的 ConnectWise ScreenConnect Authentication Bypass 漏洞 CVE-2024-1709，以及去年还算比较火的 Citrix Bleed 漏洞 CVE-2023-4966，都被攻击者用来投递勒索软件，在 ATT&amp;CK 框架中被归类为 <strong>Initial Access</strong>。而在黑市上，就有专门从事这类操作的组织，被称之为 <strong>Initial Access Broker</strong>（IAB），他们利用漏洞或者钓鱼等手段来获取各种系统的权限，然后将权限倒卖给其他组织（比如勒索软件团伙）。</p>
+<p>鉴于此，笔者决定对这类漏洞进行简单的分析、整理和归类，以便日后在工作中作为参考。</p>
+<h2 id="0x02-CVE-2024-1709"><a href="#0x02-CVE-2024-1709" class="headerlink" title="0x02. CVE-2024-1709"></a>0x02. CVE-2024-1709</h2><p>在漏洞模式上，暂且将这个漏洞归类为 Setup Wizard 类型。</p>
+<h3 id="2-1-漏洞原理"><a href="#2-1-漏洞原理" class="headerlink" title="2.1 漏洞原理"></a>2.1 漏洞原理</h3><p>Huntress 安全团队通过补丁对比分析，给出了漏洞的细节信息。</p>
+<p>首先是 <code>ScreenConnect\SetupWizard.aspx</code> 的变化：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>a2</span><br><span class="line">&gt; &lt;%@ Implements Interface=<span class="string">"ScreenConnect.ISetupHandler"</span> %&gt;</span><br><span class="line"><span class="number">5</span>a7,<span class="number">14</span></span><br><span class="line">&gt;</span><br><span class="line">&gt;     <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnInit</span>(<span class="params">EventArgs e</span>)</span></span><br><span class="line"><span class="function">&gt;</span>     &#123;</span><br><span class="line">&gt;         <span class="keyword">base</span>.OnInit(e);</span><br><span class="line">&gt;</span><br><span class="line">&gt;         <span class="keyword">if</span> (SetupModule.IsSetup)</span><br><span class="line">&gt;             <span class="keyword">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="string">"Already setup"</span>);</span><br><span class="line">&gt;     &#125;</span><br></pre></td></tr></table></figure>
+<p>此外，<code>ScreenConnect\Bin\ScreenConnect.Web.dll</code> 中，<code>ScreenConnect.SetupModule</code> 中 <code>OnBeginRequest</code> 变成了 <code>OnPostMapRequestHandler</code>，如下所示：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnPostMapRequestHandler</span>(<span class="params"><span class="keyword">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HttpContext context = ((HttpApplication)sender).Context;</span><br><span class="line">    <span class="keyword">string</span> text = context.Response.ApplyAppPathModifier(ConfigurationCache.SetupPage);</span><br><span class="line">    <span class="keyword">bool</span> flag = context.Handler <span class="keyword">is</span> ISetupHandler || <span class="comment">// --&gt; 新增条件</span></span><br><span class="line">                <span class="keyword">string</span>.Equals(context.Request.Path, text, StringComparison.OrdinalIgnoreCase); <span class="comment">// --&gt; 之前可绕过</span></span><br><span class="line">    <span class="keyword">if</span> (!ConfigurationCache.IsSetup)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!ConfigurationCache.AllowRemoteSetup &amp;&amp; !context.Request.IsLocal)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> HttpException(<span class="number">403</span>, <span class="string">"Application is in setup mode and is only accessible from local machine."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!flag &amp;&amp; Regex.IsMatch(context.Request.Path, ConfigurationCache.SetupRedirectFilter))</span><br><span class="line">        &#123;</span><br><span class="line">            context.Response.Redirect(text);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (flag)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (ConfigurationCache.AlreadySetupPage == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> HttpException(<span class="number">403</span>, <span class="string">"Application is already setup."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">string</span> url = context.Response.ApplyAppPathModifier(ConfigurationCache.AlreadySetupPage);</span><br><span class="line">        context.Response.Redirect(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，对于 <code>SetupWizard.aspx</code> 的访问，上面这段代码原本已经有了相关检查逻辑，但是对 URL Path 的判断在旧版本中是可以绕过的。因为 .NET 有个奇怪的特性：请求的 URL Path 后面竟然还可以附加额外的信息！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">URL: http://www.contoso.com/virdir/page.html/tail</span><br><span class="line">FilePath: /virdir/page.html</span><br><span class="line">PathInfo: /tail</span><br><span class="line">Path: FilePath + PathInfo = /virdir/page.html/tail</span><br></pre></td></tr></table></figure>
+<p>也就是说，<code>context.Request.Path</code> 可以是 <code>/SetupWizard.aspx/literallyanything</code>，因此访问 <code>/SetupWizard.aspx/</code> 即可触发漏洞。在这个页面可以重新设置管理员账号密码，之后直接重置和覆盖原有的数据库。</p>
+<h3 id="2-2-类似漏洞"><a href="#2-2-类似漏洞" class="headerlink" title="2.2 类似漏洞"></a>2.2 类似漏洞</h3><p><a href="https://blog.includesecurity.com/2021/09/drive-by-compromise-a-tale-of-four-routers/" target="_blank" rel="noopener">Drive-By Compromise: A Tale Of Four Wifi Routers</a> 给出了一个路由器上的类似漏洞：路由器初始化设置页面（Setup Wizard）在已经设置过的情况下，无需授权仍然可以再次访问，因此可以通过钓鱼来实现管理员账号重置，比如受害者访问攻击者控制的网页时自动发送如下 HTTP 请求。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /cgi-bin/login.cgi HTTP/1.1</span><br><span class="line">Host: 192.168.10.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"><span class="tag">&lt;<span class="name">HTTP</span> <span class="attr">headers</span> <span class="attr">redacted</span> <span class="attr">for</span> <span class="attr">brevity</span>&gt;</span></span><br><span class="line"></span><br><span class="line">page=sysinit&amp;newpass=<span class="tag">&lt;<span class="name">attacker-supplied</span> <span class="attr">password</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://www.tenable.com/security/research/tra-2021-54" target="_blank" rel="noopener">Trendnet AC2600 TEW-827DRU Multiple Vulnerabilities</a> 也有一个 Setup Wizard 相关的漏洞案例：</p>
+<blockquote>
+<p><strong>Information Disclosure via Setup Wizard -</strong> <strong>CVE-2021-20150</strong></p>
+<p>Authentication can be bypassed and a user may view information as Admin by manually browsing to the setup wizard and forcing it to redirect to the desired page. The following is an example request:</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST /apply_sec.cgi HTTP/1.1</span><br><span class="line">Host: 192.168.10.1</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0) Gecko/20100101 Firefox/91.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,/;q=0.8</span><br><span class="line">Accept-Language: en-US,en;q=0.5</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 107</span><br><span class="line">Origin: http://192.168.10.1</span><br><span class="line">Connection: close</span><br><span class="line">Referer: http://192.168.10.1/setup_wizard.asp</span><br><span class="line">Cookie: compact_display_state=false</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line"></span><br><span class="line">action=setup_wizard_cancel&amp;html_response_page=client_status.asp&amp;html_response_return_page=client_status.asp</span><br></pre></td></tr></table></figure>
+<p>通过 Setup Wizard 实现未授权访问特定页面。</p>
+<h2 id="0x03-CVE-2024-1708"><a href="#0x03-CVE-2024-1708" class="headerlink" title="0x03. CVE-2024-1708"></a>0x03. CVE-2024-1708</h2><p>这是一个 Zip 解压场景下的路径穿越漏洞。</p>
+<p><code>ScreenConnect.Core.dll</code> 补丁对比：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11057</span>c11057</span><br><span class="line">&lt;         <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ExtractAllEntries</span>(<span class="params"><span class="keyword">string</span> basePath</span>)</span></span><br><span class="line"><span class="function">---</span></span><br><span class="line"><span class="function">&gt;         <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ExtractAllEntries</span>(<span class="params"><span class="keyword">string</span> basePath, <span class="keyword">string</span> requireEntriesInMoreStringentPath = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function">11062c11062</span></span><br><span class="line"><span class="function">&lt;                 FileSystemExtensions.<span class="title">DemandInParentPath</span>(<span class="params">basePath, text</span>)</span>;</span><br><span class="line">---</span><br><span class="line">&gt;                 FileSystemExtensions.DemandInParentPath(requireEntriesInMoreStringentPath ?? basePath, text);</span><br></pre></td></tr></table></figure>
+<p><code>ScreenConnect.Server.dll</code> 补丁对比：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">8392</span>a8393</span><br><span class="line">&gt;             DirectoryInfo extensionsDirectory = GetExtensionsDirectory();</span><br><span class="line"><span class="number">8398</span>c8399</span><br><span class="line">&lt;             zipFile.ExtractAllEntries(GetExtensionsDirectory().FullName);</span><br><span class="line">---</span><br><span class="line">&gt;             zipFile.ExtractAllEntries(extensionsDirectory.FullName, extensionDirectory.FullName);</span><br></pre></td></tr></table></figure>
+<p>利用这个漏洞可以实现一层目录穿越，即插件 X 的文件，可以解压到插件 Y 的目录下，但不会穿越出大的插件目录 <code>ScreenConnect\App_Extensions</code>。</p>
+<h2 id="0x04-小结"><a href="#0x04-小结" class="headerlink" title="0x04. 小结"></a>0x04. 小结</h2><p>两类漏洞：</p>
+<ul>
+<li>Setup Wizard 未授权访问漏洞</li>
+<li>Zip 解压路径穿越漏洞</li>
+</ul>
+<h2 id="0x05-参考文档"><a href="#0x05-参考文档" class="headerlink" title="0x05. 参考文档"></a>0x05. 参考文档</h2><ol>
+<li><a href="https://news.sophos.com/en-us/2024/02/23/connectwise-screenconnect-attacks-deliver-malware/" target="_blank" rel="noopener">https://news.sophos.com/en-us/2024/02/23/connectwise-screenconnect-attacks-deliver-malware/</a></li>
+<li><a href="https://attack.mitre.org/tactics/TA0001/" target="_blank" rel="noopener">https://attack.mitre.org/tactics/TA0001/</a></li>
+<li><a href="https://www.huntress.com/blog/a-catastrophe-for-control-understanding-the-screenconnect-authentication-bypass" target="_blank" rel="noopener">https://www.huntress.com/blog/a-catastrophe-for-control-understanding-the-screenconnect-authentication-bypass</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/api/system.web.httprequest.path?view=netframework-4.8.1" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/dotnet/api/system.web.httprequest.path?view=netframework-4.8.1</a></li>
+<li><a href="https://blog.includesecurity.com/2021/09/drive-by-compromise-a-tale-of-four-routers/" target="_blank" rel="noopener">https://blog.includesecurity.com/2021/09/drive-by-compromise-a-tale-of-four-routers/</a></li>
+<li><a href="https://www.tenable.com/security/research/tra-2021-54" target="_blank" rel="noopener">https://www.tenable.com/security/research/tra-2021-54</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请作者喝杯咖啡☕</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.jpg" alt="Ke Liu WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/漏洞案例研究/" rel="tag"># 漏洞案例研究</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/01/28/BHEU-2023-Learning-Part2/" rel="next" title="BlackHat Europe 2023 议题学习（二）">
+                <i class="fa fa-chevron-left"></i> BlackHat Europe 2023 议题学习（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.webp" alt="Ke Liu">
+          <p class="site-author-name" itemprop="name">Ke Liu</p>
+           
+              <p class="site-description motion-element" itemprop="description">Independent Security Researcher</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/klotxl404" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-为什么在这水文章"><span class="nav-text">0x01. 为什么在这水文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-CVE-2024-1709"><span class="nav-text">0x02. CVE-2024-1709</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-漏洞原理"><span class="nav-text">2.1 漏洞原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-类似漏洞"><span class="nav-text">2.2 类似漏洞</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-CVE-2024-1708"><span class="nav-text">0x03. CVE-2024-1708</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-小结"><span class="nav-text">0x04. 小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-参考文档"><span class="nav-text">0x05. 参考文档</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ke Liu</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
