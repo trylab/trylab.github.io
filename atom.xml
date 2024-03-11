@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://programlife.net/"/>
-  <updated>2024-03-03T13:49:59.000Z</updated>
+  <updated>2024-03-11T14:01:56.000Z</updated>
   <id>http://programlife.net/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>漏洞案例研究 CVE-2023-4966 Citrix Bleed 信息泄露漏洞</title>
+    <link href="http://programlife.net/2024/03/11/CVE-2023-4966-Citrix-Bleed/"/>
+    <id>http://programlife.net/2024/03/11/CVE-2023-4966-Citrix-Bleed/</id>
+    <published>2024-03-11T13:33:37.000Z</published>
+    <updated>2024-03-11T14:01:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>Citrix Bleed 漏洞（CVE-2023-4966）相关的几篇参考文档</p></blockquote><a id="more"></a><p>Citrix Bleed 漏洞，即 CVE-2023-4966，算是 2023 年比较知名的漏洞了，被 DARKNAVY 评为 <a href="https://mp.weixin.qq.com/s/YO55cT4jjqFukCdAWxkNiQ?forceh5=1" target="_blank" rel="noopener">2023 年度最费钱的漏洞</a>之一（另一个漏洞是 CVE-2023-34362），如果你没有听说过这个漏洞，可以了解下相关的背景信息。</p><p><strong>漏洞的原理非常简单</strong>：误用 <code>snprintf</code> 导致信息泄露，攻击者可以在未授权的情况下远程触发漏洞，并且可以接收到通过 OOB Read 泄露的进程内存内容，模式上类似 Heart Bleed 漏洞。</p><p>对于漏洞细节，这里不做赘述，有兴趣的读者可以阅读下面几篇文章（因为互联网上的链接总会因为各种原因而不再有效，所以我给他们做了一个备份）：</p><ol><li><a href="https://securitylab.github.com/research/librelp-buffer-overflow-cve-2018-1000140/" target="_blank" rel="noopener">Librelp buffer overflow fix (cve-2018-1000140) - a collaboration between Adiscon and Semmle</a> / <a href="https://web.archive.org/web/20240311130505/https://securitylab.github.com/research/librelp-buffer-overflow-cve-2018-1000140/" target="_blank" rel="noopener">备份存档</a></li><li><a href="https://securitylab.github.com/research/cve-2018-18820-snprintf-vulnerability-icecast/" target="_blank" rel="noopener">CVE-2018-18820: Snprintf Vulnerability in Icecast</a> / <a href="https://web.archive.org/web/20240311130514/https://securitylab.github.com/research/cve-2018-18820-snprintf-vulnerability-icecast/" target="_blank" rel="noopener">备份存档</a></li><li><a href="https://www.assetnote.io/resources/research/citrix-bleed-leaking-session-tokens-with-cve-2023-4966" target="_blank" rel="noopener">Citrix Bleed: Leaking Session Tokens with CVE-2023-4966</a> / <a href="https://web.archive.org/web/20240311130513/https://www.assetnote.io/resources/research/citrix-bleed-leaking-session-tokens-with-cve-2023-4966" target="_blank" rel="noopener">备份存档</a></li><li><a href="https://paper.seebug.org/269/" target="_blank" rel="noopener">实战栈溢出：三个漏洞搞定一台路由器</a> / <a href="https://web.archive.org/web/20170610035343/http://paper.seebug.org/269/" target="_blank" rel="noopener">备份存档</a></li><li><a href="https://bestwing.me/CVE-2023-4966-Citrix-memory-leak.html" target="_blank" rel="noopener">CVE-2023-4966 citrix 内存泄漏</a> / <a href="https://web.archive.org/web/20240311132549/https://bestwing.me/CVE-2023-4966-Citrix-memory-leak.html" target="_blank" rel="noopener">备份存档</a></li></ol><p>解释一下引用上面几篇文章的原因：</p><ol><li>GitHub Security Lab 的文章，很好的解释了与 <code>snprintf</code> 有关的 <code>2</code> 个注意事项</li><li>GitHub Security Lab 的文章，和前一篇差不多</li><li>Assetnote 的文章，可能是最早公开 Citrix Bleed 细节的文章（<strong>未考证</strong>）</li><li>长亭科技的一篇老文章，不仅说明了历史在不断重复，也说明了历史惊人的相似性</li><li>长亭科技一名员工的博客，引用这篇文章单纯是因为他也提到长亭的前一篇文章</li></ol><p><strong>如果你想复现这个漏洞，但是由于客观原因无法顺利搭建复现环境，可以联系我免费获取 Tips，节约时间和金钱 :P</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Citrix Bleed 漏洞（CVE-2023-4966）相关的几篇参考文档&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+    
+      <category term="Analysis" scheme="http://programlife.net/categories/Vulnerability/Analysis/"/>
+    
+    
+      <category term="漏洞案例研究" scheme="http://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>Living Off the Land Techniques</title>
@@ -552,32 +578,6 @@
       <category term="setjmp" scheme="http://programlife.net/tags/setjmp/"/>
     
       <category term="longjmp" scheme="http://programlife.net/tags/longjmp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello 2019</title>
-    <link href="http://programlife.net/2019/01/01/hello-2019/"/>
-    <id>http://programlife.net/2019/01/01/hello-2019/</id>
-    <published>2019-01-01T15:12:44.000Z</published>
-    <updated>2019-01-01T15:34:39.040Z</updated>
-    
-    <content type="html"><![CDATA[<p>May you always have beginner’s mind.</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;May you always have beginner’s mind.&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-      <category term="Default" scheme="http://programlife.net/categories/Default/"/>
-    
-    
-      <category term="New Year" scheme="http://programlife.net/tags/New-Year/"/>
     
   </entry>
   
