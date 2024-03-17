@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://programlife.net/"/>
-  <updated>2024-03-17T03:27:22.000Z</updated>
+  <updated>2024-03-17T08:05:59.000Z</updated>
   <id>http://programlife.net/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://programlife.net/2024/03/17/cve-2021-4034-pwnkit-polkit-pkexec-lpe/"/>
     <id>http://programlife.net/2024/03/17/cve-2021-4034-pwnkit-polkit-pkexec-lpe/</id>
     <published>2024-03-17T13:33:37.000Z</published>
-    <updated>2024-03-17T03:27:22.000Z</updated>
+    <updated>2024-03-17T08:05:59.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>CVE-2021-4034 PwnKit PolKit pkexec Local Privilege Escalation Vulnerability</p></blockquote><a id="more"></a><p>CVE-2021-4034 是 Qualys Research Team 发现的位于 PolKit pkexec 中的本地提权漏洞，漏洞取名 PwnKit，原始报告可以参考 <a href="https://www.qualys.com/2022/01/25/cve-2021-4034/pwnkit.txt" target="_blank" rel="noopener">pwnkit: Local Privilege Escalation in polkit’s pkexec (CVE-2021-4034)</a> / <a href="https://web.archive.org/web/20240211132200/https://www.qualys.com/2022/01/25/cve-2021-4034/pwnkit.txt" target="_blank" rel="noopener">Wayback Machine</a>。</p><p>该漏洞获得了 <a href="https://pwnies.com/category/nominations/?y=2022" target="_blank" rel="noopener">Pwnie Awards / Epic Achievement</a> 提名：</p><blockquote><ul><li>THAT VIASAT THINGIE</li><li>Yuki Chen’s Windows Server-Side RCE Bugs</li><li>pwnkit: Local Privilege Escalation in polkit’s pkexec (CVE-2021-4034)</li></ul></blockquote><p>这个漏洞的利用非常巧妙，有兴趣可以看下 <a href="https://xz.aliyun.com/t/10870?time__1311=mq%2BxB7W%3DD%3DDsD7Ce0%3DeY0KKqRDcQBxYwD" target="_blank" rel="noopener">先知社区 - CVE-2021-4034 深入分析及漏洞复现</a> / <a href="https://web.archive.org/web/20240317025711/https://xz.aliyun.com/t/10870?time__1311=mq%2BxB7W%3DD%3DDsD7Ce0%3DeY0KKqRDcQBxYwD" target="_blank" rel="noopener">Wayback Machine</a>，这篇文章介绍的比较全面（包括漏洞原理、<code>ld.so</code> 处理 SUID-root 程序的危险环境变量、Exploit 实现细节上需要注意的问题等）。</p><p><strong>漏洞利用流程</strong>：</p><ol><li><code>execve</code> 执行 PolKit pkexec 时，让 <code>argv</code> 为空数组（长度为 <code>0</code>）</li><li>PolKit pkexec <code>argv[1]</code> 越界访问（Out-of-Bounds Read 到 <code>envp[0]</code>）</li><li>相对路径扩展（通过 <code>execve</code> 控制 <code>PATH</code> 环境变量，对 <code>envp[0]</code> 实施路径扩展）</li><li><code>argv[1]</code> 越界写入（Out-of-Bounds Write），实现改写 <code>envp[0]</code>，达到注入任意环境变量的目的</li><li>利用上一步注入 <code>GCONV_PATH</code> 环境变量，配合 glib 的 <code>g_printerr</code>，在进行字符集转换时实现加载自定义 so 动态库</li><li>完成提权操作</li></ol><p><strong>漏洞利用注意事项</strong>：<code>setenv</code> <strong>可能</strong>会导致环境变量数组 <code>envp</code> 发生位置迁移</p><p><strong>漏洞修复</strong>：除了对 pkexec 本身进行修复外，操作系统层面可能不再支持 <code>execve(path, {NULL}, envp)</code> 这种操作，或者说，至少会对这种特殊的 <code>argv</code> 进行处理，比如转换成 <code>{&quot;&quot;, NULL}</code>（<code>argc</code> 仍然为 <code>0</code>），这样即使存在类似 pkexec 这样的漏洞，也无法进行利用了。</p>]]></content>
     
@@ -47,6 +47,8 @@
       <category term="GCONV_PATH" scheme="http://programlife.net/tags/GCONV-PATH/"/>
     
       <category term="LPE" scheme="http://programlife.net/tags/LPE/"/>
+    
+      <category term="Pwnie Awards" scheme="http://programlife.net/tags/Pwnie-Awards/"/>
     
   </entry>
   
