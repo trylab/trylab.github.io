@@ -16,21 +16,14 @@
   </url>
   
   <url>
-    <loc>http://programlife.net/2024/02/25/ConnectWise-ScreenConnect-Authentication-Bypass/</loc>
-    
-    <lastmod>2024-03-17T02:37:05.616Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://programlife.net/2024/03/16/Linux-Empty-Search-Path-Vulnerability/</loc>
-    
-    <lastmod>2024-03-17T02:37:05.616Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/</loc>
+    
+    <lastmod>2024-03-17T02:37:05.616Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://programlife.net/categories/index.html</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
@@ -65,6 +58,13 @@
   </url>
   
   <url>
+    <loc>http://programlife.net/about/index.html</loc>
+    
+    <lastmod>2024-03-17T02:37:05.616Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://programlife.net/2024/03/03/living-off-the-land-techniques/</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
@@ -93,7 +93,7 @@
   </url>
   
   <url>
-    <loc>http://programlife.net/2024/03/11/CVE-2023-4966-Citrix-Bleed/</loc>
+    <loc>http://programlife.net//404.html</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
@@ -163,30 +163,30 @@
   </url>
   
   <url>
-    <loc>http://programlife.net//404.html</loc>
-    
-    <lastmod>2024-03-17T02:37:05.616Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://programlife.net/about/index.html</loc>
-    
-    <lastmod>2024-03-17T02:37:05.616Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://programlife.net/categories/index.html</loc>
-    
-    <lastmod>2024-03-17T02:37:05.616Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://programlife.net/tags/index.html</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://programlife.net/2024/02/25/connectwise-screenconnect-authentication-bypass/</loc>
+    
+    <lastmod>2024-03-17T02:37:05.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://programlife.net/2024/03/16/linux-empty-search-path-vulnerability/</loc>
+    
+    <lastmod>2024-03-17T02:37:05.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://programlife.net/2024/03/11/cve-2023-4966-citrix-bleed/</loc>
+    
+    <lastmod>2024-03-17T02:37:05.000Z</lastmod>
     
   </url>
   
