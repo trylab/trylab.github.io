@@ -5,9 +5,9 @@
   <subtitle>Fuzzing / Vulnerability / Exploit</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://programlife.net/"/>
+  <link href="https://programlife.net/"/>
   <updated>2024-03-17T08:05:59.000Z</updated>
-  <id>http://programlife.net/</id>
+  <id>https://programlife.net/</id>
   
   <author>
     <name>Ke Liu</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>CVE-2021-4034 PwnKit PolKit pkexec 本地提权漏洞</title>
-    <link href="http://programlife.net/2024/03/17/cve-2021-4034-pwnkit-polkit-pkexec-lpe/"/>
-    <id>http://programlife.net/2024/03/17/cve-2021-4034-pwnkit-polkit-pkexec-lpe/</id>
+    <link href="https://programlife.net/2024/03/17/cve-2021-4034-pwnkit-polkit-pkexec-lpe/"/>
+    <id>https://programlife.net/2024/03/17/cve-2021-4034-pwnkit-polkit-pkexec-lpe/</id>
     <published>2024-03-17T13:33:37.000Z</published>
     <updated>2024-03-17T08:05:59.000Z</updated>
     
@@ -33,29 +33,29 @@
     
     </summary>
     
-      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
     
-      <category term="Linux" scheme="http://programlife.net/categories/Vulnerability/Linux/"/>
+      <category term="Linux" scheme="https://programlife.net/categories/Vulnerability/Linux/"/>
     
     
-      <category term="漏洞案例研究" scheme="http://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
+      <category term="漏洞案例研究" scheme="https://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
     
-      <category term="PolKit" scheme="http://programlife.net/tags/PolKit/"/>
+      <category term="PolKit" scheme="https://programlife.net/tags/PolKit/"/>
     
-      <category term="ld.so" scheme="http://programlife.net/tags/ld-so/"/>
+      <category term="ld.so" scheme="https://programlife.net/tags/ld-so/"/>
     
-      <category term="GCONV_PATH" scheme="http://programlife.net/tags/GCONV-PATH/"/>
+      <category term="GCONV_PATH" scheme="https://programlife.net/tags/GCONV-PATH/"/>
     
-      <category term="LPE" scheme="http://programlife.net/tags/LPE/"/>
+      <category term="LPE" scheme="https://programlife.net/tags/LPE/"/>
     
-      <category term="Pwnie Awards" scheme="http://programlife.net/tags/Pwnie-Awards/"/>
+      <category term="Pwnie Awards" scheme="https://programlife.net/tags/Pwnie-Awards/"/>
     
   </entry>
   
   <entry>
     <title>Linux Empty Search Path Vulnerability</title>
-    <link href="http://programlife.net/2024/03/16/linux-empty-search-path-vulnerability/"/>
-    <id>http://programlife.net/2024/03/16/linux-empty-search-path-vulnerability/</id>
+    <link href="https://programlife.net/2024/03/16/linux-empty-search-path-vulnerability/"/>
+    <id>https://programlife.net/2024/03/16/linux-empty-search-path-vulnerability/</id>
     <published>2024-03-16T13:33:37.000Z</published>
     <updated>2024-03-17T02:37:05.000Z</updated>
     
@@ -69,23 +69,23 @@
     
     </summary>
     
-      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
     
-      <category term="Linux" scheme="http://programlife.net/categories/Vulnerability/Linux/"/>
+      <category term="Linux" scheme="https://programlife.net/categories/Vulnerability/Linux/"/>
     
     
-      <category term="漏洞案例研究" scheme="http://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
+      <category term="漏洞案例研究" scheme="https://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
     
-      <category term="ld.so" scheme="http://programlife.net/tags/ld-so/"/>
+      <category term="ld.so" scheme="https://programlife.net/tags/ld-so/"/>
     
-      <category term="LD_LIBRARY_PATH" scheme="http://programlife.net/tags/LD-LIBRARY-PATH/"/>
+      <category term="LD_LIBRARY_PATH" scheme="https://programlife.net/tags/LD-LIBRARY-PATH/"/>
     
   </entry>
   
   <entry>
     <title>漏洞案例研究 CVE-2023-4966 Citrix Bleed 信息泄露漏洞</title>
-    <link href="http://programlife.net/2024/03/11/cve-2023-4966-citrix-bleed/"/>
-    <id>http://programlife.net/2024/03/11/cve-2023-4966-citrix-bleed/</id>
+    <link href="https://programlife.net/2024/03/11/cve-2023-4966-citrix-bleed/"/>
+    <id>https://programlife.net/2024/03/11/cve-2023-4966-citrix-bleed/</id>
     <published>2024-03-11T13:33:37.000Z</published>
     <updated>2024-03-17T02:37:05.000Z</updated>
     
@@ -99,23 +99,23 @@
     
     </summary>
     
-      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
     
-      <category term="Analysis" scheme="http://programlife.net/categories/Vulnerability/Analysis/"/>
+      <category term="Analysis" scheme="https://programlife.net/categories/Vulnerability/Analysis/"/>
     
     
-      <category term="漏洞案例研究" scheme="http://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
+      <category term="漏洞案例研究" scheme="https://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
     
-      <category term="Citrix" scheme="http://programlife.net/tags/Citrix/"/>
+      <category term="Citrix" scheme="https://programlife.net/tags/Citrix/"/>
     
-      <category term="snprintf" scheme="http://programlife.net/tags/snprintf/"/>
+      <category term="snprintf" scheme="https://programlife.net/tags/snprintf/"/>
     
   </entry>
   
   <entry>
     <title>Living Off the Land Techniques</title>
-    <link href="http://programlife.net/2024/03/03/living-off-the-land-techniques/"/>
-    <id>http://programlife.net/2024/03/03/living-off-the-land-techniques/</id>
+    <link href="https://programlife.net/2024/03/03/living-off-the-land-techniques/"/>
+    <id>https://programlife.net/2024/03/03/living-off-the-land-techniques/</id>
     <published>2024-03-03T13:33:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -129,21 +129,21 @@
     
     </summary>
     
-      <category term="Red Teaming" scheme="http://programlife.net/categories/Red-Teaming/"/>
+      <category term="Red Teaming" scheme="https://programlife.net/categories/Red-Teaming/"/>
     
     
-      <category term="LOTL" scheme="http://programlife.net/tags/LOTL/"/>
+      <category term="LOTL" scheme="https://programlife.net/tags/LOTL/"/>
     
-      <category term="LOLBins" scheme="http://programlife.net/tags/LOLBins/"/>
+      <category term="LOLBins" scheme="https://programlife.net/tags/LOLBins/"/>
     
-      <category term="BYOVD" scheme="http://programlife.net/tags/BYOVD/"/>
+      <category term="BYOVD" scheme="https://programlife.net/tags/BYOVD/"/>
     
   </entry>
   
   <entry>
     <title>漏洞案例研究 ConnectWise ScreenConnect Authentication Bypass</title>
-    <link href="http://programlife.net/2024/02/25/connectwise-screenconnect-authentication-bypass/"/>
-    <id>http://programlife.net/2024/02/25/connectwise-screenconnect-authentication-bypass/</id>
+    <link href="https://programlife.net/2024/02/25/connectwise-screenconnect-authentication-bypass/"/>
+    <id>https://programlife.net/2024/02/25/connectwise-screenconnect-authentication-bypass/</id>
     <published>2024-02-25T13:33:37.000Z</published>
     <updated>2024-03-17T02:37:05.000Z</updated>
     
@@ -155,23 +155,23 @@
     
     </summary>
     
-      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
     
-      <category term="Analysis" scheme="http://programlife.net/categories/Vulnerability/Analysis/"/>
+      <category term="Analysis" scheme="https://programlife.net/categories/Vulnerability/Analysis/"/>
     
     
-      <category term="漏洞案例研究" scheme="http://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
+      <category term="漏洞案例研究" scheme="https://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
     
-      <category term="Authentication Bypass" scheme="http://programlife.net/tags/Authentication-Bypass/"/>
+      <category term="Authentication Bypass" scheme="https://programlife.net/tags/Authentication-Bypass/"/>
     
-      <category term="Path Traversal" scheme="http://programlife.net/tags/Path-Traversal/"/>
+      <category term="Path Traversal" scheme="https://programlife.net/tags/Path-Traversal/"/>
     
   </entry>
   
   <entry>
     <title>BlackHat Europe 2023 议题学习（二）</title>
-    <link href="http://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/"/>
-    <id>http://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/</id>
+    <link href="https://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/"/>
+    <id>https://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/</id>
     <published>2024-01-28T13:33:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -184,27 +184,27 @@
     
     </summary>
     
-      <category term="Conferences" scheme="http://programlife.net/categories/Conferences/"/>
+      <category term="Conferences" scheme="https://programlife.net/categories/Conferences/"/>
     
-      <category term="BlackHat" scheme="http://programlife.net/categories/Conferences/BlackHat/"/>
+      <category term="BlackHat" scheme="https://programlife.net/categories/Conferences/BlackHat/"/>
     
     
-      <category term="BIOS" scheme="http://programlife.net/tags/BIOS/"/>
+      <category term="BIOS" scheme="https://programlife.net/tags/BIOS/"/>
     
-      <category term="File Format Fuzzing" scheme="http://programlife.net/tags/File-Format-Fuzzing/"/>
+      <category term="File Format Fuzzing" scheme="https://programlife.net/tags/File-Format-Fuzzing/"/>
     
-      <category term="Internet Archive" scheme="http://programlife.net/tags/Internet-Archive/"/>
+      <category term="Internet Archive" scheme="https://programlife.net/tags/Internet-Archive/"/>
     
-      <category term="BMP" scheme="http://programlife.net/tags/BMP/"/>
+      <category term="BMP" scheme="https://programlife.net/tags/BMP/"/>
     
-      <category term="PCX" scheme="http://programlife.net/tags/PCX/"/>
+      <category term="PCX" scheme="https://programlife.net/tags/PCX/"/>
     
   </entry>
   
   <entry>
     <title>BlackHat Europe 2023 议题学习（一）</title>
-    <link href="http://programlife.net/2024/01/06/BHEU-2023-Learning-Part1/"/>
-    <id>http://programlife.net/2024/01/06/BHEU-2023-Learning-Part1/</id>
+    <link href="https://programlife.net/2024/01/06/BHEU-2023-Learning-Part1/"/>
+    <id>https://programlife.net/2024/01/06/BHEU-2023-Learning-Part1/</id>
     <published>2024-01-06T13:33:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -216,25 +216,25 @@
     
     </summary>
     
-      <category term="Conferences" scheme="http://programlife.net/categories/Conferences/"/>
+      <category term="Conferences" scheme="https://programlife.net/categories/Conferences/"/>
     
-      <category term="BlackHat" scheme="http://programlife.net/categories/Conferences/BlackHat/"/>
+      <category term="BlackHat" scheme="https://programlife.net/categories/Conferences/BlackHat/"/>
     
     
-      <category term="IoT" scheme="http://programlife.net/tags/IoT/"/>
+      <category term="IoT" scheme="https://programlife.net/tags/IoT/"/>
     
-      <category term="TinyXML" scheme="http://programlife.net/tags/TinyXML/"/>
+      <category term="TinyXML" scheme="https://programlife.net/tags/TinyXML/"/>
     
-      <category term="Captive Portal" scheme="http://programlife.net/tags/Captive-Portal/"/>
+      <category term="Captive Portal" scheme="https://programlife.net/tags/Captive-Portal/"/>
     
-      <category term="openNDS" scheme="http://programlife.net/tags/openNDS/"/>
+      <category term="openNDS" scheme="https://programlife.net/tags/openNDS/"/>
     
   </entry>
   
   <entry>
     <title>iOS 设备 GPS 位置模拟</title>
-    <link href="http://programlife.net/2021/05/30/ios-device-gps-location-emulation/"/>
-    <id>http://programlife.net/2021/05/30/ios-device-gps-location-emulation/</id>
+    <link href="https://programlife.net/2021/05/30/ios-device-gps-location-emulation/"/>
+    <id>https://programlife.net/2021/05/30/ios-device-gps-location-emulation/</id>
     <published>2021-05-30T13:33:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -246,21 +246,21 @@
     
     </summary>
     
-      <category term="Apple" scheme="http://programlife.net/categories/Apple/"/>
+      <category term="Apple" scheme="https://programlife.net/categories/Apple/"/>
     
-      <category term="iOS" scheme="http://programlife.net/categories/Apple/iOS/"/>
+      <category term="iOS" scheme="https://programlife.net/categories/Apple/iOS/"/>
     
     
-      <category term="iOS" scheme="http://programlife.net/tags/iOS/"/>
+      <category term="iOS" scheme="https://programlife.net/tags/iOS/"/>
     
-      <category term="GPS" scheme="http://programlife.net/tags/GPS/"/>
+      <category term="GPS" scheme="https://programlife.net/tags/GPS/"/>
     
   </entry>
   
   <entry>
     <title>Ubuntu Snap Docker 国内加速镜像设置</title>
-    <link href="http://programlife.net/2020/09/12/ubuntu-snap-docker-registry-mirrors/"/>
-    <id>http://programlife.net/2020/09/12/ubuntu-snap-docker-registry-mirrors/</id>
+    <link href="https://programlife.net/2020/09/12/ubuntu-snap-docker-registry-mirrors/"/>
+    <id>https://programlife.net/2020/09/12/ubuntu-snap-docker-registry-mirrors/</id>
     <published>2020-09-12T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -272,25 +272,25 @@
     
     </summary>
     
-      <category term="Virtualization" scheme="http://programlife.net/categories/Virtualization/"/>
+      <category term="Virtualization" scheme="https://programlife.net/categories/Virtualization/"/>
     
-      <category term="Docker" scheme="http://programlife.net/categories/Virtualization/Docker/"/>
+      <category term="Docker" scheme="https://programlife.net/categories/Virtualization/Docker/"/>
     
     
-      <category term="Ubuntu" scheme="http://programlife.net/tags/Ubuntu/"/>
+      <category term="Ubuntu" scheme="https://programlife.net/tags/Ubuntu/"/>
     
-      <category term="Snap" scheme="http://programlife.net/tags/Snap/"/>
+      <category term="Snap" scheme="https://programlife.net/tags/Snap/"/>
     
-      <category term="Docker" scheme="http://programlife.net/tags/Docker/"/>
+      <category term="Docker" scheme="https://programlife.net/tags/Docker/"/>
     
-      <category term="daemon.json" scheme="http://programlife.net/tags/daemon-json/"/>
+      <category term="daemon.json" scheme="https://programlife.net/tags/daemon-json/"/>
     
   </entry>
   
   <entry>
     <title>QEMU 信息泄露漏洞 CVE-2015-5165 分析及利用</title>
-    <link href="http://programlife.net/2020/06/30/cve-2015-5165-qemu-rtl8139-vulnerability-analysis/"/>
-    <id>http://programlife.net/2020/06/30/cve-2015-5165-qemu-rtl8139-vulnerability-analysis/</id>
+    <link href="https://programlife.net/2020/06/30/cve-2015-5165-qemu-rtl8139-vulnerability-analysis/"/>
+    <id>https://programlife.net/2020/06/30/cve-2015-5165-qemu-rtl8139-vulnerability-analysis/</id>
     <published>2020-06-30T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -302,23 +302,23 @@
     
     </summary>
     
-      <category term="Virtualization" scheme="http://programlife.net/categories/Virtualization/"/>
+      <category term="Virtualization" scheme="https://programlife.net/categories/Virtualization/"/>
     
-      <category term="QEMU" scheme="http://programlife.net/categories/Virtualization/QEMU/"/>
+      <category term="QEMU" scheme="https://programlife.net/categories/Virtualization/QEMU/"/>
     
     
-      <category term="QEMU" scheme="http://programlife.net/tags/QEMU/"/>
+      <category term="QEMU" scheme="https://programlife.net/tags/QEMU/"/>
     
-      <category term="RTL8139" scheme="http://programlife.net/tags/RTL8139/"/>
+      <category term="RTL8139" scheme="https://programlife.net/tags/RTL8139/"/>
     
-      <category term="CVE-2015-5165" scheme="http://programlife.net/tags/CVE-2015-5165/"/>
+      <category term="CVE-2015-5165" scheme="https://programlife.net/tags/CVE-2015-5165/"/>
     
   </entry>
   
   <entry>
     <title>Introduction to Hypercall</title>
-    <link href="http://programlife.net/2020/05/20/introduction-to-hypercall/"/>
-    <id>http://programlife.net/2020/05/20/introduction-to-hypercall/</id>
+    <link href="https://programlife.net/2020/05/20/introduction-to-hypercall/"/>
+    <id>https://programlife.net/2020/05/20/introduction-to-hypercall/</id>
     <published>2020-05-20T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -330,21 +330,21 @@
     
     </summary>
     
-      <category term="Virtualization" scheme="http://programlife.net/categories/Virtualization/"/>
+      <category term="Virtualization" scheme="https://programlife.net/categories/Virtualization/"/>
     
-      <category term="Hyper-V" scheme="http://programlife.net/categories/Virtualization/Hyper-V/"/>
+      <category term="Hyper-V" scheme="https://programlife.net/categories/Virtualization/Hyper-V/"/>
     
     
-      <category term="Hyper-V" scheme="http://programlife.net/tags/Hyper-V/"/>
+      <category term="Hyper-V" scheme="https://programlife.net/tags/Hyper-V/"/>
     
-      <category term="Hypercall" scheme="http://programlife.net/tags/Hypercall/"/>
+      <category term="Hypercall" scheme="https://programlife.net/tags/Hypercall/"/>
     
   </entry>
   
   <entry>
     <title>Hyper-V 调试环境搭建</title>
-    <link href="http://programlife.net/2020/05/16/hyper-v-debugging/"/>
-    <id>http://programlife.net/2020/05/16/hyper-v-debugging/</id>
+    <link href="https://programlife.net/2020/05/16/hyper-v-debugging/"/>
+    <id>https://programlife.net/2020/05/16/hyper-v-debugging/</id>
     <published>2020-05-16T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -356,21 +356,21 @@
     
     </summary>
     
-      <category term="Virtualization" scheme="http://programlife.net/categories/Virtualization/"/>
+      <category term="Virtualization" scheme="https://programlife.net/categories/Virtualization/"/>
     
-      <category term="Hyper-V" scheme="http://programlife.net/categories/Virtualization/Hyper-V/"/>
+      <category term="Hyper-V" scheme="https://programlife.net/categories/Virtualization/Hyper-V/"/>
     
     
-      <category term="Hyper-V" scheme="http://programlife.net/tags/Hyper-V/"/>
+      <category term="Hyper-V" scheme="https://programlife.net/tags/Hyper-V/"/>
     
-      <category term="VMware Workstation" scheme="http://programlife.net/tags/VMware-Workstation/"/>
+      <category term="VMware Workstation" scheme="https://programlife.net/tags/VMware-Workstation/"/>
     
   </entry>
   
   <entry>
     <title>Hyper-V on Windows 10 Notes</title>
-    <link href="http://programlife.net/2020/05/13/hyper-v-on-windows-10-notes/"/>
-    <id>http://programlife.net/2020/05/13/hyper-v-on-windows-10-notes/</id>
+    <link href="https://programlife.net/2020/05/13/hyper-v-on-windows-10-notes/"/>
+    <id>https://programlife.net/2020/05/13/hyper-v-on-windows-10-notes/</id>
     <published>2020-05-13T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -382,19 +382,19 @@
     
     </summary>
     
-      <category term="Virtualization" scheme="http://programlife.net/categories/Virtualization/"/>
+      <category term="Virtualization" scheme="https://programlife.net/categories/Virtualization/"/>
     
-      <category term="Hyper-V" scheme="http://programlife.net/categories/Virtualization/Hyper-V/"/>
+      <category term="Hyper-V" scheme="https://programlife.net/categories/Virtualization/Hyper-V/"/>
     
     
-      <category term="Hyper-V" scheme="http://programlife.net/tags/Hyper-V/"/>
+      <category term="Hyper-V" scheme="https://programlife.net/tags/Hyper-V/"/>
     
   </entry>
   
   <entry>
     <title>VMware Workstation Incompatible with Device/Credential Guard</title>
-    <link href="http://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/"/>
-    <id>http://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/</id>
+    <link href="https://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/"/>
+    <id>https://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/</id>
     <published>2020-05-10T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -406,21 +406,21 @@
     
     </summary>
     
-      <category term="Virtualization" scheme="http://programlife.net/categories/Virtualization/"/>
+      <category term="Virtualization" scheme="https://programlife.net/categories/Virtualization/"/>
     
-      <category term="Hyper-V" scheme="http://programlife.net/categories/Virtualization/Hyper-V/"/>
+      <category term="Hyper-V" scheme="https://programlife.net/categories/Virtualization/Hyper-V/"/>
     
     
-      <category term="Hyper-V" scheme="http://programlife.net/tags/Hyper-V/"/>
+      <category term="Hyper-V" scheme="https://programlife.net/tags/Hyper-V/"/>
     
-      <category term="VMware Workstation" scheme="http://programlife.net/tags/VMware-Workstation/"/>
+      <category term="VMware Workstation" scheme="https://programlife.net/tags/VMware-Workstation/"/>
     
   </entry>
   
   <entry>
     <title>Pwning Adobe Reader Multiple Times with Malformed Strings</title>
-    <link href="http://programlife.net/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/"/>
-    <id>http://programlife.net/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/</id>
+    <link href="https://programlife.net/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/"/>
+    <id>https://programlife.net/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/</id>
     <published>2020-04-29T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -432,29 +432,29 @@
     
     </summary>
     
-      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
     
-      <category term="Analysis" scheme="http://programlife.net/categories/Vulnerability/Analysis/"/>
+      <category term="Analysis" scheme="https://programlife.net/categories/Vulnerability/Analysis/"/>
     
     
-      <category term="Adobe Reader" scheme="http://programlife.net/tags/Adobe-Reader/"/>
+      <category term="Adobe Reader" scheme="https://programlife.net/tags/Adobe-Reader/"/>
     
-      <category term="CVE-2019-7032" scheme="http://programlife.net/tags/CVE-2019-7032/"/>
+      <category term="CVE-2019-7032" scheme="https://programlife.net/tags/CVE-2019-7032/"/>
     
-      <category term="CVE-2019-8199" scheme="http://programlife.net/tags/CVE-2019-8199/"/>
+      <category term="CVE-2019-8199" scheme="https://programlife.net/tags/CVE-2019-8199/"/>
     
-      <category term="CVE-2020-3804" scheme="http://programlife.net/tags/CVE-2020-3804/"/>
+      <category term="CVE-2020-3804" scheme="https://programlife.net/tags/CVE-2020-3804/"/>
     
-      <category term="CVE-2020-3805" scheme="http://programlife.net/tags/CVE-2020-3805/"/>
+      <category term="CVE-2020-3805" scheme="https://programlife.net/tags/CVE-2020-3805/"/>
     
-      <category term="PDF" scheme="http://programlife.net/tags/PDF/"/>
+      <category term="PDF" scheme="https://programlife.net/tags/PDF/"/>
     
   </entry>
   
   <entry>
     <title>Windows 调试符号下载代理配置</title>
-    <link href="http://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/"/>
-    <id>http://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/</id>
+    <link href="https://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/"/>
+    <id>https://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/</id>
     <published>2020-02-23T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -467,17 +467,17 @@
     
     </summary>
     
-      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
     
     
-      <category term="WinDbg" scheme="http://programlife.net/tags/WinDbg/"/>
+      <category term="WinDbg" scheme="https://programlife.net/tags/WinDbg/"/>
     
   </entry>
   
   <entry>
     <title>深入分析 Adobe 忽略了 6 年的 PDF 漏洞</title>
-    <link href="http://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-cn/"/>
-    <id>http://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-cn/</id>
+    <link href="https://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-cn/"/>
+    <id>https://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-cn/</id>
     <published>2019-09-12T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -490,31 +490,31 @@
     
     </summary>
     
-      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
     
-      <category term="Analysis" scheme="http://programlife.net/categories/Vulnerability/Analysis/"/>
+      <category term="Analysis" scheme="https://programlife.net/categories/Vulnerability/Analysis/"/>
     
     
-      <category term="BMP" scheme="http://programlife.net/tags/BMP/"/>
+      <category term="BMP" scheme="https://programlife.net/tags/BMP/"/>
     
-      <category term="Adobe Reader" scheme="http://programlife.net/tags/Adobe-Reader/"/>
+      <category term="Adobe Reader" scheme="https://programlife.net/tags/Adobe-Reader/"/>
     
-      <category term="PDF" scheme="http://programlife.net/tags/PDF/"/>
+      <category term="PDF" scheme="https://programlife.net/tags/PDF/"/>
     
-      <category term="CVE-2019-8014" scheme="http://programlife.net/tags/CVE-2019-8014/"/>
+      <category term="CVE-2019-8014" scheme="https://programlife.net/tags/CVE-2019-8014/"/>
     
-      <category term="CVE-2013-2729" scheme="http://programlife.net/tags/CVE-2013-2729/"/>
+      <category term="CVE-2013-2729" scheme="https://programlife.net/tags/CVE-2013-2729/"/>
     
-      <category term="XFA" scheme="http://programlife.net/tags/XFA/"/>
+      <category term="XFA" scheme="https://programlife.net/tags/XFA/"/>
     
-      <category term="RLE" scheme="http://programlife.net/tags/RLE/"/>
+      <category term="RLE" scheme="https://programlife.net/tags/RLE/"/>
     
   </entry>
   
   <entry>
     <title>Deep Analysis of CVE-2019-8014 The Vulnerability Ignored 6 Years Ago</title>
-    <link href="http://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-en/"/>
-    <id>http://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-en/</id>
+    <link href="https://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-en/"/>
+    <id>https://programlife.net/2019/09/12/deep-analysis-of-cve-2019-8014-en/</id>
     <published>2019-09-12T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -527,31 +527,31 @@
     
     </summary>
     
-      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
     
-      <category term="Analysis" scheme="http://programlife.net/categories/Vulnerability/Analysis/"/>
+      <category term="Analysis" scheme="https://programlife.net/categories/Vulnerability/Analysis/"/>
     
     
-      <category term="BMP" scheme="http://programlife.net/tags/BMP/"/>
+      <category term="BMP" scheme="https://programlife.net/tags/BMP/"/>
     
-      <category term="Adobe Reader" scheme="http://programlife.net/tags/Adobe-Reader/"/>
+      <category term="Adobe Reader" scheme="https://programlife.net/tags/Adobe-Reader/"/>
     
-      <category term="PDF" scheme="http://programlife.net/tags/PDF/"/>
+      <category term="PDF" scheme="https://programlife.net/tags/PDF/"/>
     
-      <category term="CVE-2019-8014" scheme="http://programlife.net/tags/CVE-2019-8014/"/>
+      <category term="CVE-2019-8014" scheme="https://programlife.net/tags/CVE-2019-8014/"/>
     
-      <category term="CVE-2013-2729" scheme="http://programlife.net/tags/CVE-2013-2729/"/>
+      <category term="CVE-2013-2729" scheme="https://programlife.net/tags/CVE-2013-2729/"/>
     
-      <category term="XFA" scheme="http://programlife.net/tags/XFA/"/>
+      <category term="XFA" scheme="https://programlife.net/tags/XFA/"/>
     
-      <category term="RLE" scheme="http://programlife.net/tags/RLE/"/>
+      <category term="RLE" scheme="https://programlife.net/tags/RLE/"/>
     
   </entry>
   
   <entry>
     <title>引用计数相关漏洞案例</title>
-    <link href="http://programlife.net/2019/07/03/reference-counting-vulnerability/"/>
-    <id>http://programlife.net/2019/07/03/reference-counting-vulnerability/</id>
+    <link href="https://programlife.net/2019/07/03/reference-counting-vulnerability/"/>
+    <id>https://programlife.net/2019/07/03/reference-counting-vulnerability/</id>
     <published>2019-07-03T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -564,29 +564,29 @@
     
     </summary>
     
-      <category term="Vulnerability" scheme="http://programlife.net/categories/Vulnerability/"/>
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
     
-      <category term="Garbage Collection" scheme="http://programlife.net/categories/Vulnerability/Garbage-Collection/"/>
+      <category term="Garbage Collection" scheme="https://programlife.net/categories/Vulnerability/Garbage-Collection/"/>
     
     
-      <category term="引用计数" scheme="http://programlife.net/tags/%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/"/>
+      <category term="引用计数" scheme="https://programlife.net/tags/%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/"/>
     
-      <category term="垃圾回收" scheme="http://programlife.net/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
+      <category term="垃圾回收" scheme="https://programlife.net/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
     
-      <category term="GC" scheme="http://programlife.net/tags/GC/"/>
+      <category term="GC" scheme="https://programlife.net/tags/GC/"/>
     
-      <category term="Use-After-Free" scheme="http://programlife.net/tags/Use-After-Free/"/>
+      <category term="Use-After-Free" scheme="https://programlife.net/tags/Use-After-Free/"/>
     
-      <category term="VBScript" scheme="http://programlife.net/tags/VBScript/"/>
+      <category term="VBScript" scheme="https://programlife.net/tags/VBScript/"/>
     
-      <category term="Firefox" scheme="http://programlife.net/tags/Firefox/"/>
+      <category term="Firefox" scheme="https://programlife.net/tags/Firefox/"/>
     
   </entry>
   
   <entry>
     <title>SpiderMonkey 编译</title>
-    <link href="http://programlife.net/2019/05/18/spidermonkey-build/"/>
-    <id>http://programlife.net/2019/05/18/spidermonkey-build/</id>
+    <link href="https://programlife.net/2019/05/18/spidermonkey-build/"/>
+    <id>https://programlife.net/2019/05/18/spidermonkey-build/</id>
     <published>2019-05-18T00:13:37.000Z</published>
     <updated>2024-03-17T02:37:05.616Z</updated>
     
@@ -599,18 +599,18 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="http://programlife.net/categories/JavaScript/"/>
+      <category term="JavaScript" scheme="https://programlife.net/categories/JavaScript/"/>
     
-      <category term="SpiderMonkey" scheme="http://programlife.net/categories/JavaScript/SpiderMonkey/"/>
+      <category term="SpiderMonkey" scheme="https://programlife.net/categories/JavaScript/SpiderMonkey/"/>
     
     
-      <category term="Firefox" scheme="http://programlife.net/tags/Firefox/"/>
+      <category term="Firefox" scheme="https://programlife.net/tags/Firefox/"/>
     
-      <category term="JavaScript" scheme="http://programlife.net/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://programlife.net/tags/JavaScript/"/>
     
-      <category term="SpiderMonkey" scheme="http://programlife.net/tags/SpiderMonkey/"/>
+      <category term="SpiderMonkey" scheme="https://programlife.net/tags/SpiderMonkey/"/>
     
-      <category term="IonMonkey" scheme="http://programlife.net/tags/IonMonkey/"/>
+      <category term="IonMonkey" scheme="https://programlife.net/tags/IonMonkey/"/>
     
   </entry>
   
