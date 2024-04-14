@@ -68,11 +68,11 @@
     
       <category term="ld.so" scheme="https://programlife.net/tags/ld-so/"/>
     
+      <category term="LD_LIBRARY_PATH" scheme="https://programlife.net/tags/LD-LIBRARY-PATH/"/>
+    
       <category term="LPE" scheme="https://programlife.net/tags/LPE/"/>
     
       <category term="Pwnie Awards" scheme="https://programlife.net/tags/Pwnie-Awards/"/>
-    
-      <category term="LD_LIBRARY_PATH" scheme="https://programlife.net/tags/LD-LIBRARY-PATH/"/>
     
   </entry>
   
@@ -100,9 +100,9 @@
     
       <category term="漏洞案例研究" scheme="https://programlife.net/tags/%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6/"/>
     
-      <category term="PolKit" scheme="https://programlife.net/tags/PolKit/"/>
-    
       <category term="ld.so" scheme="https://programlife.net/tags/ld-so/"/>
+    
+      <category term="PolKit" scheme="https://programlife.net/tags/PolKit/"/>
     
       <category term="GCONV_PATH" scheme="https://programlife.net/tags/GCONV-PATH/"/>
     
