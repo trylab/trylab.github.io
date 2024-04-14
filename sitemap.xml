@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://programlife.net/2024/04/14/cve-2024-24576-rust-command-injection-vulnerability/</loc>
+    
+    <lastmod>2024-04-14T15:50:37.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://programlife.net/about/index.html</loc>
     
     <lastmod>2024-04-14T02:58:54.000Z</lastmod>
@@ -58,7 +65,7 @@
   </url>
   
   <url>
-    <loc>https://programlife.net//404.html</loc>
+    <loc>https://programlife.net/categories/index.html</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
@@ -100,14 +107,7 @@
   </url>
   
   <url>
-    <loc>https://programlife.net/categories/index.html</loc>
-    
-    <lastmod>2024-03-17T02:37:05.616Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/</loc>
+    <loc>https://programlife.net//404.html</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
@@ -121,7 +121,7 @@
   </url>
   
   <url>
-    <loc>https://programlife.net/2019/01/01/hello-2019/</loc>
+    <loc>https://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
@@ -150,6 +150,13 @@
   
   <url>
     <loc>https://programlife.net/2019/03/25/cve-2019-5786-chrome-filereader-use-after-free-vulnerability-analysis/</loc>
+    
+    <lastmod>2024-03-17T02:37:05.616Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://programlife.net/2019/01/01/hello-2019/</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
