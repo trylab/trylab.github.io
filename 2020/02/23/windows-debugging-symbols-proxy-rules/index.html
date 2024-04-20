@@ -393,9 +393,9 @@
 <p>后来发现，这次是无法从微软的服务器下载任何调试符号，比如使用 WinDbg 自带的 <code>symchk.exe</code> 无法给 System32 目录下的任一文件下载调试符号，而且在不同的机器上（拥有不同的代理上网环境）均不能下载调试符号，这就非常奇怪了。</p>
 <p>笔者在某不存在的社交网站上反应了这个问题，有网友表示需要使用 VPN，也有网友表示需要绕过长城，还有网友表示 VPN 也不解决问题，而国外友人则表示完全不存在这个问题！很显然，这跟国内复杂的网络环境不无关系！</p>
 <p>笔者打开了 Wireshark，想看看从微软的服务器下载调试符号时到底发生了什么。比如，在给 Notepad 下载调试符号时，后台访问的 URL 如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://msdl.microsoft.com/download/symbols/notepad.pdb/BC0D363AF49A0E2C05B06DA4535DA0C71/notepad.pdb</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://msdl.microsoft.com/download/symbols/notepad.pdb/BC0D363AF49A0E2C05B06DA4535DA0C71/notepad.pdb</span><br></pre></td></tr></table></figure>
 <p>接着会重定向到以下地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://vsblobprodscussu5shard60.blob.core.windows.net/b-4712e0edc5a240eabf23330d7df68e77/F6311B221044787072987B74992D6DE770FCBBFED09C2853B4F10350CB964FF900.blob?sv=2017-04-17&amp;sr=b&amp;si=1&amp;sig=ulHtMVJpGWuEvNczzOR6J3g2rXS1s9qwwmEqJ1x63wg%3D&amp;spr=https&amp;se=2020-02-24T01%3A57%3A40Z&amp;rscl=x-e2eid-66439cf8-65874550-b9c5b293-e8bf7391-session-627c05ca-398743d1-b7a6ab61-b0fbc28f</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://vsblobprodscussu5shard60.blob.core.windows.net/b-4712e0edc5a240eabf23330d7df68e77/F6311B221044787072987B74992D6DE770FCBBFED09C2853B4F10350CB964FF900.blob?sv=2017-04-17&amp;sr=b&amp;si=1&amp;sig=ulHtMVJpGWuEvNczzOR6J3g2rXS1s9qwwmEqJ1x63wg%3D&amp;spr=https&amp;se=2020-02-24T01%3A57%3A40Z&amp;rscl=x-e2eid-66439cf8-65874550-b9c5b293-e8bf7391-session-627c05ca-398743d1-b7a6ab61-b0fbc28f</span><br></pre></td></tr></table></figure>
 <p>Chrome 提示 <code>ERR_CONNECTION_RESET</code> ，显然 <code>vsblobprodscussu5shard60.blob.core.windows.net</code> 被 Block 了。那为什么此时代理不管用了呢？而代理服务器本身是可以正常访问这个地址的，或者说，基于代理服务器上的 VPN 也可以正常访问这个地址。</p>
 <p>后来发现，笔者使用的是 PAC 代理上网模式（<strong>Proxy Auto-Config</strong>，<a href="https://zh.wikipedia.org/zh-hans/%E4%BB%A3%E7%90%86%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE" target="_blank" rel="noopener">代理自动配置</a>），上网流量要不要经过代理服务器是根据 PAC 规则文件来定的（相对全局代理模式更加智能），而 <code>windows.net</code> 并没有出现在一些流行的 PAC 规则文件中，因此这里无法正常下载调试符号文件。</p>
 <p>解决方案非常简单，给 PAC 规则文件增加一条记录 <code>.windows.net</code> ，表示支持 <code>windows.net</code> 下所有地址的访问。</p>
@@ -454,8 +454,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/12/deep-analysis-of-cve-2019-8014-en/" rel="next" title="Deep Analysis of CVE-2019-8014 The Vulnerability Ignored 6 Years Ago">
-                <i class="fa fa-chevron-left"></i> Deep Analysis of CVE-2019-8014 The Vulnerability Ignored 6 Years Ago
+              <a href="/2019/09/12/deep-analysis-of-cve-2019-8014-cn/" rel="next" title="深入分析 Adobe 忽略了 6 年的 PDF 漏洞">
+                <i class="fa fa-chevron-left"></i> 深入分析 Adobe 忽略了 6 年的 PDF 漏洞
               </a>
             
           </div>

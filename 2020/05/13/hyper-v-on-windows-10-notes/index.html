@@ -428,7 +428,7 @@
 </li>
 <li><p>如果要调试虚拟机操作系统的内核，那么需要先禁用 Secure Boot，然后通过 PowerShell 命令为虚拟机添加一个串口：</p>
 <ul>
-<li><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-VMComPort -VMName TestVM <span class="number">1</span> \\.\pipe\TestPipe</span><br></pre></td></tr></table></figure>
+<li><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">Set-VMComPort -VMName TestVM <span class="number">1</span> \\.\pipe\TestPipe</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -457,7 +457,7 @@
 <ul>
 <li><p>Hyper-V 支持嵌套虚拟化（目前仅支持 Intel CPU），可使用 PowerShell 命令为虚拟机启用该特性：</p>
 <ul>
-<li><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-VMProcessor -VMName &lt;VMName&gt; -ExposeVirtualizationExtensions <span class="literal">$true</span></span><br></pre></td></tr></table></figure>
+<li><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">Set-VMProcessor -VMName &lt;VMName&gt; -ExposeVirtualizationExtensions <span class="literal">$true</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
