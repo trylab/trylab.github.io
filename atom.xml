@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://programlife.net/"/>
-  <updated>2024-05-26T13:58:10.000Z</updated>
+  <updated>2024-05-26T14:25:49.000Z</updated>
   <id>https://programlife.net/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>旧电脑绕过 TPM/CPU 限制安装 Windows 11</title>
+    <link href="https://programlife.net/2024/05/31/install-windows-11-on-old-machines/"/>
+    <id>https://programlife.net/2024/05/31/install-windows-11-on-old-machines/</id>
+    <published>2024-05-31T13:33:37.000Z</published>
+    <updated>2024-05-26T14:25:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>不依赖任何第三方工具，不修改设置，让旧电脑绕过 Windows 11 的 TPM 和 CPU 检测限制，直接升级 Windows 11。</p><a id="more"></a><h2 id="0x01-安装步骤"><a href="#0x01-安装步骤" class="headerlink" title="0x01. 安装步骤"></a>0x01. 安装步骤</h2><p>需要下载两个 ISO 镜像，一个是 Windows 10 的，一个是 Windows 11 的，把两个镜像解压，然后把 Windows 11 下的 <code>sources\install.wim</code> 替换 Windows 10 对应的文件即可。</p><p>如果是本机升级安装，那么直接通过解压、替换后的 Windows 10 操作即可。</p><p>如果是制作安装镜像，那么需要类似 UltraISO 之类的工具，替换 ISO 镜像文件中的 <code>sources\install.wim</code>。</p><p>优点：安全可靠，不依赖第三方 Patch 工具。</p><h2 id="0x02-优化设置"><a href="#0x02-优化设置" class="headerlink" title="0x02. 优化设置"></a>0x02. 优化设置</h2><ol><li>如果是覆盖安装，需要备份好 C 盘中的个人数据</li><li>备份 Office 激活文件 <code>C:\Windows\System32\spp\store\2.0</code>，升级后覆盖即可</li><li>绕过安装过程中的联网限制：在 OOBE 期间按下 Shift + F10，然后输入 <code>oobe\bypassnro</code></li><li>磁盘属性中不再有<strong>磁盘清理</strong>入口，可以在开始菜单中搜索</li><li>锁屏界面中的应用信息（股票、天气等），可以在<strong>个性化</strong>设置中关闭</li><li>在<strong>应用 - 高级应用设置 - 应用执行别名</strong>中，关闭 App Installer 对 python.exe 和 python3.exe 的关联</li><li>禁用 Windows Search 服务</li></ol><h2 id="0x03-References"><a href="#0x03-References" class="headerlink" title="0x03. References"></a>0x03. References</h2><ol><li><a href="https://sysin.org/blog/windows-11-no-tpm/#（6）install-wim-替换" target="_blank" rel="noopener">Windows 11 绕过 TPM 方法总结 - sysin</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;不依赖任何第三方工具，不修改设置，让旧电脑绕过 Windows 11 的 TPM 和 CPU 检测限制，直接升级 Windows 11。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Default" scheme="https://programlife.net/categories/Default/"/>
+    
+    
+      <category term="Windows 11" scheme="https://programlife.net/tags/Windows-11/"/>
+    
+  </entry>
   
   <entry>
     <title>CVE-2024-33899 WinRAR RAR/UnRAR Escape Sequence 注入漏洞</title>
@@ -556,40 +578,6 @@
       <category term="Hyper-V" scheme="https://programlife.net/tags/Hyper-V/"/>
     
       <category term="VMware Workstation" scheme="https://programlife.net/tags/VMware-Workstation/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pwning Adobe Reader Multiple Times with Malformed Strings</title>
-    <link href="https://programlife.net/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/"/>
-    <id>https://programlife.net/2020/04/29/pwning-adobe-reader-multiple-times-with-malformed-strings/</id>
-    <published>2020-04-29T00:13:37.000Z</published>
-    <updated>2024-03-17T02:37:05.616Z</updated>
-    
-    <content type="html"><![CDATA[<p>这次我在 HITB Lockdown Livestream 上发表了题为《<strong>Pwning Adobe Reader Multiple Times with Malformed Strings</strong>》的演讲，该演讲本来是为 HITB 2020 Amsterdam 准备的，但由于受疫情影响，主办方被迫取消了原来的会议安排，转而在 YouTube 上举办了一次免费的在线会议。</p><a id="more"></a><p>这次的议题是我在 ZeroNights 2019 上的演讲《<strong>Two Bytes to Rule Adobe Reader Twice: The Black Magic Behind the Byte Order Mark</strong>》的进一步研究，因此会有接近 40% 的内容是重复的。这次演讲精简了上一次演讲的内容，增加了对 Adobe JavaScript 引擎相关数据结构的分析，同时增加了 2 个新的可利用漏洞；最重要的是，这次我花了不少时间写了一篇非常详细的 Paper，方便感兴趣的同学自行开展漏洞分析工作。</p><p>值得一提的是，这次新增加的 2 个漏洞其实已经存了很久了，而距离上一次演讲已经过去了将近半年的时间，所以如果有人认真研究了我上一次演讲的内容的话，发现这 2 个漏洞也不是什么难事 :-)</p><p>议题文档：</p><ul><li><a href="/uploads/202004/pwning_adobe_reader_multiple_times_with_malformed_strings_slides.pdf">Pwning Adobe Reader Multiple Times with Malformed Strings - Slides</a></li><li><a href="/uploads/202004/pwning_adobe_reader_multiple_times_with_malformed_strings_whitepaper.pdf">Pwning Adobe Reader Multiple Times with Malformed Strings - Paper</a></li></ul><p><img src="/uploads/202004/hitb-livestream.png" alt="HITB Lockdown Livestream 演讲"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这次我在 HITB Lockdown Livestream 上发表了题为《&lt;strong&gt;Pwning Adobe Reader Multiple Times with Malformed Strings&lt;/strong&gt;》的演讲，该演讲本来是为 HITB 2020 Amsterdam 准备的，但由于受疫情影响，主办方被迫取消了原来的会议安排，转而在 YouTube 上举办了一次免费的在线会议。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Vulnerability" scheme="https://programlife.net/categories/Vulnerability/"/>
-    
-      <category term="Analysis" scheme="https://programlife.net/categories/Vulnerability/Analysis/"/>
-    
-    
-      <category term="Adobe Reader" scheme="https://programlife.net/tags/Adobe-Reader/"/>
-    
-      <category term="CVE-2019-7032" scheme="https://programlife.net/tags/CVE-2019-7032/"/>
-    
-      <category term="CVE-2019-8199" scheme="https://programlife.net/tags/CVE-2019-8199/"/>
-    
-      <category term="CVE-2020-3804" scheme="https://programlife.net/tags/CVE-2020-3804/"/>
-    
-      <category term="CVE-2020-3805" scheme="https://programlife.net/tags/CVE-2020-3805/"/>
-    
-      <category term="PDF" scheme="https://programlife.net/tags/PDF/"/>
     
   </entry>
   

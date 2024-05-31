@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://programlife.net/2024/05/31/install-windows-11-on-old-machines/</loc>
+    
+    <lastmod>2024-05-26T14:25:49.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://programlife.net/2024/05/26/cve-2024-33899-winrar-escape-sequence-injection-vulnerability/</loc>
     
     <lastmod>2024-05-26T13:58:10.000Z</lastmod>
@@ -51,7 +58,7 @@
   </url>
   
   <url>
-    <loc>https://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/</loc>
+    <loc>https://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
@@ -72,7 +79,7 @@
   </url>
   
   <url>
-    <loc>https://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/</loc>
+    <loc>https://programlife.net/categories/index.html</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
@@ -107,14 +114,14 @@
   </url>
   
   <url>
-    <loc>https://programlife.net/2020/05/10/vmware-workstation-incompatible-with-device-credential-guard/</loc>
+    <loc>https://programlife.net//404.html</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://programlife.net//404.html</loc>
+    <loc>https://programlife.net/2020/02/23/windows-debugging-symbols-proxy-rules/</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
@@ -128,7 +135,7 @@
   </url>
   
   <url>
-    <loc>https://programlife.net/categories/index.html</loc>
+    <loc>https://programlife.net/2019/01/01/hello-2019/</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
@@ -163,14 +170,14 @@
   </url>
   
   <url>
-    <loc>https://programlife.net/2019/01/01/hello-2019/</loc>
+    <loc>https://programlife.net/2020/05/16/hyper-v-debugging/</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://programlife.net/2020/05/16/hyper-v-debugging/</loc>
+    <loc>https://programlife.net/2024/01/28/BHEU-2023-Learning-Part2/</loc>
     
     <lastmod>2024-03-17T02:37:05.616Z</lastmod>
     
