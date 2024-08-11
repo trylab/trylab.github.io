@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Caddy,Cloudflare,CDN,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="程序人生" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="想给网站套个免费的 Cloudflare CDN，如何让 Caddy 和 GitHub Pages 各自自动续期 SSL 证书？">
+<meta name="keywords" content="Caddy,Cloudflare,CDN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Caddy &amp; Cloudflare &amp; GitHub Pages SSL 证书自动续期">
+<meta property="og:url" content="https://programlife.net/2024/08/11/caddy-cloudflare-github-pages-ssl-certificates-renewal/index.html">
+<meta property="og:site_name" content="程序人生">
+<meta property="og:description" content="想给网站套个免费的 Cloudflare CDN，如何让 Caddy 和 GitHub Pages 各自自动续期 SSL 证书？">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://programlife.net/uploads/202408/google-trust-services-ssl-certificate.webp">
+<meta property="og:image" content="https://programlife.net/uploads/202408/cloudflare-ssl-encryption-mode.webp">
+<meta property="og:updated_time" content="2024-08-11T12:17:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Caddy &amp; Cloudflare &amp; GitHub Pages SSL 证书自动续期">
+<meta name="twitter:description" content="想给网站套个免费的 Cloudflare CDN，如何让 Caddy 和 GitHub Pages 各自自动续期 SSL 证书？">
+<meta name="twitter:image" content="https://programlife.net/uploads/202408/google-trust-services-ssl-certificate.webp">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://programlife.net/2024/08/11/caddy-cloudflare-github-pages-ssl-certificates-renewal/">
+
+
+
+
+
+  <title>Caddy & Cloudflare & GitHub Pages SSL 证书自动续期 | 程序人生</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序人生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Fuzzing / Vulnerability / Exploit</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://programlife.net/2024/08/11/caddy-cloudflare-github-pages-ssl-certificates-renewal/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ke Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.webp">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序人生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Caddy & Cloudflare & GitHub Pages SSL 证书自动续期</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-11T13:33:37+00:00">
+                2024-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default/" itemprop="url" rel="index">
+                    <span itemprop="name">Default</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>想给网站套个免费的 Cloudflare CDN，如何让 Caddy 和 GitHub Pages 各自自动续期 SSL 证书？</p>
+<a id="more"></a>
+<h2 id="0x01-预期效果"><a href="#0x01-预期效果" class="headerlink" title="0x01. 预期效果"></a>0x01. 预期效果</h2><p>本文想要达到的预期效果如下：</p>
+<ul>
+<li>主域名（Blog）<ul>
+<li>绑定 GitHub Pages 服务，SSL 证书由 GitHub 负责管理（由 Let’s Encrypt 签发）</li>
+<li>Cloudflare 仅负责 DNS 解析，不提供 CDN 服务</li>
+</ul>
+</li>
+<li>其他二级域名<ul>
+<li>Caddy 负责为二级域名提供 SSL 证书申请和续期（由 Let’s Encrypt 签发）</li>
+<li>Cloudflare 负责 DNS 解析，同时提供 CDN 服务</li>
+</ul>
+</li>
+</ul>
+<p>注意，套上 CDN 之后，Cloudflare 给网站绑定的 SSL 证书是由 Google Trust Services 颁发的，这跟 Caddy 向 Let’s Encrypt 申请的 SSL 证书不是同一个，这也是<strong>套上 CDN 之后，Caddy 在默认情况下无法自动给证书续期</strong>的原因。</p>
+<p><img src="/uploads/202408/google-trust-services-ssl-certificate.webp" alt="Cloudflare CDN SSL 证书由 Google Trust Services 颁发"></p>
+<h2 id="0x02-GitHub-Pages-设置"><a href="#0x02-GitHub-Pages-设置" class="headerlink" title="0x02. GitHub Pages 设置"></a>0x02. GitHub Pages 设置</h2><p>域名（如主域名以及 <code>www</code>）绑定 GitHub Pages 之后，SSL 证书是由 GitHub 来管理的，所以在 Cloudflare 设置 DNS 时，只能设置为 <code>DNS only</code>，不能设置为 <code>Proxied</code>，否则 GitHub 就无法正常去检测我们的 SSL 证书的状态，证书自动续期就更是不可能的事情了。</p>
+<h2 id="0x03-Cloudflare-设置"><a href="#0x03-Cloudflare-设置" class="headerlink" title="0x03. Cloudflare 设置"></a>0x03. Cloudflare 设置</h2><p>除了绑定到 GitHub Pages 的域名之外，剩下的域名如果需要使用 Cloudflare 提供的 CDN 服务，那么在 DNS 设置中选定 <code>Proxied</code>。同时，还需要将 SSL/TLS encryption mode 设置为 <code>Full (strict)</code>，除了解决浏览器提示 <code>ERR_TOO_MANY_REDIRECTS</code>（<strong>重定向次数过多</strong>）错误问题之外，<code>strict</code> 模式还提供端到端加密以及严格的证书校验机制。</p>
+<p><img src="/uploads/202408/cloudflare-ssl-encryption-mode.webp" alt="Cloudflare SSL/TLS encryption mode"></p>
+<h2 id="0x04-Caddy-设置"><a href="#0x04-Caddy-设置" class="headerlink" title="0x04. Caddy 设置"></a>0x04. Caddy 设置</h2><p>前面提到过，在给二级域名套上 Cloudflare 的 CDN 之后，浏览器访问域名时，看到的 SSL 证书是由 Google Trust Services 颁发的，而 Caddy 则是向 Let’s Encrypt 申请 SSL 证书，所以默认情况下，Caddy 无法正常检测我们的 SSL 证书的状态（类似 GitHub Pages）。</p>
+<h3 id="4-1-替换-Caddy"><a href="#4-1-替换-Caddy" class="headerlink" title="4.1 替换 Caddy"></a>4.1 替换 Caddy</h3><ol>
+<li>从 <a href="https://caddyserver.com/download" target="_blank" rel="noopener">https://caddyserver.com/download</a> 下载一个带 <code>dns.providers.cloudflare</code> 插件的 Caddy（注意勾选正确的操作系统）</li>
+<li>给下载下来的 Caddy 添加执行权限，并替换服务器上原有的 Caddy（可以先做一个备份）</li>
+<li>给 Caddyfile 添加配置（可以是全局配置，也可以是针对单个域名的配置）</li>
+</ol>
+<p>全局配置：直接在文件头部添加</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    acme_dns cloudflare Cloudflare_API_Token</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>针对单个域名的配置：在域名配置下添加</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">tls &#123;</span><br><span class="line">    dns cloudflare Cloudflare_API_Token</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-创建-Cloudflare-API-Token"><a href="#4-2-创建-Cloudflare-API-Token" class="headerlink" title="4.2 创建 Cloudflare API Token"></a>4.2 创建 Cloudflare API Token</h3><p>打开 <a href="https://dash.cloudflare.com/profile/api-tokens，选择" target="_blank" rel="noopener">https://dash.cloudflare.com/profile/api-tokens，选择</a> Create Token，选择 Edit zone DNS 模板，增加如下两个权限：</p>
+<table>
+<thead>
+<tr>
+<th>api_token_resources</th>
+<th>api_token_permissions</th>
+<th>api_token_permissions_options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zone</td>
+<td>DNS</td>
+<td>Edit</td>
+</tr>
+<tr>
+<td>Zone</td>
+<td>DNS</td>
+<td>Read</td>
+</tr>
+</tbody>
+</table>
+<p>其他选项使用默认设置，即可创建 Cloudflare API Token，注意这个 Token 只会显示一次，之后不会再显示。</p>
+<h3 id="4-3-测试-Caddy"><a href="#4-3-测试-Caddy" class="headerlink" title="4.3 测试 Caddy"></a>4.3 测试 Caddy</h3><p>执行如下命令，可以查看 Caddy 运行时的日志，包括那些域名的 SSL 证书会被自动续期，以及 SSL 证书的申请状态等。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">service caddy stop</span><br><span class="line">caddy run --config /etc/caddy/Caddyfile</span><br></pre></td></tr></table></figure>
+<p>注意，绑定在 GitHub Pages 上的域名，不会被 Caddy 管理（因为在 Caddyfile 里面是没有也不能配置这个域名的）。</p>
+<h2 id="0x05-References"><a href="#0x05-References" class="headerlink" title="0x05. References"></a>0x05. References</h2><ol>
+<li><a href="https://acytoo.com/ladder/set-caddy-cloudflare-cdn/" target="_blank" rel="noopener">https://acytoo.com/ladder/set-caddy-cloudflare-cdn/</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请作者喝杯咖啡☕</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.jpg" alt="Ke Liu WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Caddy/" rel="tag"># Caddy</a>
+          
+            <a href="/tags/Cloudflare/" rel="tag"># Cloudflare</a>
+          
+            <a href="/tags/CDN/" rel="tag"># CDN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/05/31/install-windows-11-on-old-machines/" rel="next" title="旧电脑绕过 TPM/CPU 限制安装 Windows 11">
+                <i class="fa fa-chevron-left"></i> 旧电脑绕过 TPM/CPU 限制安装 Windows 11
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.webp" alt="Ke Liu">
+          <p class="site-author-name" itemprop="name">Ke Liu</p>
+           
+              <p class="site-description motion-element" itemprop="description">Independent Security Researcher</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/klotxl404" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-预期效果"><span class="nav-text">0x01. 预期效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-GitHub-Pages-设置"><span class="nav-text">0x02. GitHub Pages 设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-Cloudflare-设置"><span class="nav-text">0x03. Cloudflare 设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-Caddy-设置"><span class="nav-text">0x04. Caddy 设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-替换-Caddy"><span class="nav-text">4.1 替换 Caddy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-创建-Cloudflare-API-Token"><span class="nav-text">4.2 创建 Cloudflare API Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-测试-Caddy"><span class="nav-text">4.3 测试 Caddy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-References"><span class="nav-text">0x05. References</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ke Liu</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
